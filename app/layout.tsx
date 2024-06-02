@@ -6,12 +6,15 @@ import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import '../styles/layout/layout.scss';
 import '../styles/demo/Demos.scss';
+import { ChakraProvider } from '@chakra-ui/react'
+
 
 interface RootLayoutProps {
     children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
@@ -19,8 +22,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
             </head>
             <body>
                 <PrimeReactProvider>
-                    <LayoutProvider>{children}</LayoutProvider>
+
+                        <LayoutProvider>
+                            {children}
+                        </LayoutProvider>
                 </PrimeReactProvider>
+
             </body>
         </html>
     );
