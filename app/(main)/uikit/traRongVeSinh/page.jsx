@@ -1,7 +1,7 @@
 'use client';
 import React, {useState} from 'react';
 import { FileUpload } from 'primereact/fileupload';
-import {uploadImage} from "../../../api/client";
+import {uploadImage} from "../../../api/container_supplier";
 
 const FileUploadDemo = () => {
 

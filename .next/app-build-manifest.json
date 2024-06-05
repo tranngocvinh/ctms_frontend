@@ -1,31 +1,37 @@
 {
   "pages": {
-    "/(main)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/page.js"
-    ],
-    "/(main)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/layout.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(main)/pages/empty/page": [
+    "/(main)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(main)/pages/empty/page.css",
-      "static/chunks/app/(main)/pages/empty/page.js"
+      "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/uikit/file/page": [
+    "/(main)/uikit/container/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/uikit/file/page.js"
+      "static/css/app/(main)/uikit/container/page.css",
+      "static/chunks/app/(main)/uikit/container/page.js"
+    ],
+    "/(main)/uikit/container_supplier/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/container_supplier/page.css",
+      "static/chunks/app/(main)/uikit/container_supplier/page.js"
+    ],
+    "/(main)/uikit/charts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/uikit/charts/page.js"
+    ],
+    "/(main)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/page.js"
     ]
   }
 }

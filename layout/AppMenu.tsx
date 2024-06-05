@@ -18,27 +18,14 @@ const AppMenu = () => {
         {
             label: 'UI Components',
             items: [
-                { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
-                { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/uikit/input' },
-                { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/uikit/floatlabel' },
-                { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', to: '/uikit/invalidstate' },
-                { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/uikit/button', class: 'rotated-icon' },
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: '/uikit/table' },
-                { label: 'List', icon: 'pi pi-fw pi-list', to: '/uikit/list' },
-                { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/uikit/tree' },
-                { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/uikit/panel' },
-                { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/uikit/overlay' },
-                { label: 'Media', icon: 'pi pi-fw pi-image', to: '/uikit/media' },
-                { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/uikit/menu', preventExact: true },
-                { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/uikit/message' },
-                { label: 'File', icon: 'pi pi-fw pi-file', to: '/uikit/file' },
+
                 { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts' },
-                { label: 'Misc', icon: 'pi pi-fw pi-circle', to: '/uikit/misc' }, 
                 { label: 'Container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container' },
+                { label: 'Đơn vị sửa chữa container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container_supplier' },
                 { label: 'Trạng Thái Container', icon: 'pi pi-fw pi-info', to: '/uikit/trangthaiCont' },
                 { label: 'Biến Động Container', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/biendongCont' },
                 { label: 'Mục Sửa Chữa Container', icon: 'pi pi-fw pi-check-square', to: '/uikit/mucsuachuaCont' },
-                { label: 'Giá Sửa Chữa Container', icon: 'pi pi-fw pi-dollar', to: '/uikit/giasuachuaCont' }, 
+                { label: 'Giá Sửa Chữa Container', icon: 'pi pi-fw pi-dollar', to: '/uikit/giasuachuaCont' },
                 { label: 'Quản Lý Vệ Sinh Container', icon: 'pi pi-fw pi-hammer', to: '/uikit/quanlyvesinhCont' },
                 { label: 'Bảng Giá Sửa Chữa,Vệ Sinh', icon: 'pi pi-fw pi-wrench', to: '/uikit/banggiasuachuaVSinh' },
                 { label: 'Báo Giá Sửa Chữa, Vệ Sinh', icon: 'pi pi-fw pi-calendar-times', to: '/uikit/baogiasuachuaVSinh' },
@@ -47,7 +34,7 @@ const AppMenu = () => {
                 { label: 'Cấp Khống', icon: 'pi pi-fw pi-sort-amount-down', to: '/uikit/capKhong' },
                 { label: 'Cấp Container rỗng cho Khách', icon: 'pi pi-fw pi-objects-column', to: '/uikit/capControngchokhach' },
                 { label: 'Hạ Hàng', icon: 'pi pi-fw pi-chevron-down', to: '/uikit/haHang' },
-                { label: 'Hạ Khống', icon: 'pi pi-fw pi-chevron-circle-down', to: '/uikit/haKhong' },     
+                { label: 'Hạ Khống', icon: 'pi pi-fw pi-chevron-circle-down', to: '/uikit/haKhong' },
                 { label: 'Hạ Container', icon: 'pi pi-fw pi-download', to: '/uikit/haCont' },
                 { label: 'Xuất Container lên tàu', icon: 'pi pi-fw pi-sign-in', to: '/uikit/xuatContlentau' },
                 { label: 'Nhập Tàu', icon: 'pi pi-fw pi-plus-circle', to: '/uikit/nhapTau' },
@@ -57,7 +44,7 @@ const AppMenu = () => {
                 { label: 'Tính Phí DEM/DET', icon: 'pi pi-fw pi-calculato', to: '/uikit/tinhphiDEM' },
                 { label: 'Tổng Hợp Phí D/O, Điện Lạnh, Vệ Sinh, Sửa Chữa', icon: 'pi pi-fw pi-inbox', to: '/uikit/tonghopPhi' }
 
-                
+
             ]
         },
         {

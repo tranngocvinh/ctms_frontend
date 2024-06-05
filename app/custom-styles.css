@@ -1,0 +1,6 @@
+.input-size {
+    width: 100px;
+    margin-right: 5px;
+    border-radius: 8px; /* Rounded corners */
+    font-size: 14px; /* Adjust font size as needed */
+}

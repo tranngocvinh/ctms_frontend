@@ -1,52 +1,44 @@
 "use client"
-import React, {useEffect, useState} from 'react';
-import { Card } from 'primereact/card';
+import React, { useState, useEffect } from 'react';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import SizeDemo from "@/app/components/sidebar";
-import {Stack} from "immutable";
-import 'primeflex/primeflex.css';
-import 'primereact/resources/themes/saga-blue/theme.css';  // Theme
-import 'primereact/resources/primereact.min.css';          // Core CSS
-import 'primeicons/primeicons.css';                        // Icons
-import 'primeflex/primeflex.css';
-import {getContainers, getImageById} from "../../../api/client";
-import CardContainer from "../../../components/card";
+import { Rating } from 'primereact/rating';
+import { Tag } from 'primereact/tag';
+import {getImageById} from "../../../api/container_supplier";
+import { ProgressSpinner } from 'primereact/progressspinner';
+import {getContainers} from "../../../api/container";
+import Table from "../../../components/ContainerCategories/dataTable";
 
-export default function AdvancedDemo() {
-
+export default function TemplateDemo() {
     const [containers,setContainers] = useState([])
     const [loading, setLoading] = useState(false);
 
     const fetchContainers = () =>{
+        setLoading(true);
+
         getContainers().then(res => {
             setContainers(res.data)
         }).catch(err => {
             console.log(err);
         }).finally(() => {
-            console.log(err);
+            setLoading(false)
         })
     }
     useEffect(() => {
         fetchContainers();
     }, [])
 
-
-
-
-
-    return (
-        <>
-            <div class="flex flex-wrap" >
-                {containers.map((container, index) => (
-
-                    // eslint-disable-next-line react/jsx-key
-                         <CardContainer {...container}/>
-
-                ))}
-
+    if (loading) {
+        return (
+            <div className="card">
+                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
             </div>
+        )
+    }
+    return(
+        <>
+            <Table  containers={containers} fetchContainers={fetchContainers}/>
         </>
-    );
-
+    )
 }
-

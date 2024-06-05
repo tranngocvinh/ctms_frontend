@@ -1,4 +1,6 @@
 {
   "/(main)/page": "app/(main)/page.js",
-  "/(main)/pages/empty/page": "app/(main)/pages/empty/page.js"
+  "/(main)/uikit/charts/page": "app/(main)/uikit/charts/page.js",
+  "/(main)/uikit/container_supplier/page": "app/(main)/uikit/container_supplier/page.js",
+  "/(main)/uikit/container/page": "app/(main)/uikit/container/page.js"
 }
