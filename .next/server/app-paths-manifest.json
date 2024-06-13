@@ -1,5 +1,4 @@
 {
   "/(main)/page": "app/(main)/page.js",
-  "/(main)/uikit/mappingH/page": "app/(main)/uikit/mappingH/page.js",
-  "/(main)/uikit/biendongCont/page": "app/(main)/uikit/biendongCont/page.js"
+  "/(main)/uikit/traCuocCont/page": "app/(main)/uikit/traCuocCont/page.js"
 }

@@ -43,7 +43,8 @@ const AppMenu = () => {
                 { label: 'Trả Rỗng chờ Vệ Sinh', icon: 'pi pi-fw pi-tag', to: '/uikit/traRongVeSinh' },
                 { label: 'Tính Phí DEM/DET', icon: 'pi pi-fw pi-calculato', to: '/uikit/tinhphiDEM' },
                 { label: 'Tổng Hợp Phí D/O, Điện Lạnh, Vệ Sinh, Sửa Chữa', icon: 'pi pi-fw pi-inbox', to: '/uikit/tonghopPhi' },
-                { label: 'Mapping', icon: 'pi pi-fw pi-sort-amount-down', to: '/uikit/mappingH' }
+                { label: 'Mapping', icon: 'pi pi-fw pi-sort-amount-down', to: '/uikit/mappingH' },
+                { label: 'chờ Vệ Sinh', icon: 'pi pi-fw pi-tag', to: '/uikit/test' }
 
 
             ]
