@@ -19,6 +19,10 @@ const AppMenu = () => {
             label: 'UI Components',
             items: [
 
+                { label: 'Quản lý tuyến đường', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduong' },
+                { label: 'Chi tiết tuyến đường', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduongchitiet' },
+                { label: 'Quản lý tàu', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tau' },
+                { label: 'Quản lý lịch trính', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/lichtrinh' },
                 { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts' },
                 { label: 'Container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container' },
                 { label: 'Đơn vị sửa chữa container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container_supplier' },

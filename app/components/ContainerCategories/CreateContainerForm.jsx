@@ -14,7 +14,7 @@ import {uploadImage} from "../../api/container_supplier";
 import SeverityDemo from "./Toast";
 import {Dropdown} from "primereact/dropdown";
 import {InputNumber} from "primereact/inputnumber";
-import {add} from "../../api/container";
+import {add} from "../../api/container_size";
 
 const MyTextInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
