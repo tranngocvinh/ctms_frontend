@@ -40,6 +40,14 @@
         "async": false
       }
     },
+    "(app-client)/./app/layout.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/layout.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
     "(app-client)/./app/(main)/page.tsx": {
       "*": {
         "id": "(sc_client)/./app/(main)/page.tsx",
@@ -55,43 +63,11 @@
         "chunks": [],
         "async": false
       }
-    },
-    "(app-client)/./app/layout.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/layout.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./layout/AppConfig.tsx": {
-      "*": {
-        "id": "(sc_client)/./layout/AppConfig.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(full-page)/auth/login/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/(full-page)/auth/login/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(full-page)/auth/register/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/(full-page)/auth/register/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
     }
   },
   "edgeSSRModuleMapping": {},
   "clientModules": {
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\error-boundary.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\error-boundary.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
       "name": "*",
       "chunks": [
@@ -99,7 +75,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\error-boundary.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\error-boundary.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
       "name": "*",
       "chunks": [
@@ -107,7 +83,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\app-router.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\app-router.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/app-router.js",
       "name": "*",
       "chunks": [
@@ -115,7 +91,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\app-router.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\app-router.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/app-router.js",
       "name": "*",
       "chunks": [
@@ -123,7 +99,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\layout-router.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\layout-router.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/layout-router.js",
       "name": "*",
       "chunks": [
@@ -131,7 +107,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\layout-router.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\layout-router.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/layout-router.js",
       "name": "*",
       "chunks": [
@@ -139,7 +115,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\render-from-template-context.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\render-from-template-context.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/render-from-template-context.js",
       "name": "*",
       "chunks": [
@@ -147,7 +123,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\render-from-template-context.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\render-from-template-context.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/render-from-template-context.js",
       "name": "*",
       "chunks": [
@@ -155,7 +131,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\static-generation-searchparams-bailout-provider.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\static-generation-searchparams-bailout-provider.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
       "name": "*",
       "chunks": [
@@ -163,7 +139,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\static-generation-searchparams-bailout-provider.js": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\static-generation-searchparams-bailout-provider.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
       "name": "*",
       "chunks": [
@@ -171,23 +147,7 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
-      "id": "(app-client)/./app/(main)/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/page:static/chunks/app/(main)/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\layout\\layout.tsx": {
-      "id": "(app-client)/./layout/layout.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/layout:static/chunks/app/(main)/layout.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\layout.tsx": {
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout.tsx": {
       "id": "(app-client)/./app/layout.tsx",
       "name": "*",
       "chunks": [
@@ -195,43 +155,28 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\layout\\AppConfig.tsx": {
-      "id": "(app-client)/./layout/AppConfig.tsx",
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
+      "id": "(app-client)/./app/(main)/page.tsx",
       "name": "*",
       "chunks": [
-        "app/(full-page)/layout:static/chunks/app/(full-page)/layout.js"
+        "app/(main)/page:static/chunks/app/(main)/page.js"
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\login\\page.tsx": {
-      "id": "(app-client)/./app/(full-page)/auth/login/page.tsx",
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\layout\\layout.tsx": {
+      "id": "(app-client)/./layout/layout.tsx",
       "name": "*",
       "chunks": [
-        "app/(full-page)/auth/login/page:static/chunks/app/(full-page)/auth/login/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\register\\page.tsx": {
-      "id": "(app-client)/./app/(full-page)/auth/register/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(full-page)/auth/register/page:static/chunks/app/(full-page)/auth/register/page.js"
+        "app/(main)/layout:static/chunks/app/(main)/layout.js"
       ],
       "async": false
     }
   },
   "entryCSSFiles": {
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\page": [],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\layout": [],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\layout": [
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
     ],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\layout": [],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\login\\page": [
-      "static/css/app/(full-page)/auth/login/page.css"
-    ],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\register\\page": [
-      "static/css/app/(full-page)/auth/register/page.css"
-    ]
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": []
   }
 }
