@@ -56,17 +56,33 @@
         "async": false
       }
     },
-    "(app-client)/./app/(main)/uikit/traCuocCont/page.tsx": {
+    "(app-client)/./app/layout.tsx": {
       "*": {
-        "id": "(sc_client)/./app/(main)/uikit/traCuocCont/page.tsx",
+        "id": "(sc_client)/./app/layout.tsx",
         "name": "*",
         "chunks": [],
         "async": false
       }
     },
-    "(app-client)/./app/layout.tsx": {
+    "(app-client)/./layout/AppConfig.tsx": {
       "*": {
-        "id": "(sc_client)/./app/layout.tsx",
+        "id": "(sc_client)/./layout/AppConfig.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(full-page)/auth/login/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/(full-page)/auth/login/page.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(full-page)/auth/register/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/(full-page)/auth/register/page.tsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -171,14 +187,6 @@
       ],
       "async": false
     },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\traCuocCont\\page.tsx": {
-      "id": "(app-client)/./app/(main)/uikit/traCuocCont/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/traCuocCont/page:static/chunks/app/(main)/uikit/traCuocCont/page.js"
-      ],
-      "async": false
-    },
     "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\layout.tsx": {
       "id": "(app-client)/./app/layout.tsx",
       "name": "*",
@@ -186,14 +194,44 @@
         "app/layout:static/chunks/app/layout.js"
       ],
       "async": false
+    },
+    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\layout\\AppConfig.tsx": {
+      "id": "(app-client)/./layout/AppConfig.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(full-page)/layout:static/chunks/app/(full-page)/layout.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\login\\page.tsx": {
+      "id": "(app-client)/./app/(full-page)/auth/login/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(full-page)/auth/login/page:static/chunks/app/(full-page)/auth/login/page.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\register\\page.tsx": {
+      "id": "(app-client)/./app/(full-page)/auth/register/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(full-page)/auth/register/page:static/chunks/app/(full-page)/auth/register/page.js"
+      ],
+      "async": false
     }
   },
   "entryCSSFiles": {
     "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\page": [],
     "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\layout": [],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\traCuocCont\\page": [],
     "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
+    ],
+    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\layout": [],
+    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\login\\page": [
+      "static/css/app/(full-page)/auth/login/page.css"
+    ],
+    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\register\\page": [
+      "static/css/app/(full-page)/auth/register/page.css"
     ]
   }
 }

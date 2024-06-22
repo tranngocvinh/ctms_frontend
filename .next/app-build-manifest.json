@@ -10,16 +10,28 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/uikit/traCuocCont/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/uikit/traCuocCont/page.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
+    ],
+    "/(full-page)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(full-page)/layout.js"
+    ],
+    "/(full-page)/auth/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(full-page)/auth/login/page.css",
+      "static/chunks/app/(full-page)/auth/login/page.js"
+    ],
+    "/(full-page)/auth/register/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(full-page)/auth/register/page.css",
+      "static/chunks/app/(full-page)/auth/register/page.js"
     ]
   }
 }
