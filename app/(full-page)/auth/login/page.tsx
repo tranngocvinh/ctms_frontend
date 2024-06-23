@@ -8,8 +8,12 @@ import {Password} from 'primereact/password';
 import {LayoutContext} from '@/layout/context/layoutcontext';
 import {InputText} from 'primereact/inputtext';
 import {classNames} from 'primereact/utils';
-import AppHeader from '../login/AppHeader'
+// import AppHeader from '../login/AppHeader'
 import Footer from './Footer/Footer'
+import AppHeader from './Header/AppHeader'
+
+
+
 
 
 const LoginPage = () => {
@@ -45,9 +49,9 @@ const LoginPage = () => {
                         <div className="w-full surface-card py-8 px-6 sm:px-10 flex items-center justify-center"
                                          style={{borderRadius: '180px'}}>
                             <div className="flex-shrink-0" >
-                                <img src="/demo/images/login/test1.png" alt='img'
+                                <img src="/demo/images/login/TTTTW2.png" alt='img'
                                      className="mr-5 py-8 px-3 object-cover rounded-lg"
-                                     style={{height:"500px"}}/>
+                                     style={{height:"250px"}}/>
                             </div>
                             <div>
                                 <div className="ml-10 text-center flex-grow ">

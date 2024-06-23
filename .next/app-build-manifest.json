@@ -26,12 +26,6 @@
       "static/chunks/main-app.js",
       "static/css/app/(full-page)/auth/login/page.css",
       "static/chunks/app/(full-page)/auth/login/page.js"
-    ],
-    "/(full-page)/auth/register/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(full-page)/auth/register/page.css",
-      "static/chunks/app/(full-page)/auth/register/page.js"
     ]
   }
 }

@@ -1,43 +1,47 @@
-'use client'
-import React from 'react';
-import {AppBar, Toolbar, Typography, Box, IconButton} from '@mui/material';
-import {Phone, Facebook, Google, GitHub} from '@mui/icons-material';
+/* eslint-disable @next/next/no-img-element */
+import React, { useState } from 'react';
+import { Box, Typography } from '@mui/material';
 
-const AppHeader = () => {
+const AppHeader: React.FC = () => {
+    const [language, setLanguage] = useState('en');
+    const [activeLink, setActiveLink] = useState('');
+
+    const handleLanguageChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setLanguage(event.target.value as string);
+    };
+
     return (
-        <>
-            <AppBar position="static" color="default" style={{height: "5rem"}}>
-                <Toolbar>
-                    <Box sx={{display: 'flex', alignItems: 'center', flexGrow: 1}}>
-                        <Box className="flex-shrink-0">
-                            <img src="/demo/images/login/test.png" alt='img'
-                                 className="mr-5 py-1 px-3 object-cover rounded-lg" style={{ width: '120px', height: '70px' }}/>
-                        </Box>
-                        <Typography variant="h6" color="inherit" fontWeight="bold" >
-                            Vietnam Container Management
-                        </Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', alignItems: 'center'}}>
-                        <Typography variant="body1" color="inherit" sx={{mr: 2}}>
-                            Connect With Us
-                        </Typography>
-                        <IconButton color="inherit" href="tel:123456789">
-                            <Phone/>
-                        </IconButton>
-                        <IconButton color="inherit" href="fax:123456789">
-                            <Google/>
-                        </IconButton>
-                        <IconButton color="inherit" href="https://www.facebook.com">
-                            <Facebook/>
-                        </IconButton>
-                        <IconButton color="inherit" href="#">
-                            <GitHub/>
-                        </IconButton>
-                        <Box sx={{width: 20, height: 20, bgcolor: 'red', borderRadius: '50%', ml: 1}}/>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </>
+        <Box sx={{ width: '100%', fontFamily: 'Roboto, sans-serif' }}>
+            <Box sx={{
+                width: '100%',
+                height: '60px',
+                bgcolor: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 3,
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+            }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <img alt="logo" src="/demo/images/login/TTTTW1.png" height="40" className="mr-2" />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>VNE </Typography>
+                </Box>
+            </Box>
+
+            <Box sx={{
+                width: '100%',
+                height: '45px',
+                paddingLeft: '3rem',
+                bgcolor: 'primary.main',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                py: 1,
+                gap: 2,
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+            }}>
+            </Box>
+        </Box>
     );
 };
 
