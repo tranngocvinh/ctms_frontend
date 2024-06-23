@@ -12,20 +12,12 @@ const AppMenu = () => {
 
     const model: AppMenuItem[] = [
         {
-            label: 'Home',
-            items: [{label: 'Home', icon: 'pi pi-fw pi-home', to: '/'}]
-            // {label: 'Services & Information', to: '/uikit/sevieces'},
-            // {label: 'About us', to: '/uikit/aboutus'},
-            // {label: 'Online Business Suite', to: '/uikit/onlinebusiness'}]
-        },
-        {
-            label: 'UI Components',
+            label: '',
             items: [
                 {
                     label: 'Categories',
                     icon: 'pi pi-fw pi-box',
                     items: [
-                        {label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts'},
                         {label: 'Container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
                         {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
                         {label: 'Biến Động Container', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/biendongCont'},

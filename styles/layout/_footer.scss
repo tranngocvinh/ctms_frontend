@@ -1,8 +1,29 @@
 .layout-footer {
-    transition: margin-left $transitionDuration;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 1rem;
-    border-top: 1px solid var(--surface-border);
+    //transition: margin-left $transitionDuration;
+    //display: flex;
+    //align-items: center;
+    //justify-content: center;
+    //padding-top: 1rem;
+    //border-top: 1px solid var(--surface-border);
+    background-color: #2492C4;
+    color: white;
+
+    .left-column {
+        width: 40%;
+        float: left;
+        padding: 10px;
+        font-size: large;
+    }
+
+    .right-column {
+        width: 60%;
+        float: left;
+        padding: 10px;
+        font-size: large;
+    }
+    .ul{
+        text-indent: 5em;
+        font-size: large;
+    }
 }
+
