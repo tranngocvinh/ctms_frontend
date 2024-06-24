@@ -40,17 +40,17 @@
         "async": false
       }
     },
-    "(app-client)/./app/(main)/page.tsx": {
+    "(app-client)/./layout/layout.tsx": {
       "*": {
-        "id": "(sc_client)/./app/(main)/page.tsx",
+        "id": "(sc_client)/./layout/layout.tsx",
         "name": "*",
         "chunks": [],
         "async": false
       }
     },
-    "(app-client)/./layout/layout.tsx": {
+    "(app-client)/./app/(main)/page.tsx": {
       "*": {
-        "id": "(sc_client)/./layout/layout.tsx",
+        "id": "(sc_client)/./app/(main)/page.tsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -171,19 +171,19 @@
       ],
       "async": false
     },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
-      "id": "(app-client)/./app/(main)/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/page:static/chunks/app/(main)/page.js"
-      ],
-      "async": false
-    },
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\layout\\layout.tsx": {
       "id": "(app-client)/./layout/layout.tsx",
       "name": "*",
       "chunks": [
         "app/(main)/layout:static/chunks/app/(main)/layout.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
+      "id": "(app-client)/./app/(main)/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/page:static/chunks/app/(main)/page.js"
       ],
       "async": false
     },
@@ -221,8 +221,8 @@
     }
   },
   "entryCSSFiles": {
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
     ],
@@ -230,7 +230,7 @@
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\container\\page": [
       "static/css/app/(main)/uikit/container/page.css"
     ],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\trangthaiCont\\page": [],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\traCuocCont\\page": []
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\traCuocCont\\page": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\trangthaiCont\\page": []
   }
 }

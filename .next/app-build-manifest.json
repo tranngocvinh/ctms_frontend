@@ -1,14 +1,14 @@
 {
   "pages": {
-    "/(main)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/page.js"
-    ],
     "/(main)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
+    ],
+    "/(main)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -27,15 +27,15 @@
       "static/css/app/(main)/uikit/container/page.css",
       "static/chunks/app/(main)/uikit/container/page.js"
     ],
-    "/(main)/uikit/trangthaiCont/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
-    ],
     "/(main)/uikit/traCuocCont/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/uikit/traCuocCont/page.js"
+    ],
+    "/(main)/uikit/trangthaiCont/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
     ]
   }
 }

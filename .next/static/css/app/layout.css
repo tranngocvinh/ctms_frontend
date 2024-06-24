@@ -21627,17 +21627,14 @@ a {
   width: 40%;
   float: left;
   padding: 10px;
-  font-size: large;
 }
 .layout-footer .right-column {
   width: 60%;
   float: left;
   padding: 10px;
-  font-size: large;
 }
 .layout-footer .ul {
   text-indent: 5em;
-  font-size: large;
 }
 
 @media screen and (min-width: 1960px) {
