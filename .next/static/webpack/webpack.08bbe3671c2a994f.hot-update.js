@@ -81,7 +81,7 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ 	// This function allow to reference async chunks
 /******/ 	__webpack_require__.u = function(chunkId) {
 /******/ 		// return url for filenames based on template
-/******/ 		return "static/chunks/" + chunkId + ".js";
+/******/ 		return undefined;
 /******/ 	};
 /******/ }();
 /******/ 
@@ -96,7 +96,7 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ 
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
-/******/ 	__webpack_require__.h = function() { return "09dba714b5d27d23"; }
+/******/ 	__webpack_require__.h = function() { return "fb17ac5edd0a94e4"; }
 /******/ }();
 /******/ 
 /******/ /* webpack/runtime/global */

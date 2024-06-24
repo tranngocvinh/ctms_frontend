@@ -1,7 +1,5 @@
 {
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/(main)/page": "app/(main)/page.js",
-  "/(main)/uikit/trangthaiCont/page": "app/(main)/uikit/trangthaiCont/page.js",
-  "/(main)/uikit/container/page": "app/(main)/uikit/container/page.js",
-  "/(main)/uikit/charts/page": "app/(main)/uikit/charts/page.js",
-  "/(main)/uikit/traCuocCont/page": "app/(main)/uikit/traCuocCont/page.js"
+  "/(main)/uikit/container/page": "app/(main)/uikit/container/page.js"
 }
