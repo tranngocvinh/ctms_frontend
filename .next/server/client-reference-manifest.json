@@ -63,22 +63,6 @@
         "chunks": [],
         "async": false
       }
-    },
-    "(app-client)/./layout/AppConfig.tsx": {
-      "*": {
-        "id": "(sc_client)/./layout/AppConfig.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(full-page)/auth/login/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/(full-page)/auth/login/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
     }
   },
   "edgeSSRModuleMapping": {},
@@ -186,22 +170,6 @@
         "app/layout:static/chunks/app/layout.js"
       ],
       "async": false
-    },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\layout\\AppConfig.tsx": {
-      "id": "(app-client)/./layout/AppConfig.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(full-page)/layout:static/chunks/app/(full-page)/layout.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\login\\page.tsx": {
-      "id": "(app-client)/./app/(full-page)/auth/login/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(full-page)/auth/login/page:static/chunks/app/(full-page)/auth/login/page.js"
-      ],
-      "async": false
     }
   },
   "entryCSSFiles": {
@@ -209,10 +177,6 @@
     "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(main)\\layout": [],
     "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
-    ],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\layout": [],
-    "C:\\Users\\admin\\WebstormProjects\\ctms_frontend\\app\\(full-page)\\auth\\login\\page": [
-      "static/css/app/(full-page)/auth/login/page.css"
     ]
   }
 }
