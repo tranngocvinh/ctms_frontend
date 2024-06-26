@@ -1,44 +1,26 @@
 {
   "pages": {
-    "/(main)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/page.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/(main)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/page.js"
+    ],
     "/(main)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
-    ],
-    "/(main)/uikit/traCuocCont/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/traCuocCont/page.css",
-      "static/chunks/app/(main)/uikit/traCuocCont/page.js"
     ],
     "/(main)/uikit/tuyenduong/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/(main)/uikit/tuyenduong/page.css",
       "static/chunks/app/(main)/uikit/tuyenduong/page.js"
-    ],
-    "/(main)/uikit/tuyenduongchitiet/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/tuyenduongchitiet/page.css",
-      "static/chunks/app/(main)/uikit/tuyenduongchitiet/page.js"
-    ],
-    "/(main)/uikit/tau/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/tau/page.css",
-      "static/chunks/app/(main)/uikit/tau/page.js"
     ],
     "/(main)/uikit/lichtrinh/page": [
       "static/chunks/webpack.js",
@@ -52,15 +34,22 @@
       "static/css/app/(main)/uikit/container/page.css",
       "static/chunks/app/(main)/uikit/container/page.js"
     ],
-    "/(main)/uikit/container_supplier/page": [
+    "/(main)/uikit/tuyenduongchitiet/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/container_supplier/page.css",
-      "static/chunks/app/(main)/uikit/container_supplier/page.js"
+      "static/css/app/(main)/uikit/tuyenduongchitiet/page.css",
+      "static/chunks/app/(main)/uikit/tuyenduongchitiet/page.js"
+    ],
+    "/(main)/uikit/tau/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/tau/page.css",
+      "static/chunks/app/(main)/uikit/tau/page.js"
     ],
     "/(main)/uikit/trangthaiCont/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/trangthaiCont/page.css",
       "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
     ]
   }

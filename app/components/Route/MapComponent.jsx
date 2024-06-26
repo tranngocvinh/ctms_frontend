@@ -24,7 +24,7 @@ const MapComponent = ({ waypoints }) => {
     }, [waypoints]);
 
     return (
-        <div id="map-container" style={{ height: "500px", width: "100%" }}>
+        <div id="map-container" style={{ height: "600px", width: "100%" }}>
             <MapContainer center={[20, 0]} zoom={2} style={{ height: "100%", width: "100%" }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

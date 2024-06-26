@@ -19,14 +19,14 @@ const AppMenu = () => {
             label: 'UI Components',
             items: [
 
+                { label: 'Loại container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container' },
                 { label: 'Quản lý tuyến đường', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduong' },
+                { label: 'Quản lý lịch trình', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/lichtrinh' },
                 { label: 'Chi tiết tuyến đường', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduongchitiet' },
                 { label: 'Quản lý tàu', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tau' },
-                { label: 'Quản lý lịch trính', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/lichtrinh' },
-                { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts' },
-                { label: 'Container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container' },
-                { label: 'Đơn vị sửa chữa container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container_supplier' },
                 { label: 'Trạng Thái Container', icon: 'pi pi-fw pi-info', to: '/uikit/trangthaiCont' },
+                { label: 'Đơn vị sửa chữa container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container_supplier' },
+                { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts' },
                 { label: 'Biến Động Container', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/biendongCont' },
                 { label: 'Mục Sửa Chữa Container', icon: 'pi pi-fw pi-check-square', to: '/uikit/mucsuachuaCont' },
                 { label: 'Giá Sửa Chữa Container', icon: 'pi pi-fw pi-dollar', to: '/uikit/giasuachuaCont' },
@@ -43,7 +43,6 @@ const AppMenu = () => {
                 { label: 'Xuất Container lên tàu', icon: 'pi pi-fw pi-sign-in', to: '/uikit/xuatContlentau' },
                 { label: 'Nhập Tàu', icon: 'pi pi-fw pi-plus-circle', to: '/uikit/nhapTau' },
                 { label: 'Giao Hàng', icon: 'pi pi-fw pi-truck', to: '/uikit/giaoHang' },
-                { label: 'Trả Cước Container', icon: 'pi pi-fw pi-tags', to: '/uikit/traCuocCont' },
                 { label: 'Trả Rỗng chờ Vệ Sinh', icon: 'pi pi-fw pi-tag', to: '/uikit/traRongVeSinh' },
                 { label: 'Tính Phí DEM/DET', icon: 'pi pi-fw pi-calculato', to: '/uikit/tinhphiDEM' },
                 { label: 'Tổng Hợp Phí D/O, Điện Lạnh, Vệ Sinh, Sửa Chữa', icon: 'pi pi-fw pi-inbox', to: '/uikit/tonghopPhi' }

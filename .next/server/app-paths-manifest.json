@@ -1,10 +1,8 @@
 {
-  "/(main)/uikit/tuyenduong/page": "app/(main)/uikit/tuyenduong/page.js",
-  "/(main)/uikit/tuyenduongchitiet/page": "app/(main)/uikit/tuyenduongchitiet/page.js",
-  "/(main)/uikit/tau/page": "app/(main)/uikit/tau/page.js",
-  "/(main)/uikit/lichtrinh/page": "app/(main)/uikit/lichtrinh/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(main)/page": "app/(main)/page.js",
   "/(main)/uikit/container/page": "app/(main)/uikit/container/page.js",
   "/(main)/uikit/trangthaiCont/page": "app/(main)/uikit/trangthaiCont/page.js",
-  "/(main)/uikit/container_supplier/page": "app/(main)/uikit/container_supplier/page.js",
-  "/(main)/uikit/traCuocCont/page": "app/(main)/uikit/traCuocCont/page.js"
+  "/(main)/uikit/tuyenduong/page": "app/(main)/uikit/tuyenduong/page.js",
+  "/(main)/uikit/lichtrinh/page": "app/(main)/uikit/lichtrinh/page.js"
 }
