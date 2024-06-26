@@ -41,8 +41,8 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         <div className="layout-topbar" >
             <div className="layout-topbar-logo">
                 <img src={`/layout/images/TTTTW1.png`}
-                     width="140px"
-                     height="35px"
+                     width="150px"
+                     height="40px"
                      alt="logo"
                 />
                 <span>VIE</span>
