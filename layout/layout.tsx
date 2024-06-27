@@ -13,6 +13,7 @@ import { LayoutContext } from './context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
+import BackToTopButton from "@/layout/BackToTopButton";
 
 const Layout = ({ children }: ChildContainerProps) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -135,6 +136,8 @@ const Layout = ({ children }: ChildContainerProps) => {
                 </div>
                 <AppConfig />
                 <div className="layout-mask"></div>
+                <BackToTopButton/>
+                <div className="layout-footer-container"></div>
             </div>
         </React.Fragment>
     );

@@ -1,23 +1,55 @@
 .layout-topbar {
-    position: fixed;
     height: 5rem;
     z-index: 997;
     left: 0;
     top: 0;
     width: 100%;
     padding: 0 2rem;
-    background-color: var(--surface-card);
+    background-color: white;
     transition: left $transitionDuration;
     display: flex;
     align-items: center;
     box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
 
+.layout-topbar-main{
+    z-index:1000;
+    width: 100%;
+    position: fixed;
+}
+
+.layout-topbar-second-right{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 1%;
+}
+
+    .layout-topbar-logo span {
+        font-family: 'Arial', sans-serif; /* Chọn font chữ phù hợp */
+        font-size: 1.2rem; /* Kích thước chữ */
+        font-weight: bold; /* Độ dày của chữ */
+        color: #333; /* Màu chữ */
+        letter-spacing: 0.1rem; /* Khoảng cách giữa các ký tự */
+        text-transform: uppercase; /* Chuyển đổi chữ thường thành chữ hoa */
+        margin-left: 0.5rem; /* Khoảng cách giữa hình ảnh và chữ */
+        line-height: 1.5; /* Chiều cao dòng, để làm chữ không bị dính chặt */
+        display: inline-block; /* Để đảm bảo thẻ span không dính chặt với các phần tử khác */
+        top:0.5rem;
+        position: relative;
+    }
+
+    .layout-topbar-logo span:hover {
+        color: var(--primary-color); /* Đổi màu khi hover */
+        transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt */
+    }
+
+
     .layout-topbar-logo {
         display: flex;
         align-items: center;
-        color: var(--surface-900);
+        color: var(--surface-0);
         font-size: 1.5rem;
-        font-weight: 500;
+        font-weight: 100;
         width: 300px;
         border-radius: 12px;
 
@@ -36,12 +68,13 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        color: var(--text-color-secondary);
-        border-radius: 50%;
+        color: black;
+        border-radius: 10%;
         width: 3rem;
         height: 3rem;
         cursor: pointer;
         transition: background-color $transitionDuration;
+        left:-4rem;
 
         &:hover {
             color: var(--text-color);
@@ -140,7 +173,7 @@
                 }
 
                 span {
-                    font-weight: medium;
+                    font-weight: normal;
                     display: block;
                 }
             }

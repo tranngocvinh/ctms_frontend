@@ -1,4 +1,4 @@
-// File: C:\Users\Tran Ngoc Vinh\WebstormProjects\ctms_frontend\app\(main)\page.tsx
+// File: C:\Users\admin\WebstormProjects\ctms_frontend\app\(main)\page.tsx
 import * as entry from '../../../../app/(main)/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

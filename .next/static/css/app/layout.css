@@ -21269,6 +21269,7 @@
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[3].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[3].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[3].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[3].oneOf[13].use[5]!./styles/layout/layout.scss ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
 /* General */
 /* border radius of layout element e.g. card, sidebar */
 /* transition duration of layout elements e.g. sidebar, overlay menus */
@@ -21301,25 +21302,52 @@ a {
 }
 
 .layout-topbar {
-  position: fixed;
   height: 5rem;
   z-index: 997;
   left: 0;
   top: 0;
   width: 100%;
   padding: 0 2rem;
-  background-color: var(--surface-card);
+  background-color: white;
   transition: left 0.2s;
   display: flex;
   align-items: center;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.02), 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.08);
 }
+.layout-topbar .layout-topbar-main {
+  z-index: 1000;
+  width: 100%;
+  position: fixed;
+}
+.layout-topbar .layout-topbar-second-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 1%;
+}
+.layout-topbar .layout-topbar-logo span {
+  font-family: "Arial", sans-serif; /* Chọn font chữ phù hợp */
+  font-size: 1.2rem; /* Kích thước chữ */
+  font-weight: bold; /* Độ dày của chữ */
+  color: #333; /* Màu chữ */
+  letter-spacing: 0.1rem; /* Khoảng cách giữa các ký tự */
+  text-transform: uppercase; /* Chuyển đổi chữ thường thành chữ hoa */
+  margin-left: 0.5rem; /* Khoảng cách giữa hình ảnh và chữ */
+  line-height: 1.5; /* Chiều cao dòng, để làm chữ không bị dính chặt */
+  display: inline-block; /* Để đảm bảo thẻ span không dính chặt với các phần tử khác */
+  top: 0.5rem;
+  position: relative;
+}
+.layout-topbar .layout-topbar-logo span:hover {
+  color: var(--primary-color); /* Đổi màu khi hover */
+  transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt */
+}
 .layout-topbar .layout-topbar-logo {
   display: flex;
   align-items: center;
-  color: var(--surface-900);
+  color: var(--surface-0);
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 100;
   width: 300px;
   border-radius: 12px;
 }
@@ -21338,12 +21366,13 @@ a {
   justify-content: center;
   align-items: center;
   position: relative;
-  color: var(--text-color-secondary);
-  border-radius: 50%;
+  color: black;
+  border-radius: 10%;
   width: 3rem;
   height: 3rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  left: -4rem;
 }
 .layout-topbar .layout-topbar-button:hover {
   color: var(--text-color);
@@ -21429,7 +21458,7 @@ a {
     margin-right: 0.5rem;
   }
   .layout-topbar .layout-topbar-menu .layout-topbar-button span {
-    font-weight: medium;
+    font-weight: normal;
     display: block;
   }
 }
@@ -21442,10 +21471,10 @@ a {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  top: 7rem;
+  top: 10rem;
   left: 2rem;
   transition: transform 0.2s, left 0.2s;
-  background-color: var(--surface-overlay);
+  background-color: var(--blue-700);
   border-radius: 12px;
   padding: 0.5rem 1.5rem;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.02), 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.08);
@@ -21485,7 +21514,7 @@ a {
   align-items: center;
   position: relative;
   outline: 0 none;
-  color: var(--text-color);
+  color: black;
   cursor: pointer;
   padding: 0.75rem 1rem;
   border-radius: 12px;
