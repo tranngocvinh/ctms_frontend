@@ -21296,6 +21296,9 @@
   float: left;
   padding: 10px;
 }
+.h1 .ul {
+  color: black;
+}
 
 .layout-topbar {
   position: fixed;

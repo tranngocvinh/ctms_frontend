@@ -1,5 +1,4 @@
 {
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/(main)/page": "app/(main)/page.js",
   "/(main)/uikit/container/page": "app/(main)/uikit/container/page.js"
 }
