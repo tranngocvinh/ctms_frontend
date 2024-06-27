@@ -37,7 +37,10 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     }));
 
     return (
-        <div className={"layout-topbar-main"}>
+        <Box sx={{zIndex:1000,
+            width: '100%',
+            position: 'sticky',
+            top: 0}}>
         <div className="layout-topbar" >
             <div className="layout-topbar-logo">
                 <img src={`/layout/images/TTTTW1.png`}
@@ -108,8 +111,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 justifyContent: 'center',
                 py: 1,
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-            }}
-            >
+            }}>
                 {['Home', 'Services & Information', 'Our Company', 'Online Business Suite'].map((link, index) => (
                     <React.Fragment key={link}>
                         <Link href={`#${link.toLowerCase().replace(/ /g, '-')}`} underline="none">
@@ -132,8 +134,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         alignItems: 'center',
                         marginLeft: 'auto', // Đẩy div sang bên phải
                         marginRight: '1%'  // Khoảng cách từ cạnh phải của màn hình
-                    }}
-                >
+                    }}>
                     <Box
                         component="span"
                         sx={{
@@ -155,7 +156,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 </div>
             </Box>
 
-        </div>
+        </Box>
     );
 });
 

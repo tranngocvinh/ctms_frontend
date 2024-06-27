@@ -1,6 +1,5 @@
 .layout-topbar {
     height: 5rem;
-    z-index: 997;
     left: 0;
     top: 0;
     width: 100%;
@@ -14,7 +13,8 @@
 .layout-topbar-main{
     z-index:1000;
     width: 100%;
-    position: fixed;
+    position: sticky !important;
+    top: 0 !important;
 }
 
 .layout-topbar-second-right{
