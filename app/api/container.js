@@ -12,15 +12,13 @@ export const getContainers = async () => {
 
 export const add = async (container) => {
     try {
-        return await axios.post(
-            'http://localhost:8080/api/containers',
-            container
-
-        )
+        console.log("Sending add request:", container); // Log the request data
+        return await axios.post('http://localhost:8080/api/containers', container);
     } catch (e) {
+        console.log("Add request error:", e); // Log the error
         throw e;
     }
-}
+};
 export const update = async (id, container) => {
     try {
         return await axios.put(
@@ -44,3 +42,17 @@ export const dele = async (id) => {
         throw e;
     }
 }
+
+export const allocateContainersToShip = async (numberOfContainers, shipId) => {
+    return axios.post(`http://localhost:8080/api/containers/allocate/ship`, {
+        numberOfContainers,
+        shipId
+    });
+};
+
+export const allocateContainersToPort = async (numberOfContainers, portName) => {
+    return axios.post(`http://localhost:8080/api/containers/allocate/port`, {
+        numberOfContainers,
+        portName
+    });
+};

@@ -1,4 +1,4 @@
-// File: C:\Users\Admin\AndroidStudioProjects\ctms_frontend\app\(main)\uikit\trangthaiCont\page.tsx
+// File: C:\Users\Tran Ngoc Vinh\WebstormProjects\ctms_frontend\app\(main)\uikit\trangthaiCont\page.jsx
 import * as entry from '../../../../../../app/(main)/uikit/trangthaiCont/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

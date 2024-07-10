@@ -1,41 +1,41 @@
 "use client"
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
-import {Formik, Form, useField} from 'formik';
-import {InputText} from 'primereact/inputtext';
-import {Dropdown} from 'primereact/dropdown';
-import {Message} from 'primereact/message';
-import {Button} from 'primereact/button';
+import { Formik, Form, useField } from 'formik';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import { Message } from 'primereact/message';
+import { Button } from 'primereact/button';
 import * as Yup from 'yup';
 import axios from 'axios';
-import {update} from 'app/api/container'
-const MyTextInput = ({label, ...props}) => {
+import { update } from 'app/api/container';
+
+const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
 
     return (
         <div className="field grid">
-            <label class="col-12 mb-2 md:col-4" htmlFor={props.id || props.name}>{label}</label>
-            <div class="col-12 md:col-8">
+            <label className="col-12 mb-2 md:col-4" htmlFor={props.id || props.name}>{label}</label>
+            <div className="col-12 md:col-8">
                 <InputText id={props.id || props.name} {...field} {...props} />
                 {meta.touched && meta.error ? (
                     <small className="p-error">{meta.error}</small>
                 ) : null}
             </div>
-
         </div>
     );
 };
 
-const MyDropdown = ({label, options, onChange, ...props}) => {
+const MyDropdown = ({ label, options, onChange, ...props }) => {
     const [field, meta, helpers] = useField(props);
 
     return (
-        <div class="field grid">
-            <label class="col-12 mb-2 md:col-4 md:mb-0" htmlFor={props.id || props.name}>{label}</label>
-            <div class="col-12 md:col-8">
+        <div className="field grid">
+            <label className="col-12 mb-2 md:col-4 md:mb-0" htmlFor={props.id || props.name}>{label}</label>
+            <div className="col-12 md:col-8">
                 <Dropdown
                     id={props.id || props.name}
                     {...field}
@@ -45,18 +45,17 @@ const MyDropdown = ({label, options, onChange, ...props}) => {
                         if (onChange) onChange(e);
                     }}
                     placeholder="Chọn..."
-                    style={{width: "60%"}}
+                    style={{ width: "60%" }}
                 />
                 {meta.touched && meta.error ? (
                     <small className="p-error">{meta.error}</small>
                 ) : null}
             </div>
-
         </div>
     );
 };
 
-const UpdateContainerForm = ({fetchContainers, container}) => {
+const UpdateContainerForm = ({ fetchContainers, container }) => {
     const [ships, setShips] = useState([]);
     const [schedules, setSchedules] = useState([]);
     const [containerSizes, setContainerSizes] = useState([]);
@@ -66,7 +65,6 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
         fetchSchedules();
         fetchContainerSizes();
     }, []);
-
 
     const fetchShips = async () => {
         try {
@@ -96,12 +94,9 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
     };
 
     const containerStatuses = [
-        {label: 'Trong kho', value: 'In Storage'},
-        {label: 'Trên tàu', value: 'On Ship'},
-        {label: 'Đang vận chuyển', value: 'In Transit'},
-        {label: 'Đã giao', value: 'Delivered'},
-        {label: 'Hư hỏng', value: 'Damaged'},
-        {label: 'Mất', value: 'Lost'}
+        { label: 'Đang di chuyển', value: 'In Transit' },
+        { label: 'Đang sửa chữa', value: 'Under Maintenance' },
+        { label: 'Đang nằm ở cảng', value: 'In Port' }
     ];
 
     return (
@@ -111,9 +106,9 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
                     initialValues={{
                         containerSizeId: container?.containerSizeId || '',
                         shipId: container?.shipId || '',
-                        scheduleId: container?.scheduleId|| '',
-                        status: container?.status ||'',
-                        location: container.location ||'',
+                        scheduleId: container?.scheduleId || '',
+                        status: container?.status || '',
+                        location: container.location || '',
                     }}
                     validationSchema={Yup.object({
                         containerSizeId: Yup.string().required('Vui lòng chọn kích thước container'),
@@ -122,8 +117,8 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
                         status: Yup.string().required('Vui lòng chọn trạng thái container'),
                         location: Yup.string().required('Vui lòng nhập vị trí container'),
                     })}
-                    onSubmit={(values, {setSubmitting}) => {
-                        update(container.containerCode,values).then(res => {
+                    onSubmit={(values, { setSubmitting }) => {
+                        update(container.containerCode, values).then(res => {
                             fetchContainers()
                         }).catch(err => {
                             alert(err)
@@ -133,14 +128,13 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
                         });
                     }}
                 >
-                    {({isSubmitting, setFieldValue}) => (
+                    {({ isSubmitting, setFieldValue }) => (
                         <Form className="">
-
                             <MyDropdown
                                 label="Kích thước Container"
                                 name="containerSizeId"
                                 options={containerSizes.map(containerSize => ({
-                                    label: `ID: ${containerSize.id}🔶kích thước: ${containerSize.length} x ${containerSize.width} x ${containerSize.height}`,
+                                    label: `ID: ${containerSize.id} - kích thước: ${containerSize.length} x ${containerSize.width} x ${containerSize.height}`,
                                     value: containerSize.id
                                 }))}
                                 onChange={(e) => setFieldValue('containerSizeId', e.value)}
@@ -148,7 +142,7 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
                             <MyDropdown
                                 label="Tên hãng tàu vận chuyển"
                                 name="shipId"
-                                options={ships.map(ship => ({label: ship.name, value: ship.id}))}
+                                options={ships.map(ship => ({ label: ship.name, value: ship.id }))}
                             />
                             <MyDropdown
                                 label="Lịch trình di chuyển"
@@ -158,13 +152,11 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
                                     value: schedule.id
                                 }))}
                             />
-
                             <MyDropdown
                                 label="Trạng thái Container"
                                 name="status"
                                 options={containerStatuses}
                             />
-
                             <MyTextInput
                                 label="Vị trí hiện tại Container"
                                 name="location"
@@ -172,8 +164,7 @@ const UpdateContainerForm = ({fetchContainers, container}) => {
                                 placeholder="Vị trí Container"
                             />
                             <div className="p-col-12">
-                                <Button type="submit" label="Submit" className="p-button-primary"
-                                        disabled={isSubmitting}/>
+                                <Button type="submit" label="Submit" className="p-button-primary" disabled={isSubmitting} />
                             </div>
                         </Form>
                     )}

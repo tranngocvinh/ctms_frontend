@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import Scheduler from 'devextreme-react/scheduler';
 import axios from 'axios';
@@ -29,10 +29,12 @@ const colors = {
 const App = () => {
     const [appointments, setAppointments] = useState([]);
     const [routes, setRoutes] = useState([]);
+    const [ships, setShips] = useState([]);
 
     useEffect(() => {
         fetchAppointments();
         fetchRoutes();
+        fetchShips();
     }, []);
 
     const fetchAppointments = async () => {
@@ -44,7 +46,8 @@ const App = () => {
                 endDate: new Date(item.estimatedArrivalTime), // Assume the backend returns time in the correct format
                 text: item.notes,
                 routeId: item.routeId,
-                status: item.status // Ensure this mapping is correct
+                status: item.status, // Ensure this mapping is correct
+                ships: item.ships || [] // Initialize ships array
             }));
             setAppointments(mappedAppointments);
         } catch (error) {
@@ -58,6 +61,15 @@ const App = () => {
             setRoutes(response.data);
         } catch (error) {
             console.error('Error fetching routes:', error);
+        }
+    };
+
+    const fetchShips = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/ships');
+            setShips(response.data);
+        } catch (error) {
+            console.error('Error fetching ships:', error);
         }
     };
 
@@ -75,6 +87,7 @@ const App = () => {
                 notes: appointment.notes,
                 routeId: appointment.routeId,
                 status: appointment.status, // Ensure this mapping is correct
+                ships: appointment.ships || [] // Send ships array
             });
             toast.success("Appointment added successfully!"); // Show success toast
             fetchAppointments(); // Fetch the latest appointments from the server
@@ -92,6 +105,7 @@ const App = () => {
                 notes: appointment.notes,
                 routeId: appointment.routeId,
                 status: appointment.status, // Ensure this mapping is correct
+                ships: appointment.ships || [] // Send ships array
             });
             toast.success("Appointment updated successfully!"); // Show success toast
             fetchAppointments(); // Fetch the latest appointments from the server
@@ -158,6 +172,21 @@ const App = () => {
                     text: 'Status'
                 }
             },
+            {
+                dataField: 'ships',
+                editorType: 'dxTagBox',
+                editorOptions: {
+                    dataSource: ships,
+                    displayExpr: 'name', // Display the 'name' property
+                    valueExpr: 'id', // Use the 'id' property as the value
+                    value: e.appointmentData.ships || [], // Initialize ships array
+                    showSelectionControls: true, // Show checkboxes for multi-select
+                    applyValueMode: 'useButtons' // Use apply and cancel buttons
+                },
+                label: {
+                    text: 'Ships'
+                }
+            }
         ]);
     };
 
