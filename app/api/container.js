@@ -43,11 +43,8 @@ export const dele = async (id) => {
     }
 }
 
-export const allocateContainersToShip = async (numberOfContainers, shipId) => {
-    return axios.post(`http://localhost:8080/api/containers/allocate/ship`, {
-        numberOfContainers,
-        shipId
-    });
+export const allocateContainersToShip = async (data) => {
+    return axios.post(`http://localhost:8080/api/containers/allocate/ship`, data);
 };
 
 export const allocateContainersToPort = async (numberOfContainers, portName) => {
