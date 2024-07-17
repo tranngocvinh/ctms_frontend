@@ -1,5 +1,11 @@
 {
   "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
     "/(main)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -10,22 +16,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/page.js"
     ],
-    "/layout": [
+    "/(main)/uikit/tonghopPhi/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/app/(main)/uikit/tonghopPhi/page.js"
     ],
-    "/(main)/uikit/container/page": [
+    "/(main)/uikit/nhapTau/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/container/page.css",
-      "static/chunks/app/(main)/uikit/container/page.js"
+      "static/chunks/app/(main)/uikit/nhapTau/page.js"
     ],
-    "/(main)/uikit/trangthaiCont/page": [
+    "/(main)/uikit/traRongVeSinh/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
+      "static/chunks/app/(main)/uikit/traRongVeSinh/page.js"
+    ],
+    "/(main)/uikit/capContRong/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/uikit/capContRong/page.js"
     ]
   }
 }
