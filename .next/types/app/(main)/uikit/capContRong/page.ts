@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 // File: C:\Users\Admin\AndroidStudioProjects\ctms_frontend\app\(main)\uikit\capContRong\page.tsx
+=======
+// File: C:\Users\Admin\AndroidStudioProjects\ctms_frontend\app\(main)\uikit\capContRong\page.jsx
+>>>>>>> Stashed changes
 import * as entry from '../../../../../../app/(main)/uikit/capContRong/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
