@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
-import { update } from "../../api/container";
+import { update } from "../../api/container_size";
 
 const MyTextInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();

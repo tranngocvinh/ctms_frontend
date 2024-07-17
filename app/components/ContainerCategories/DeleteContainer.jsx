@@ -3,7 +3,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { deleteSupplier } from "../../api/container_supplier";
-import {dele} from "../../api/container";
+import {dele} from "../../api/container_size";
 
 export default function Delete({ container, fetchContainers }) {
     const [visible, setVisible] = useState(false);

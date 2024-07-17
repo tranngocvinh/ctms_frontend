@@ -1,4 +1,5 @@
 {
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/(main)/page": "app/(main)/page.js",
-  "/(main)/uikit/traCuocCont/page": "app/(main)/uikit/traCuocCont/page.js"
+  "/(main)/uikit/capContRong/page": "app/(main)/uikit/capContRong/page.js"
 }
