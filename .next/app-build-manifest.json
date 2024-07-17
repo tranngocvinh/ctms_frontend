@@ -1,5 +1,11 @@
 {
   "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
     "/(main)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -10,47 +16,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
-    ],
     "/(main)/uikit/capContRong/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/(main)/uikit/capContRong/page.css",
       "static/chunks/app/(main)/uikit/capContRong/page.js"
-    ],
-    "/(main)/uikit/lichtrinh/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/lichtrinh/page.css",
-      "static/chunks/app/(main)/uikit/lichtrinh/page.js"
-    ],
-    "/(main)/uikit/tuyenduongchitiet/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/tuyenduongchitiet/page.css",
-      "static/chunks/app/(main)/uikit/tuyenduongchitiet/page.js"
-    ],
-    "/(main)/uikit/tuyenduong/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/tuyenduong/page.css",
-      "static/chunks/app/(main)/uikit/tuyenduong/page.js"
-    ],
-    "/(main)/uikit/tau/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/tau/page.css",
-      "static/chunks/app/(main)/uikit/tau/page.js"
-    ],
-    "/(main)/uikit/trangthaiCont/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/trangthaiCont/page.css",
-      "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
     ]
   }
 }
