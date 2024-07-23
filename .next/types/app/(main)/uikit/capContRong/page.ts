@@ -1,4 +1,4 @@
-// File: C:\Users\Tran Ngoc Vinh\WebstormProjects\ctms_frontend\app\(main)\uikit\capContRong\page.jsx
+// File: C:\Users\admin\WebstormProjects\ctms_frontend\app\(main)\uikit\capContRong\page.jsx
 import * as entry from '../../../../../../app/(main)/uikit/capContRong/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
