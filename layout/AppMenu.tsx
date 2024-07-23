@@ -12,17 +12,21 @@ const AppMenu = () => {
 
     const model: AppMenuItem[] = [
         {
-            label: '',
+            label: 'Home',
+            items: [{label: 'Home', icon: 'pi pi-fw pi-home', to: '/'}]
+            // {label: 'Services & Information', to: '/uikit/sevieces'},
+            // {label: 'About us', to: '/uikit/aboutus'},
+            // {label: 'Online Business Suite', to: '/uikit/onlinebusiness'}]
+        },
+        {
+            label: 'UI Components',
             items: [
                 {
                     label: 'Categories',
                     icon: 'pi pi-fw pi-box',
                     items: [
-                        {label: 'Quản lí lịch trình', icon: 'pi pi-fw pi-align-left', to: '/uikit/lichtrinh'},
-                        {label: 'Thêm tuyến đường', icon: 'pi pi-fw pi-align-left', to: '/uikit/tuyenduong'},
-                        {label: 'Chi tiết tuyến đường', icon: 'pi pi-fw pi-align-left', to: '/uikit/tuyenduongchitiet'},
-                        {label: 'Quản lí tàu', icon: 'pi pi-fw pi-align-left', to: '/uikit/tau'},
-                        {label: 'Quản lí kích thước container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
+                        {label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts'},
+                        {label: 'Container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
                         {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
                         {label: 'Biến Động Container', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/biendongCont'},
                         {
