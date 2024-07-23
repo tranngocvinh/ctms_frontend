@@ -21303,7 +21303,6 @@ a {
 
 .layout-topbar {
   height: 5rem;
-  z-index: 997;
   left: 0;
   top: 0;
   width: 100%;
@@ -21317,7 +21316,9 @@ a {
 .layout-topbar .layout-topbar-main {
   z-index: 1000;
   width: 100%;
-  position: fixed;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
 }
 .layout-topbar .layout-topbar-second-right {
   display: flex;

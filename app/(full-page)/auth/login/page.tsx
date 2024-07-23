@@ -86,13 +86,6 @@ const LoginPage = () => {
 
                                     <Button label="Sign In" className="w-full p-3 text-xl"
                                             onClick={() => router.push('/')}></Button>
-
-                                    <div style={{textAlign: 'center', marginBottom: '10px'}}>
-                                        <Button label="Not yet registered?" className="p-button-link"
-                                                onClick={() => router.push('/auth/register')}
-                                                style={{color: 'var(--primary-color)'}}/>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
