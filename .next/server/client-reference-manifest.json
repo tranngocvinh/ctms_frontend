@@ -63,6 +63,41 @@
         "chunks": [],
         "async": false
       }
+<<<<<<< Updated upstream
+=======
+    },
+    "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx": {
+      "*": {
+        "id": "(sc_client)/./app/(main)/uikit/lichtrinh/page.jsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(main)/uikit/tuyenduong/page.jsx": {
+      "*": {
+        "id": "(sc_client)/./app/(main)/uikit/tuyenduong/page.jsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(main)/uikit/tuyenduongchitiet/page.jsx": {
+      "*": {
+        "id": "(sc_client)/./app/(main)/uikit/tuyenduongchitiet/page.jsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(main)/uikit/tau/page.jsx": {
+      "*": {
+        "id": "(sc_client)/./app/(main)/uikit/tau/page.jsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+>>>>>>> Stashed changes
     }
   },
   "edgeSSRModuleMapping": {},
@@ -170,6 +205,41 @@
         "app/(main)/layout:static/chunks/app/(main)/layout.js"
       ],
       "async": false
+<<<<<<< Updated upstream
+=======
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/uikit/lichtrinh/page:static/chunks/app/(main)/uikit/lichtrinh/page.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tuyenduong\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/tuyenduong/page.jsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/uikit/tuyenduong/page:static/chunks/app/(main)/uikit/tuyenduong/page.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tuyenduongchitiet\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/tuyenduongchitiet/page.jsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/uikit/tuyenduongchitiet/page:static/chunks/app/(main)/uikit/tuyenduongchitiet/page.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tau\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/tau/page.jsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/uikit/tau/page:static/chunks/app/(main)/uikit/tau/page.js"
+      ],
+      "async": false
+>>>>>>> Stashed changes
     }
   },
   "entryCSSFiles": {
@@ -177,6 +247,22 @@
       "static/css/app/layout.css"
     ],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
+<<<<<<< Updated upstream
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": []
+=======
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page": [
+      "static/css/app/(main)/uikit/lichtrinh/page.css"
+    ],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tuyenduong\\page": [
+      "static/css/app/(main)/uikit/tuyenduong/page.css"
+    ],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tuyenduongchitiet\\page": [
+      "static/css/app/(main)/uikit/tuyenduongchitiet/page.css"
+    ],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tau\\page": [
+      "static/css/app/(main)/uikit/tau/page.css"
+    ]
+>>>>>>> Stashed changes
   }
 }
