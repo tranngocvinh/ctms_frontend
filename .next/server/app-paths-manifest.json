@@ -1,4 +1,3 @@
 {
-  "/(main)/page": "app/(main)/page.js",
-  "/(main)/uikit/capContRong/page": "app/(main)/uikit/capContRong/page.js"
+  "/(main)/page": "app/(main)/page.js"
 }

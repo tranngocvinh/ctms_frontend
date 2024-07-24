@@ -1,5 +1,13 @@
 {
   "ssrModuleMapping": {
+    "(app-client)/./node_modules/next/dist/client/components/error-boundary.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/components/error-boundary.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
     "(app-client)/./node_modules/next/dist/client/components/app-router.js": {
       "*": {
         "id": "(sc_client)/./node_modules/next/dist/client/components/app-router.js",
@@ -32,11 +40,6 @@
         "async": false
       }
     },
-<<<<<<< Updated upstream
-    "(app-client)/./node_modules/next/dist/client/components/error-boundary.js": {
-      "*": {
-        "id": "(sc_client)/./node_modules/next/dist/client/components/error-boundary.js",
-=======
     "(app-client)/./app/layout.tsx": {
       "*": {
         "id": "(sc_client)/./app/layout.tsx",
@@ -45,26 +48,9 @@
         "async": false
       }
     },
-    "(app-client)/./layout/layout.tsx": {
-      "*": {
-        "id": "(sc_client)/./layout/layout.tsx",
->>>>>>> Stashed changes
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
     "(app-client)/./app/(main)/page.tsx": {
       "*": {
         "id": "(sc_client)/./app/(main)/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(main)/uikit/traRongVeSinh/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/traRongVeSinh/page.jsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -77,31 +63,10 @@
         "chunks": [],
         "async": false
       }
-<<<<<<< Updated upstream
-    },
-    "(app-client)/./app/(main)/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(main)/uikit/traRongVeSinh/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/traRongVeSinh/page.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-=======
->>>>>>> Stashed changes
     }
   },
   "edgeSSRModuleMapping": {},
   "clientModules": {
-<<<<<<< Updated upstream
-=======
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\error-boundary.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
       "name": "*",
@@ -118,7 +83,6 @@
       ],
       "async": false
     },
->>>>>>> Stashed changes
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\app-router.js": {
       "id": "(app-client)/./node_modules/next/dist/client/components/app-router.js",
       "name": "*",
@@ -183,25 +147,6 @@
       ],
       "async": false
     },
-<<<<<<< Updated upstream
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\client\\components\\error-boundary.js": {
-      "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
-      "name": "*",
-      "chunks": [
-        "app-client-internals:static/chunks/app-client-internals.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\node_modules\\next\\dist\\esm\\client\\components\\error-boundary.js": {
-      "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
-      "name": "*",
-      "chunks": [
-        "app-client-internals:static/chunks/app-client-internals.js"
-      ],
-      "async": false
-    },
-=======
->>>>>>> Stashed changes
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout.tsx": {
       "id": "(app-client)/./app/layout.tsx",
       "name": "*",
@@ -210,76 +155,28 @@
       ],
       "async": false
     },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
+      "id": "(app-client)/./app/(main)/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/page:static/chunks/app/(main)/page.js"
+      ],
+      "async": false
+    },
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\layout\\layout.tsx": {
       "id": "(app-client)/./layout/layout.tsx",
-<<<<<<< Updated upstream
-=======
       "name": "*",
       "chunks": [
         "app/(main)/layout:static/chunks/app/(main)/layout.js"
       ],
       "async": false
-    },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
-      "id": "(app-client)/./app/(main)/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/page:static/chunks/app/(main)/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\traRongVeSinh\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/traRongVeSinh/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/traRongVeSinh/page:static/chunks/app/(main)/uikit/traRongVeSinh/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\capContRong\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/capContRong/page.jsx",
->>>>>>> Stashed changes
-      "name": "*",
-      "chunks": [
-        "app/(main)/layout:static/chunks/app/(main)/layout.js"
-      ],
-      "async": false
-<<<<<<< Updated upstream
-    },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
-      "id": "(app-client)/./app/(main)/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/page:static/chunks/app/(main)/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\traRongVeSinh\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/traRongVeSinh/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/traRongVeSinh/page:static/chunks/app/(main)/uikit/traRongVeSinh/page.js"
-      ],
-      "async": false
-=======
->>>>>>> Stashed changes
     }
   },
   "entryCSSFiles": {
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
     ],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": [],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\tonghopPhi\\page": [],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\nhapTau\\page": [],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\traRongVeSinh\\page": [],
-<<<<<<< Updated upstream
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\capContRong\\page": []
-=======
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\capContRong\\page": [
-      "static/css/app/(main)/uikit/capContRong/page.css"
-    ]
->>>>>>> Stashed changes
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": []
   }
 }
