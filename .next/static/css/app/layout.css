@@ -21621,17 +21621,20 @@
   color: white;
 }
 .layout-footer .left-column {
-  width: 40%;
+  width: 20%;
   float: left;
   padding: 10px;
 }
 .layout-footer .right-column {
-  width: 60%;
+  width: 80%;
   float: left;
   padding: 10px;
 }
 .layout-footer .ul {
-  text-indent: 5em;
+  display: flex;
+}
+.layout-footer .intro {
+  display: flex;
 }
 
 @media screen and (min-width: 1960px) {

@@ -40,6 +40,14 @@
         "async": false
       }
     },
+    "(app-client)/./app/layout.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/layout.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
     "(app-client)/./app/(main)/page.tsx": {
       "*": {
         "id": "(sc_client)/./app/(main)/page.tsx",
@@ -56,9 +64,9 @@
         "async": false
       }
     },
-    "(app-client)/./app/layout.tsx": {
+    "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx": {
       "*": {
-        "id": "(sc_client)/./app/layout.tsx",
+        "id": "(sc_client)/./app/(main)/uikit/lichtrinh/page.jsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -147,6 +155,14 @@
       ],
       "async": false
     },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout.tsx": {
+      "id": "(app-client)/./app/layout.tsx",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
       "id": "(app-client)/./app/(main)/page.tsx",
       "name": "*",
@@ -163,20 +179,23 @@
       ],
       "async": false
     },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout.tsx": {
-      "id": "(app-client)/./app/layout.tsx",
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx",
       "name": "*",
       "chunks": [
-        "app/layout:static/chunks/app/layout.js"
+        "app/(main)/uikit/lichtrinh/page:static/chunks/app/(main)/uikit/lichtrinh/page.js"
       ],
       "async": false
     }
   },
   "entryCSSFiles": {
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": [],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
+    ],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page": [
+      "static/css/app/(main)/uikit/lichtrinh/page.css"
     ]
   }
 }

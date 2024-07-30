@@ -46,7 +46,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 {/*    height={'35px'}*/}
                 {/*    alt="logo"*/}
                 {/*/>*/}
-                <span>VIMC SAKAI</span>
+                <span><img src="layout/images/TTTTW1.png" width="200" height="50"/></span>
             </Link>
 
             <button

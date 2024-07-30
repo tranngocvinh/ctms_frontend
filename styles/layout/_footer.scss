@@ -9,18 +9,21 @@
     color: white;
 
     .left-column {
-        width: 40%;
+        width: 20%;
         float: left;
         padding: 10px;
     }
 
     .right-column {
-        width: 60%;
+        width: 80%;
         float: left;
         padding: 10px;
     }
     .ul{
-        text-indent: 5em;
+        display: flex;
+    }
+    .intro{
+        display: flex;
     }
 }
 
