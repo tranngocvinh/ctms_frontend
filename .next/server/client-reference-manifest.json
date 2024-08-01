@@ -48,14 +48,6 @@
         "async": false
       }
     },
-    "(app-client)/./app/(main)/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
     "(app-client)/./layout/layout.tsx": {
       "*": {
         "id": "(sc_client)/./layout/layout.tsx",
@@ -67,6 +59,30 @@
     "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx": {
       "*": {
         "id": "(sc_client)/./app/(main)/uikit/lichtrinh/page.jsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./layout/AppConfig.tsx": {
+      "*": {
+        "id": "(sc_client)/./layout/AppConfig.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(full-page)/landing/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/(full-page)/landing/page.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./app/(main)/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/(main)/page.tsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -163,14 +179,6 @@
       ],
       "async": false
     },
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
-      "id": "(app-client)/./app/(main)/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/page:static/chunks/app/(main)/page.js"
-      ],
-      "async": false
-    },
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\layout\\layout.tsx": {
       "id": "(app-client)/./layout/layout.tsx",
       "name": "*",
@@ -186,16 +194,42 @@
         "app/(main)/uikit/lichtrinh/page:static/chunks/app/(main)/uikit/lichtrinh/page.js"
       ],
       "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\layout\\AppConfig.tsx": {
+      "id": "(app-client)/./layout/AppConfig.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(full-page)/layout:static/chunks/app/(full-page)/layout.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(full-page)\\landing\\page.tsx": {
+      "id": "(app-client)/./app/(full-page)/landing/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(full-page)/landing/page:static/chunks/app/(full-page)/landing/page.js"
+      ],
+      "async": false
+    },
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page.tsx": {
+      "id": "(app-client)/./app/(main)/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(main)/page:static/chunks/app/(main)/page.js"
+      ],
+      "async": false
     }
   },
   "entryCSSFiles": {
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\layout": [
       "static/css/app/layout.css"
     ],
-    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": [],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\layout": [],
     "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page": [
       "static/css/app/(main)/uikit/lichtrinh/page.css"
-    ]
+    ],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(full-page)\\layout": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(full-page)\\landing\\page": [],
+    "C:\\Users\\Admin\\AndroidStudioProjects\\ctms_frontend\\app\\(main)\\page": []
   }
 }

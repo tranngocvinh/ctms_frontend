@@ -1,4 +1,5 @@
 {
   "/(main)/page": "app/(main)/page.js",
+  "/(full-page)/landing/page": "app/(full-page)/landing/page.js",
   "/(main)/uikit/lichtrinh/page": "app/(main)/uikit/lichtrinh/page.js"
 }
