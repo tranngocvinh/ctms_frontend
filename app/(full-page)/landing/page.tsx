@@ -10,11 +10,13 @@ import {Divider} from 'primereact/divider';
 import {LayoutContext} from '../../../layout/context/layoutcontext';
 import {NodeRef} from '@/types';
 import {classNames} from 'primereact/utils';
+import {useRouter} from "next/navigation";
 
 const LandingPage = () => {
     const [isHidden, setIsHidden] = useState(false);
     const {layoutConfig} = useContext(LayoutContext);
     const menuRef = useRef<HTMLElement | null>(null);
+    const router = useRouter();
 
     const toggleMenuItemClick = () => {
         setIsHidden((prevState) => !prevState);
@@ -34,16 +36,22 @@ const LandingPage = () => {
                         <i ref={menuRef} className="pi pi-bars text-4xl cursor-pointer block lg:hidden text-700"></i>
                     </StyleClass>
                     <div
-                        className={classNames('align-items-center surface-0 flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full left-0 px-6 lg:px-0 z-2', {hidden: isHidden})}
-                        style={{top: '100%', marginLeft: '750px'}}>
+                        className={classNames('align-items-center surface-0 flex-grow-1 hidden lg:flex w-full px-6 lg:px-0 z-2', {hidden: isHidden})}
+                    >
                         <div
-                            className="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0">
-                            <Button label="Login" text rounded
-                                    className="border-none font-light line-height-2 text-blue-500"></Button>
-                            <Button label="Register" rounded
-                                    className="border-none ml-5 font-light line-height-2 bg-blue-500 text-white"></Button>
+                            className="flex justify-content-end w-full border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0">
+                            <Button
+                                label="Login Here!!"
+                                text
+                                rounded
+                                className="border-none font-light line-height-2 text-blue-500"
+                                icon="pi pi-user"
+                                size="large"
+                                onClick={() => router.push('/auth/login')}
+                            />
                         </div>
                     </div>
+
                 </div>
 
                 <div
