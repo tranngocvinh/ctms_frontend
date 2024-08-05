@@ -1,31 +1,62 @@
 {
   "pages": {
-    "/(main)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/page.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/(main)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/page.js"
+    ],
+    "/(main)/uikit/container/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/container/page.css",
+      "static/chunks/app/(main)/uikit/container/page.js"
+    ],
+    "/(main)/uikit/container_supplier/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/container_supplier/page.css",
+      "static/chunks/app/(main)/uikit/container_supplier/page.js"
+    ],
+    "/(main)/uikit/lichtrinh/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/lichtrinh/page.css",
+      "static/chunks/app/(main)/uikit/lichtrinh/page.js"
+    ],
+    "/(main)/uikit/tuyenduong/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/tuyenduong/page.css",
+      "static/chunks/app/(main)/uikit/tuyenduong/page.js"
+    ],
     "/(main)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(full-page)/layout": [
+    "/(main)/uikit/capContRong/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(full-page)/layout.js"
+      "static/css/app/(main)/uikit/capContRong/page.css",
+      "static/chunks/app/(main)/uikit/capContRong/page.js"
     ],
-    "/(full-page)/auth/login/page": [
+    "/(main)/uikit/trangthaiCont/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(full-page)/auth/login/page.css",
-      "static/chunks/app/(full-page)/auth/login/page.js"
+      "static/css/app/(main)/uikit/trangthaiCont/page.css",
+      "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
+    ],
+    "/(main)/uikit/khaiBaoSI/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/uikit/khaiBaoSI/page.css",
+      "static/chunks/app/(main)/uikit/khaiBaoSI/page.js"
     ]
   }
 }

@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getShip = async () => {
     try {
         return await axios.get(
-            'http://localhost:8080/api/ships',
+            `${process.env.VITE_API_BASE_URL}/api/ships`,
         )
     } catch (e) {
         throw e;
@@ -13,7 +13,7 @@ export const getShip = async () => {
 export const add = async (ship) => {
     try {
         return await axios.post(
-            'http://localhost:8080/api/ships',
+            `${process.env.VITE_API_BASE_URL}/api/ships`,
             ship
 
         )
@@ -26,7 +26,7 @@ export const add = async (ship) => {
 export const update = async (id, ship) => {
     try {
         return await axios.put(
-            `http://localhost:8080/api/ships/${id}`,
+            `${process.env.VITE_API_BASE_URL}/api/ships/${id}`,
             ship,
 
         );
