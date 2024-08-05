@@ -1,35 +1,60 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import {useRouter} from 'next/navigation';
-import React, {useContext, useState} from 'react';
-import {Checkbox} from 'primereact/checkbox';
-import {Button} from 'primereact/button';
-import {Password} from 'primereact/password';
-import {LayoutContext} from '@/layout/context/layoutcontext';
-import {InputText} from 'primereact/inputtext';
-import {classNames} from 'primereact/utils';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useState } from 'react';
+import { Checkbox } from 'primereact/checkbox';
+import { Button } from 'primereact/button';
+import { Password } from 'primereact/password';
+import { LayoutContext } from '@/layout/context/layoutcontext';
+import { InputText } from 'primereact/inputtext';
+import { classNames } from 'primereact/utils';
+import axios from 'axios';
 import AppHeader from '../login/AppHeader'
 import Footer from './Footer/Footer'
 // import AppHeader from './Header/AppHeader'
 
-
-
 const LoginPage = () => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
-    const {layoutConfig} = useContext(LayoutContext);
-
+    const { layoutConfig } = useContext(LayoutContext);
     const router = useRouter();
+
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', {'p-input-filled': layoutConfig.inputStyle === 'filled'});
+
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('http://146.19.100.68:8081/api/v1/auth/login', {
+                username: email,
+                password: password
+            });
+
+            const token = response.data.token;
+            const user = response.data.customerDTO;
+            const userRole = response.data.customerDTO.roles;
+            // Lưu trữ token và thông tin người dùng vào Local Storage
+            localStorage.setItem('jwtToken', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            localStorage.setItem('userRole', userRole); // Lưu vai trò người dùng
+
+            // Điều hướng tới trang chính
+
+            router.push('/');
+        } catch (error) {
+            console.error('Đăng nhập thất bại:', error);
+            alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
+        }
+    };
 
     return (
         <>
-            <AppHeader/>
+            <AppHeader />
             <div className={containerClassName}
                  style={{
                      backgroundImage: 'url("/demo/images/login/R12.jpg")', // Đường dẫn tới ảnh nền
                      backgroundSize: 'cover', // Ảnh sẽ được bao phủ toàn bộ khu vực
-                     backgroundPosition: 'center', // Ảnh sẽ được căn giữa
+                     backgroundPosition: 'center', // Ảnh sẽ không lặp lại
                      backgroundRepeat: 'no-repeat' // Ảnh sẽ không lặp lại
                  }}
             >
@@ -45,11 +70,11 @@ const LoginPage = () => {
                         }}
                     >
                         <div className="w-full surface-card py-8 px-6 sm:px-10 flex items-center justify-center"
-                                         style={{borderRadius: '180px'}}>
-                            <div className="flex-shrink-0" >
+                             style={{ borderRadius: '180px' }}>
+                            <div className="flex-shrink-0">
                                 <img src="/demo/images/login/TTTTW2.png" alt='img'
                                      className="mr-5 py-8 px-3 object-cover rounded-lg"
-                                     style={{height:"250px"}}/>
+                                     style={{ height: "250px" }} />
                             </div>
                             <div>
                                 <div className="ml-10 text-center flex-grow ">
@@ -63,7 +88,8 @@ const LoginPage = () => {
                                         Email
                                     </label>
                                     <InputText id="email1" type="text" placeholder="Email address"
-                                               className="w-full md:w-30rem mb-5" style={{padding: '1rem'}}/>
+                                               value={email} onChange={(e) => setEmail(e.target.value)}
+                                               className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
 
                                     <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                         Password
@@ -85,12 +111,12 @@ const LoginPage = () => {
                                     </div>
 
                                     <Button label="Sign In" className="w-full p-3 text-xl"
-                                            onClick={() => router.push('/')}></Button>
+                                            onClick={handleLogin}></Button>
 
-                                    <div style={{textAlign: 'center', marginBottom: '10px'}}>
+                                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                                         <Button label="Not yet registered?" className="p-button-link"
                                                 onClick={() => router.push('/auth/register')}
-                                                style={{color: 'var(--primary-color)'}}/>
+                                                style={{ color: 'var(--primary-color)' }} />
                                     </div>
 
                                 </div>
@@ -100,10 +126,9 @@ const LoginPage = () => {
                 </div>
             </div>
 
-            <Footer/>
+            <Footer />
         </>
-    )
-        ;
+    );
 };
 
 export default LoginPage;

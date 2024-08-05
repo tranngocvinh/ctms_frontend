@@ -21269,54 +21269,86 @@
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[3].oneOf[13].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[3].oneOf[13].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[3].oneOf[13].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[3].oneOf[13].use[5]!./styles/layout/layout.scss ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
 /* General */
 /* border radius of layout element e.g. card, sidebar */
 /* transition duration of layout elements e.g. sidebar, overlay menus */
-.h1 {
-  text-align: center;
-  color: grey;
+* {
+  box-sizing: border-box;
 }
-.h1 .h2 {
-  color: black;
-  font-weight: bold;
-  font-size: 24px;
-  text-decoration: underline;
-  -webkit-text-decoration-color: #D38301;
-          text-decoration-color: #D38301;
+
+html {
+  height: 100%;
 }
-.h1 .left-column {
-  width: 60%;
-  float: left;
-  padding: 10px;
-  color: black;
-  text-align: justify;
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--surface-ground);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.h1 .right-column {
-  width: 40%;
-  float: left;
-  padding: 10px;
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.layout-wrapper {
+  min-height: 100vh;
 }
 
 .layout-topbar {
-  position: fixed;
   height: 5rem;
-  z-index: 997;
   left: 0;
   top: 0;
   width: 100%;
   padding: 0 2rem;
-  background-color: #2492C4;
+  background-color: white;
   transition: left 0.2s;
   display: flex;
   align-items: center;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.02), 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.08);
+}
+.layout-topbar .layout-topbar-main {
+  z-index: 1000;
+  width: 100%;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+}
+.layout-topbar .layout-topbar-second-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 1%;
+}
+.layout-topbar .layout-topbar-logo span {
+  font-family: "Arial", sans-serif; /* Chọn font chữ phù hợp */
+  font-size: 1.2rem; /* Kích thước chữ */
+  font-weight: bold; /* Độ dày của chữ */
+  color: #333; /* Màu chữ */
+  letter-spacing: 0.1rem; /* Khoảng cách giữa các ký tự */
+  text-transform: uppercase; /* Chuyển đổi chữ thường thành chữ hoa */
+  margin-left: 0.5rem; /* Khoảng cách giữa hình ảnh và chữ */
+  line-height: 1.5; /* Chiều cao dòng, để làm chữ không bị dính chặt */
+  display: inline-block; /* Để đảm bảo thẻ span không dính chặt với các phần tử khác */
+  top: 0.5rem;
+  position: relative;
+}
+.layout-topbar .layout-topbar-logo span:hover {
+  color: var(--primary-color); /* Đổi màu khi hover */
+  transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt */
 }
 .layout-topbar .layout-topbar-logo {
   display: flex;
   align-items: center;
   color: var(--surface-0);
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 100;
   width: 300px;
   border-radius: 12px;
 }
@@ -21335,12 +21367,13 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  color: var(--surface-0);
-  border-radius: 50%;
+  color: black;
+  border-radius: 10%;
   width: 3rem;
   height: 3rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  left: -4rem;
 }
 .layout-topbar .layout-topbar-button:hover {
   color: var(--text-color);
@@ -21426,7 +21459,7 @@
     margin-right: 0.5rem;
   }
   .layout-topbar .layout-topbar-menu .layout-topbar-button span {
-    font-weight: medium;
+    font-weight: normal;
     display: block;
   }
 }
@@ -21439,10 +21472,10 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  top: 7rem;
+  top: 10rem;
   left: 2rem;
   transition: transform 0.2s, left 0.2s;
-  background-color: #2492C4;
+  background-color: var(--blue-700);
   border-radius: 12px;
   padding: 0.5rem 1.5rem;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.02), 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 1px 4px rgba(0, 0, 0, 0.08);
@@ -21460,6 +21493,7 @@
   font-size: 0.857rem;
   text-transform: uppercase;
   font-weight: 700;
+  color: var(--surface-900);
   margin: 0.75rem 0;
 }
 .layout-menu .layout-root-menuitem > a {
@@ -21481,8 +21515,7 @@
   align-items: center;
   position: relative;
   outline: 0 none;
-  color: white;
-  font-size: 15px;
+  color: black;
   cursor: pointer;
   padding: 0.75rem 1rem;
   border-radius: 12px;
@@ -21500,12 +21533,11 @@
   transform: rotate(90deg);
 }
 .layout-menu ul a.active-route {
-  font-weight: bold;
-  color: black;
+  font-weight: 700;
+  color: var(--primary-color);
 }
 .layout-menu ul a:hover {
-  background-color: white;
-  color: black;
+  background-color: var(--surface-hover);
 }
 .layout-menu ul a:focus {
   outline: 0 none;
@@ -21617,21 +21649,12 @@
 }
 
 .layout-footer {
-  background-color: #2492C4;
-  color: white;
-}
-.layout-footer .left-column {
-  width: 40%;
-  float: left;
-  padding: 10px;
-}
-.layout-footer .right-column {
-  width: 60%;
-  float: left;
-  padding: 10px;
-}
-.layout-footer .ul {
-  text-indent: 5em;
+  transition: margin-left 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--surface-border);
 }
 
 @media screen and (min-width: 1960px) {

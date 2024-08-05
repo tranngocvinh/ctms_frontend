@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getContainers = async () => {
     try {
         return await axios.get(
-            'http://localhost:8080/api/v1/suplier',
+            'http://localhost:8080/api/v1/supplier',
         )
     } catch (e) {
         throw e;
@@ -13,7 +13,7 @@ export const getContainers = async () => {
 export const uploadImage = async (formData) => {
     try {
         return await axios.post(
-            'http://localhost:8080/api/v1/suplier',
+            'http://localhost:8080/api/v1/supplier',
             formData,
             {
                 headers: {
@@ -35,7 +35,7 @@ export const updateSupplier = async (id, data, image) => {
         }
 
         return await axios.put(
-            `http://localhost:8080/api/v1/suplier/${id}`,
+            `http://localhost:8080/api/v1/supplier/${id}`,
             formData,
             {
                 headers: {
@@ -50,7 +50,7 @@ export const updateSupplier = async (id, data, image) => {
 export const deleteSupplier = async (id) => {
     try {
         return await axios.delete(
-            `http://localhost:8080/api/v1/suplier/${id}`,
+            `http://localhost:8080/api/v1/supplier/${id}`,
 
         )
 
@@ -60,4 +60,4 @@ export const deleteSupplier = async (id) => {
 }
 
 export const getImageById = (id) =>
-    `http://localhost:8080/api/v1/suplier/${id}`;
+    `http://localhost:8080/api/v1/supplier/${id}`;

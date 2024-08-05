@@ -42,10 +42,34 @@ export const dele = async (id) => {
         throw e;
     }
 }
-
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+    }
+})
 export const allocateContainersToShip = async (data) => {
-    return axios.post(`http://localhost:8080/api/containers/allocate/ship`, data);
+    return axios.post(`http://localhost:8080/api/containers/allocate/ship`, data,getAuthConfig());
 };
+
+export const getEmptyContainers = async () => {
+    try {
+        return await axios.get(
+            'http://localhost:8080/api/containers/allocate/ship',
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getEmptyContainerById = async (id) => {
+    try {
+        return await axios.get(
+            `http://localhost:8080/api/containers/allocate/ship/${id}`,
+        )
+    } catch (e) {
+        throw e;
+    }
+}
 
 export const allocateContainersToPort = async (numberOfContainers, portName) => {
     return axios.post(`http://localhost:8080/api/containers/allocate/port`, {
@@ -53,3 +77,13 @@ export const allocateContainersToPort = async (numberOfContainers, portName) => 
         portName
     });
 };
+
+export const isUpdateApproved = async (id) => {
+    try {
+        return await axios.put(
+            `http://localhost:8080/api/containers/allocate/ship/approved/${id}`
+        )
+    } catch (e) {
+        throw e;
+    }
+}
