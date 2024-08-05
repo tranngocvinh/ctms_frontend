@@ -7,7 +7,7 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import {getImageById} from "../../../api/container_supplier";
 import { ProgressSpinner } from 'primereact/progressspinner';
-import {getContainers} from "../../../api/container";
+import {getContainers} from "../../../api/container_size";
 import Table from "../../../components/ContainerCategories/dataTable";
 
 export default function TemplateDemo() {

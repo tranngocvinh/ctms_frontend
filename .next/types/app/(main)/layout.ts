@@ -1,4 +1,4 @@
-// File: C:\Users\admin\WebstormProjects\ctms_frontend\app\(main)\layout.tsx
+// File: C:\Users\Tran Ngoc Vinh\WebstormProjects\ctms_frontend\app\(main)\layout.tsx
 import * as entry from '../../../../app/(main)/layout.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

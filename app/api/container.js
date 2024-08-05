@@ -3,29 +3,27 @@ import axios from "axios";
 export const getContainers = async () => {
     try {
         return await axios.get(
-            'http://localhost:8080/api/containers/sizes',
+            'http://localhost:8080/api/containers',
         )
     } catch (e) {
         throw e;
     }
 }
 
-export const add = async (containerSize) => {
+export const add = async (container) => {
     try {
-        return await axios.post(
-            'http://localhost:8080/api/containers/sizes',
-            containerSize
-
-        )
+        console.log("Sending add request:", container); // Log the request data
+        return await axios.post('http://localhost:8080/api/containers', container);
     } catch (e) {
+        console.log("Add request error:", e); // Log the error
         throw e;
     }
-}
-export const update = async (id, containerSize) => {
+};
+export const update = async (id, container) => {
     try {
         return await axios.put(
-            `http://localhost:8080/api/containers/sizes/${id}`,
-            containerSize,
+            `http://localhost:8080/api/containers/${id}`,
+            container,
 
         );
     } catch (e) {
@@ -36,10 +34,55 @@ export const update = async (id, containerSize) => {
 export const dele = async (id) => {
     try {
         return await axios.delete(
-            `http://localhost:8080/api/containers/sizes/${id}`,
+            `http://localhost:8080/api/containers/${id}`,
 
         )
 
+    } catch (e) {
+        throw e;
+    }
+}
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+    }
+})
+export const allocateContainersToShip = async (data) => {
+    return axios.post(`http://localhost:8080/api/containers/allocate/ship`, data,getAuthConfig());
+};
+
+export const getEmptyContainers = async () => {
+    try {
+        return await axios.get(
+            'http://localhost:8080/api/containers/allocate/ship',
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getEmptyContainerById = async (id) => {
+    try {
+        return await axios.get(
+            `http://localhost:8080/api/containers/allocate/ship/${id}`,
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const allocateContainersToPort = async (numberOfContainers, portName) => {
+    return axios.post(`http://localhost:8080/api/containers/allocate/port`, {
+        numberOfContainers,
+        portName
+    });
+};
+
+export const isUpdateApproved = async (id) => {
+    try {
+        return await axios.put(
+            `http://localhost:8080/api/containers/allocate/ship/approved/${id}`
+        )
     } catch (e) {
         throw e;
     }

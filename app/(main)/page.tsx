@@ -10,6 +10,12 @@ import { ProductService } from '../../demo/service/ProductService';
 import { LayoutContext } from '../../layout/context/layoutcontext';
 import Link from 'next/link';
 import { Demo } from '@/types';
+import {isUpdateApproved} from "../../../ctms_frontend/app/api/container";
+import {getEmptyContainers} from "../../../ctms_frontend/app/api/container";
+import {getEmptyContainerById} from "../../../ctms_frontend/app/api/container";
+
+import EmptyContainerDetailModal from './EmptyContainerDetailModal';
+
 import { ChartData, ChartOptions } from 'chart.js';
 
 const lineData: ChartData = {
@@ -35,12 +41,13 @@ const lineData: ChartData = {
 };
 
 const Dashboard = () => {
-    const [products, setProducts] = useState<Demo.Product[]>([]);
+    const [products, setProducts] = useState([]);
     const menu1 = useRef<Menu>(null);
     const menu2 = useRef<Menu>(null);
     const [lineOptions, setLineOptions] = useState<ChartOptions>({});
     const { layoutConfig } = useContext(LayoutContext);
-
+    const [selectedContainer, setSelectedContainer] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const applyLightTheme = () => {
         const lineOptions: ChartOptions = {
             plugins: {
@@ -105,10 +112,38 @@ const Dashboard = () => {
         setLineOptions(lineOptions);
     };
 
+    const fetchEmptyContainers = () => {
+        getEmptyContainers().then(res => {
+            setProducts(res.data)
+        }).catch(err => {
+            console.log(err);
+        }).finally(() => {
+            console.log("finish")
+        })
+    }
     useEffect(() => {
-        ProductService.getProductsSmall().then((data) => setProducts(data));
+       fetchEmptyContainers()
     }, []);
 
+    const handleViewDetails = (value: number) => {
+        // Fetch container details by ID
+        getEmptyContainerById(value)
+            .then(res => {
+                setSelectedContainer(res.data);
+                setIsModalVisible(true);
+            })
+            .catch(err => {
+                console.error("Error fetching container details:", err);
+            });
+    };
+
+    const updateIsApproved = (value: number) => {
+        isUpdateApproved(value).then(res =>{
+            fetchEmptyContainers() ;
+
+        })
+
+    }
     useEffect(() => {
         if (layoutConfig.colorScheme === 'light') {
             applyLightTheme();
@@ -124,6 +159,20 @@ const Dashboard = () => {
         });
     };
 
+    const formatTime = (value: Date) => {
+        return new Date(value).toLocaleString()
+    }
+
+    const view = (value: number) => {
+        return <Button icon="pi pi-search" text onClick={() => handleViewDetails(value)}  />
+    }
+
+    const isApproved = (value: number) => {
+        return <Button icon="pi pi-check" text onClick={() => updateIsApproved(value)}/>
+    }
+
+
+    // @ts-ignore
     return (
         <div className="grid">
             <div className="col-12 lg:col-6 xl:col-3">
@@ -187,21 +236,26 @@ const Dashboard = () => {
                 </div>
             </div>
 
+{/*Phê duyệt lệnh cấp rỗng*/}
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Recent Sales</h5>
+                    <h5>Lệnh cấp container rỗng</h5>
                     <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column header="Image" body={(data) => <img className="shadow-2" src={`/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
-                        <Column field="name" header="Name" sortable style={{ width: '35%' }} />
-                        <Column field="price" header="Price" sortable style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
+                        <Column field="customer.username" header="Khách hàng" sortable style={{ width: '35%' }} />
+                        <Column header="Thời gian" sortable style={{ width: '35%' }} body={(data) => formatTime(data.requestTime)}/>
+                        <Column field="isApproved" header="Duyệt" sortable style={{ width: '15%' }}
+                                body={(data) => (
+                                    isApproved(data.id)
+                                    // <>
+                                    //     <i ><Button icon="pi pi-check" text /></i>
+                                    //
+                                    // </>
+                                )}
+                        />
                         <Column
                             header="View"
                             style={{ width: '15%' }}
-                            body={() => (
-                                <>
-                                    <Button icon="pi pi-search" text />
-                                </>
-                            )}
+                            body={(data) => view(data.id)}
                         />
                     </DataTable>
                 </div>
@@ -386,6 +440,12 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+
+            <EmptyContainerDetailModal
+                visible={isModalVisible}
+                onHide={() => setIsModalVisible(false)}
+                emptyContainer={selectedContainer}
+            />
         </div>
     );
 };
