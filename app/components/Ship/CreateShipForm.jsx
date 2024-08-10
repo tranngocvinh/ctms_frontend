@@ -15,17 +15,15 @@ const MyTextInput = ({label, ...props}) => {
 
     return (
         <div className="p-field p-col-12 p-md-6">
-            <span className="p-float-label">
-                <InputText id={props.id || props.name} {...field} {...props} />
-                <label htmlFor={props.id || props.name}>{label}</label>
-            </span>
+            <label htmlFor={props.id || props.name}>{label}</label>
+            <InputText id={props.id || props.name} {...field} {...props} />
+
             {meta.touched && meta.error ? (
-                <Message severity="warn" text={meta.error}/>
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
 };
-
 const MyDoubleInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);
@@ -36,26 +34,24 @@ const MyDoubleInput = ({ label, ...props }) => {
 
     return (
         <div className="p-field p-col-12 p-md-6">
-            <span className="p-float-label">
-                <InputNumber
-                    id={props.id || props.name}
-                    value={field.value}
-                    onValueChange={handleChange}
-                    inputId="locale-user"
-                    minFractionDigits={2}
-                    {...props}
-                />
-                <label htmlFor={props.id || props.name}>{label}</label>
-            </span>
+            <label htmlFor={props.id || props.name}>{label}</label>
+            <InputNumber
+                id={props.id || props.name}
+                value={field.value}
+                onValueChange={handleChange}
+                inputId="locale-user"
+                minFractionDigits={2}
+                {...props}
+            />
             {meta.touched && meta.error ? (
-                <Message severity="warn" text={meta.error} />
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
 };
 
-const FormikDropdown = ({ label, ...props }) => {
-    const { setFieldValue, values } = useFormikContext();
+const FormikDropdown = ({label, ...props}) => {
+    const {setFieldValue, values} = useFormikContext();
     const [field, meta] = useField(props);
 
     const handleChange = (e) => {
@@ -68,7 +64,7 @@ const FormikDropdown = ({ label, ...props }) => {
             <Dropdown
                 {...field}
                 {...props}
-                value={values[props.name]}
+                value={values[props.name] || ''}
                 onChange={handleChange}
                 className="w-full md:w-14rem"
                 optionLabel="name"
@@ -81,9 +77,8 @@ const FormikDropdown = ({ label, ...props }) => {
 };
 
 const status_ship = [
-    { name: 'Đang hoạt động', value: 'ACTIVE' },
-    { name: 'Không hoạt động', value: 'INACTIVE' },
-    { name: 'Đang bảo trì', value: 'UNDER_MAINTENANCE' },
+    { name: 'Đang hoạt động', value: 'Đang hoạt động' },
+    { name: 'Đang bảo trì', value: 'Đang bảo trì' },
 ];
 
 const CreateShipForm = ({ fetchShips }) => {
@@ -131,7 +126,7 @@ const CreateShipForm = ({ fetchShips }) => {
                         <MyDoubleInput
                             label="Trọng tải"
                             name="capacity"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Số đăng ký"

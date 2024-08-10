@@ -32,7 +32,7 @@ export default function Table({ containers, fetchContainers }) {
     };
 
     const imageBodyTemplate = (rowData) => {
-        return <img src={`http://localhost:8080/api/v1/suplier/${rowData.supplierId}`} className="w-6rem shadow-2 border-round" alt="supplier" />;
+        return <img src={`https://auth.g42.biz/api/v1/suplier/${rowData.supplierId}`} className="w-6rem shadow-2 border-round" alt="supplier" />;
     };
 
     const linkTemplate = (rowData) => {

@@ -56,38 +56,6 @@
         "async": false
       }
     },
-    "(app-client)/./app/(main)/uikit/container/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/container/page.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(main)/uikit/container_supplier/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/container_supplier/page.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/lichtrinh/page.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(main)/uikit/tuyenduong/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/tuyenduong/page.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
     "(app-client)/./layout/ProtectedLayout.js": {
       "*": {
         "id": "(sc_client)/./layout/ProtectedLayout.js",
@@ -96,25 +64,17 @@
         "async": false
       }
     },
-    "(app-client)/./app/(main)/uikit/capContRong/page.jsx": {
+    "(app-client)/./app/(main)/uikit/user/page.jsx": {
       "*": {
-        "id": "(sc_client)/./app/(main)/uikit/capContRong/page.jsx",
+        "id": "(sc_client)/./app/(main)/uikit/user/page.jsx",
         "name": "*",
         "chunks": [],
         "async": false
       }
     },
-    "(app-client)/./app/(main)/uikit/trangthaiCont/page.jsx": {
+    "(app-client)/./app/(main)/uikit/tinhphiDEM/page.jsx": {
       "*": {
-        "id": "(sc_client)/./app/(main)/uikit/trangthaiCont/page.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/(main)/uikit/khaiBaoSI/page.jsx": {
-      "*": {
-        "id": "(sc_client)/./app/(main)/uikit/khaiBaoSI/page.jsx",
+        "id": "(sc_client)/./app/(main)/uikit/tinhphiDEM/page.jsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -219,38 +179,6 @@
       ],
       "async": false
     },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\container\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/container/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/container/page:static/chunks/app/(main)/uikit/container/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\container_supplier\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/container_supplier/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/container_supplier/page:static/chunks/app/(main)/uikit/container_supplier/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/lichtrinh/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/lichtrinh/page:static/chunks/app/(main)/uikit/lichtrinh/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\tuyenduong\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/tuyenduong/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/tuyenduong/page:static/chunks/app/(main)/uikit/tuyenduong/page.js"
-      ],
-      "async": false
-    },
     "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\layout\\ProtectedLayout.js": {
       "id": "(app-client)/./layout/ProtectedLayout.js",
       "name": "*",
@@ -259,27 +187,19 @@
       ],
       "async": false
     },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\capContRong\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/capContRong/page.jsx",
+    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\user\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/user/page.jsx",
       "name": "*",
       "chunks": [
-        "app/(main)/uikit/capContRong/page:static/chunks/app/(main)/uikit/capContRong/page.js"
+        "app/(main)/uikit/user/page:static/chunks/app/(main)/uikit/user/page.js"
       ],
       "async": false
     },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\trangthaiCont\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/trangthaiCont/page.jsx",
+    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\tinhphiDEM\\page.jsx": {
+      "id": "(app-client)/./app/(main)/uikit/tinhphiDEM/page.jsx",
       "name": "*",
       "chunks": [
-        "app/(main)/uikit/trangthaiCont/page:static/chunks/app/(main)/uikit/trangthaiCont/page.js"
-      ],
-      "async": false
-    },
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\khaiBaoSI\\page.jsx": {
-      "id": "(app-client)/./app/(main)/uikit/khaiBaoSI/page.jsx",
-      "name": "*",
-      "chunks": [
-        "app/(main)/uikit/khaiBaoSI/page:static/chunks/app/(main)/uikit/khaiBaoSI/page.js"
+        "app/(main)/uikit/tinhphiDEM/page:static/chunks/app/(main)/uikit/tinhphiDEM/page.js"
       ],
       "async": false
     }
@@ -289,27 +209,8 @@
       "static/css/app/layout.css"
     ],
     "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\page": [],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\container\\page": [
-      "static/css/app/(main)/uikit/container/page.css"
-    ],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\container_supplier\\page": [
-      "static/css/app/(main)/uikit/container_supplier/page.css"
-    ],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\lichtrinh\\page": [
-      "static/css/app/(main)/uikit/lichtrinh/page.css"
-    ],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\tuyenduong\\page": [
-      "static/css/app/(main)/uikit/tuyenduong/page.css"
-    ],
     "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\layout": [],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\capContRong\\page": [
-      "static/css/app/(main)/uikit/capContRong/page.css"
-    ],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\trangthaiCont\\page": [
-      "static/css/app/(main)/uikit/trangthaiCont/page.css"
-    ],
-    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\khaiBaoSI\\page": [
-      "static/css/app/(main)/uikit/khaiBaoSI/page.css"
-    ]
+    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\user\\page": [],
+    "C:\\Users\\Tran Ngoc Vinh\\WebstormProjects\\ctms_frontend\\app\\(main)\\uikit\\tinhphiDEM\\page": []
   }
 }

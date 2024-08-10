@@ -12,16 +12,21 @@ const createCustomIcon = (iconClass) => {
     });
 };
 
-const MapComponent = ({ waypoints }) => {
+const MapComponent = ({ waypoints, routeSegments }) => {
     const [positions, setPositions] = useState([]);
 
     useEffect(() => {
+        console.log("Waypoints Updated:", waypoints);
         const coords = waypoints
             .filter(waypoint => waypoint && waypoint.lat !== undefined && waypoint.lon !== undefined)
             .map(waypoint => [waypoint.lat, waypoint.lon]);
 
         setPositions(coords);
     }, [waypoints]);
+
+    useEffect(() => {
+        console.log("Route Segments in MapComponent:", routeSegments);
+    }, [routeSegments]);
 
     return (
         <div id="map-container" style={{ height: "600px", width: "100%" }}>
@@ -32,9 +37,9 @@ const MapComponent = ({ waypoints }) => {
                 {positions.map((position, index) => (
                     <Marker key={index} position={position} icon={createCustomIcon(PrimeIcons.MAP_MARKER)} />
                 ))}
-                {positions.length > 1 && (
-                    <Polyline positions={positions} color="blue" />
-                )}
+                {routeSegments.map((segment, index) => (
+                    <Polyline key={index} positions={segment} color="blue" />
+                ))}
             </MapContainer>
         </div>
     );

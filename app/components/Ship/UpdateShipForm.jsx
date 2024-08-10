@@ -80,9 +80,8 @@ const FormikDropdown = ({label, ...props}) => {
 };
 
 const status_ship = [
-    {name: 'Đang hoạt động', value: 'ACTIVE'},
-    {name: 'Không hoạt động', value: 'INACTIVE'},
-    {name: 'Đang bảo trì', value: 'UNDER_MAINTENANCE'},
+    {name: 'Đang hoạt động', value: 'Đang hoạt động'},
+    {name: 'Đang bảo trì', value: 'Đang bảo trì'},
 ];
 
 const CreateShipForm = ({fetchShips, ships}) => {
@@ -132,7 +131,7 @@ const CreateShipForm = ({fetchShips, ships}) => {
                         <MyDoubleInput
                             label="Trọng tải"
                             name="capacity"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Số đăng ký"

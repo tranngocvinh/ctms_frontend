@@ -26,19 +26,17 @@ const MyTextInput = ({ label, ...props }) => {
 
     return (
         <div className="p-field p-col-12 p-md-6">
-            <span className="p-float-label">
-                <InputNumber
-                    id={props.id || props.name}
-                    value={field.value}
-                    onValueChange={handleChange}
-                    inputId="locale-user"
-                    minFractionDigits={2}
-                    {...props}
-                />
-                <label htmlFor={props.id || props.name}>{label}</label>
-            </span>
+            <label htmlFor={props.id || props.name}>{label}</label>
+            <InputNumber
+                id={props.id || props.name}
+                value={field.value}
+                onValueChange={handleChange}
+                inputId="locale-user"
+                minFractionDigits={2}
+                {...props}
+            />
             {meta.touched && meta.error ? (
-                <Message severity="warn" text={meta.error} />
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
@@ -65,7 +63,7 @@ const FormikDropdown = ({ label, ...props }) => {
                 className="w-full md:w-14rem"
             />
             {meta.touched && meta.error ? (
-                <div className="error">{meta.error}</div>
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
@@ -85,7 +83,7 @@ const CreateSupplierForm = ({ fetchContainers }) => {
             <div className="p-col-12 p-md-8">
                 <Formik
                     initialValues={{
-                        containerTypeId: '',
+                        containerType: {id: ''} ,
                         length: '',
                         width: '',
                         height: '',
@@ -95,7 +93,9 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                         maxLoad: '',
                     }}
                     validationSchema={Yup.object({
-                        containerTypeId: Yup.number().required('Không được để trống'),
+                        containerType: Yup.object().shape({
+                            id: Yup.string().required('Vui lòng chọn loại container')
+                        }),
                         length: Yup.number().required('Không được để trống'),
                         width: Yup.number().required('Không được để trống'),
                         height: Yup.number().required('Không được để trống'),
@@ -123,7 +123,7 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                 >
                     <Form className="p-fluid p-formgrid p-grid">
                         <FormikDropdown
-                            name="containerTypeId"
+                            name="containerType.id"
                             options={containertype}
                             optionLabel="name"
                             placeholder="Chọn loại container"
@@ -133,37 +133,37 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                         <MyTextInput
                             label="Chiều dài"
                             name="length"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Chiều rộng"
                             name="width"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Chiều cao"
                             name="height"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Thể tích"
                             name="volume"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Cân nặng"
                             name="weight"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Tải trọng chứa hàng"
                             name="loadCapacity"
-                            type="number"
+                            type="text"
                         />
                         <MyTextInput
                             label="Tải trọng tối đa"
                             name="maxLoad"
-                            type="number"
+                            type="text"
                         />
                         <div className="p-col-12">
                             <Button type="submit" label="Submit" className="p-button-primary" />

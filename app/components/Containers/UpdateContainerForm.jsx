@@ -68,7 +68,7 @@ const UpdateContainerForm = ({ fetchContainers, container }) => {
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/ships');
+            const response = await axios.get(`https://auth.g42.biz/api/ships`);
             setShips(response.data);
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -77,7 +77,7 @@ const UpdateContainerForm = ({ fetchContainers, container }) => {
 
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/schedules');
+            const response = await axios.get(`https://auth.g42.biz/api/schedules`);
             setSchedules(response.data);
         } catch (error) {
             console.error('Error fetching schedules:', error);
@@ -86,7 +86,7 @@ const UpdateContainerForm = ({ fetchContainers, container }) => {
 
     const fetchContainerSizes = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/containers/sizes');
+            const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`);
             setContainerSizes(response.data);
         } catch (error) {
             console.error('Error fetching container sizes:', error);

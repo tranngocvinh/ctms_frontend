@@ -88,7 +88,7 @@ const
 
         const fetchContainerSizes = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/containers/sizes');
+                const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`);
                 setContainerSizes(response.data);
             } catch (error) {
                 console.error('Error fetching container sizes:', error);
@@ -97,7 +97,7 @@ const
 
         const fetchShips = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/ships');
+                const response = await axios.get(`https://auth.g42.biz/api/ships`);
                 setShips(response.data);
             } catch (error) {
                 console.error('Error fetching ships:', error);
@@ -106,7 +106,7 @@ const
 
         const fetchPorts = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/ports');
+                const response = await axios.get(`https://auth.g42.biz/api/ports`);
                 setPorts(response.data);
             } catch (error) {
                 console.error('Error fetching ports:', error);

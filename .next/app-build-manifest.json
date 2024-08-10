@@ -11,52 +11,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/page.js"
     ],
-    "/(main)/uikit/container/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/container/page.css",
-      "static/chunks/app/(main)/uikit/container/page.js"
-    ],
-    "/(main)/uikit/container_supplier/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/container_supplier/page.css",
-      "static/chunks/app/(main)/uikit/container_supplier/page.js"
-    ],
-    "/(main)/uikit/lichtrinh/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/lichtrinh/page.css",
-      "static/chunks/app/(main)/uikit/lichtrinh/page.js"
-    ],
-    "/(main)/uikit/tuyenduong/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/tuyenduong/page.css",
-      "static/chunks/app/(main)/uikit/tuyenduong/page.js"
-    ],
     "/(main)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/uikit/capContRong/page": [
+    "/(main)/uikit/user/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/capContRong/page.css",
-      "static/chunks/app/(main)/uikit/capContRong/page.js"
+      "static/chunks/app/(main)/uikit/user/page.js"
     ],
-    "/(main)/uikit/trangthaiCont/page": [
+    "/(main)/uikit/tinhphiDEM/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/trangthaiCont/page.css",
-      "static/chunks/app/(main)/uikit/trangthaiCont/page.js"
-    ],
-    "/(main)/uikit/khaiBaoSI/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(main)/uikit/khaiBaoSI/page.css",
-      "static/chunks/app/(main)/uikit/khaiBaoSI/page.js"
+      "static/chunks/app/(main)/uikit/tinhphiDEM/page.js"
     ]
   }
 }

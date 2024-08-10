@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -20,6 +21,7 @@ export default function Table({ SIs }) {
     const [selectedCargoType, setSelectedCargoType] = useState(null);
     const [cargoTypes, setCargoTypes] = useState([]);
     const [siData, setSiData] = useState({});
+    const [dialogTitle, setDialogTitle] = useState(''); // New state for dialog title
 
     useEffect(() => {
         fetchCargoTypes();
@@ -28,7 +30,7 @@ export default function Table({ SIs }) {
 
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/si/cargo');
+            const response = await axios.get(`https://auth.g42.biz/api/si/cargo`);
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -37,7 +39,7 @@ export default function Table({ SIs }) {
 
     const fetchSIData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/si');
+            const response = await axios.get(`https://auth.g42.biz/api/si`);
             const siDataMap = {};
             response.data.forEach(si => {
                 siDataMap[si.emptyContainerId] = si;
@@ -60,10 +62,12 @@ export default function Table({ SIs }) {
             setCargoWeight(existingSI.cargoWeight);
             setCargoVolume(existingSI.cargoVolume);
             setSelectedCargoType(cargoTypes.find(type => type.id === existingSI.cargoTypeId));
+            setDialogTitle('Chỉnh sửa SI');
         } else {
             setCargoWeight(0);
             setCargoVolume(0);
             setSelectedCargoType(null);
+            setDialogTitle('Khai báo SI');
         }
         setIsFormDialogVisible(true);
     };
@@ -87,29 +91,34 @@ export default function Table({ SIs }) {
         };
 
         try {
-            await axios.post('http://localhost:8080/api/si', payload);
-            alert('Khai báo SI thành công');
+            if (dialogTitle === 'Khai báo SI') {
+                await axios.post(`https://auth.g42.biz/api/si`, payload);
+                alert('Khai báo SI thành công');
+            } else if (dialogTitle === 'Chỉnh sửa SI') {
+                await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload);
+                alert('Cập nhật SI thành công');
+            }
             hideFormDialog();
             fetchSIData(); // Refresh SI data after submitting
         } catch (error) {
             console.error('Error submitting SI:', error);
-            alert('Khai báo SI thất bại');
+            alert('Khai báo/Cập nhật SI thất bại');
         }
     };
 
     const emptyDetail = (rowData) => {
-        return <Button icon="pi pi-check" text onClick={() => showDetails(rowData)}>Xem chi tiết</Button>;
+        return <Button text onClick={() => showDetails(rowData)}>👁️Xem chi tiết</Button>;
     };
 
     const si = (rowData) => {
         const existingSI = siData[rowData.id];
         return (
             <Button
-                icon="pi pi-check"
+
                 text
                 onClick={() => showFormDialog(rowData) }
             >
-                {existingSI ? 'Chỉnh sửa' : 'Khai báo'}
+                {existingSI ? '🔄️Chỉnh sửa' : 'ℹ️Khai báo'}
             </Button>
         );
     };
@@ -170,7 +179,7 @@ export default function Table({ SIs }) {
                 )}
             </Dialog>
 
-            <Dialog header="Khai báo SI" visible={isFormDialogVisible} style={{ width: '50vw' }} footer={formDialogFooter} onHide={hideFormDialog}>
+            <Dialog header={dialogTitle} visible={isFormDialogVisible} style={{ width: '50vw' }} footer={formDialogFooter} onHide={hideFormDialog}>
                 <div>
                     <h5>Thông tin SI</h5>
                     <div className="p-field">

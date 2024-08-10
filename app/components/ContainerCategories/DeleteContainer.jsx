@@ -10,14 +10,14 @@ export default function Delete({ container, fetchContainers }) {
     const toast = useRef(null);
 
     const accept = () => {
-        toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+        toast.current.show({ severity: 'info', summary: 'Xác nhận', detail: 'Bạn vừa chọn xóa kích thước container', life: 3000 });
 
         dele(container.id)  // Ensure this is the correct ID field
             .then(res => {
                 fetchContainers();
             })
             .catch(err => {
-                toast.current.show({ severity: 'warn', summary: 'Error', detail: 'Deletion failed', life: 3000 });
+                toast.current.show({ severity: 'warn', summary: 'Lỗi', detail: 'Không thể xóa bởi vì container đang dùng trong một chức năng khác', life: 3000 });
             });
     };
 

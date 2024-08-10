@@ -119,60 +119,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 </div>
 
             </div>{/* Box sẽ được đặt ở hàng thứ hai nếu sử dụng Grid Layout */}
-            <Box
-                className="layout-topbar-box" sx={{width: '100%', paddingLeft: '2rem',
-                bgcolor: 'primary.main',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                py: 1,
-                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-            }}
-            >
-                {['Home', 'Services & Information', 'Our Company', 'Online Business Suite'].map((link, index) => (
-                    <React.Fragment key={link}>
-                        <Link href={`#${link.toLowerCase().replace(/ /g, '-')}`} underline="none">
-                            <Button
-                                sx={{color: 'white', '&:hover': {
-                                        textDecoration: 'underline',
-                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                    },}}>
-                                {link}
-                            </Button>
-                        </Link>
-                        {index < 3 && (<Box component="span" sx={{height: '30px', width: '1px', bgcolor: 'white', mx: 2,}}/>
-                        )}
-                    </React.Fragment>
-                ))}
-                <div
-                    className="layout-topbar-second-right"
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginLeft: 'auto', // Đẩy div sang bên phải
-                        marginRight: '1%'  // Khoảng cách từ cạnh phải của màn hình
-                    }}
-                >
-                    <Box
-                        component="span"
-                        sx={{
-                            height: '30px',
-                            width: '1px',
-                            bgcolor: 'white',
-                            mx: 2,
-                        }}
-                    />
-                    <Select
-                        value="en" // Assuming 'en' is the default language
-                        // onChange={handleLanguageChange}
-                        sx={{color: 'white', '& .MuiSelect-icon': {color: 'white'}}}
-                    >
-                        <MenuItem value="en">English</MenuItem>
-                        <MenuItem value="vi">Tiếng Việt</MenuItem>
-                        <MenuItem value="fr">Français</MenuItem>
-                    </Select>
-                </div>
-            </Box>
+
 
         </div>
     );

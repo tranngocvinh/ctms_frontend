@@ -32,9 +32,10 @@ const AppMenu = () => {
                             icon: 'pi pi-fw pi-box',
                             items: [
                                 {label: 'Tạo tuyến', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduong'},
-                                {label: 'Container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
-                                {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
+                                {label: 'Tạo tàu', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tau'},
+                                {label: 'Loại container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
                                 {label: 'Tạo lịch trình', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/lichtrinh'},
+                                {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
                                 {
                                     label: 'Đơn vị sửa chữa container',
                                     icon: 'pi pi-fw pi-th-large',
@@ -57,19 +58,19 @@ const AppMenu = () => {
                             label: 'Thủ tục tài chính',
                             icon: 'pi pi-fw pi-sitemap',
                             items: [
-                                {label: 'Hạ Container', icon: 'pi pi-fw pi-download', to: '/uikit/haHang'},
-                                {label: 'Xuất Container lên tàu', icon: 'pi pi-fw pi-sign-in', to: '/uikit/xuatContlentau'},
-                                {label: 'Nhập Tàu', icon: 'pi pi-fw pi-plus-circle', to: '/uikit/nhapTau'},
-                                {label: 'Giao Hàng', icon: 'pi pi-fw pi-truck', to: '/uikit/giaoHang'},
-                                {label: 'Trả Cước Container', icon: 'pi pi-fw pi-globe', to: '/uikit/traCuocCont'},
-                                {label: 'Trả Rỗng chờ Vệ Sinh', icon: 'pi pi-fw pi-tag', to: '/uikit/traRongVeSinh'},
-                                {label: 'Tính Phí DEM/DET', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhphiDEM'},
-                                {
-                                    label: 'Tổng Hợp Phí D/O, Điện Lạnh, Vệ Sinh, Sửa Chữa',
-                                    icon: 'pi pi-fw pi-inbox',
-                                    to: '/uikit/tonghopPhi'
-                                }]
-                        },]
+                                {label: 'Tính phí DET', icon: 'pi pi-fw pi-tag', to: '/uikit/tinhphiDEM'},
+                                {label: 'Tính Phí DEM', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhphiDEM'},
+                               ]
+                        },
+
+                        {
+                            label: 'Quản lý tài khoản',
+                            icon: 'pi pi-fw pi-sitemap',
+                            items: [
+                                {label: 'Thêm/sửa/xóa người dùng', icon: 'pi pi-fw pi-tag', to: '/uikit/user'},
+                            ]
+                        }
+                        ]
                 }
 
             ];

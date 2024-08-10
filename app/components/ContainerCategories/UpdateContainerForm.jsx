@@ -29,7 +29,7 @@ const MyTextInput = ({ label, ...props }) => {
                 {...props}
             />
             {meta.touched && meta.error ? (
-                <Message severity="warn" text={meta.error} />
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
@@ -54,7 +54,7 @@ const FormikDropdown = ({ label, ...props }) => {
                 className="w-full md:w-14rem"
             />
             {meta.touched && meta.error ? (
-                <div className="error">{meta.error}</div>
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
@@ -69,8 +69,8 @@ const containertype = [
 
 const CreateSupplierForm = ({ fetchContainers, container }) => {
     const initialValues = {
-        id: container?.id || '',
-        containerTypeId: container?.containerTypeId || '',
+        id:container?.id || '',
+        containerType:{id:  container?.containerType.id || ''},
         length: container?.length || '',
         width: container?.width || '',
         height: container?.height || '',
@@ -86,7 +86,9 @@ const CreateSupplierForm = ({ fetchContainers, container }) => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={Yup.object({
-                        containerTypeId: Yup.number().required('Không được để trống'),
+                        containerType: Yup.object().shape({
+                            id: Yup.string().required('Vui lòng chọn loại container')
+                        }),
                         length: Yup.number().required('Không được để trống'),
                         width: Yup.number().required('Không được để trống'),
                         height: Yup.number().required('Không được để trống'),
@@ -108,7 +110,7 @@ const CreateSupplierForm = ({ fetchContainers, container }) => {
                 >
                     <Form className="p-fluid p-formgrid p-grid">
                         <FormikDropdown
-                            name="containerTypeId"
+                            name="containerType.id"
                             options={containertype}
                             optionLabel="name"
                             placeholder="Chọn loại container"

@@ -10,6 +10,7 @@ import axios from 'axios';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
+import {InputText} from "primereact/inputtext";
 
 export default function Table({ SI, fetchSI }) {
     const [selectedSI, setSelectedSI] = useState(null);
@@ -19,22 +20,56 @@ export default function Table({ SI, fetchSI }) {
     const [status] = useState('PENDING');
     const [detFee, setDetFee] = useState(0);
     const [ports, setPorts] = useState([]);
+    const [cargoTypes, setCargoTypes] = useState([]); // Add state for cargo types
+    const [dialogTitle, setDialogTitle] = useState('Phát hành lệnh hạ hàng');
+    const [dropOrderId, setDropOrderId] = useState(null);
+    const [buttonLabel, setButtonLabel] = useState('Phát hành');
+    const [dropOrder, setDropOrder] = useState({});
 
     useEffect(() => {
         fetchPorts();
+        fetchSIData();
+        fetchCargoTypes(); // Fetch cargo types
     }, []);
 
     useEffect(() => {
         calculateDetFee();
     }, [dropDate]);
 
+    const fetchSIData = async () => {
+        try {
+            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`);
+            const dropOrderIdMap = {};
+            response.data.forEach(si => {
+                dropOrderIdMap[si.si] = si;
+            });
+            setDropOrder(dropOrderIdMap);
+        } catch (error) {
+            console.error('Error fetching SI data:', error);
+        }
+    };
+
     const fetchPorts = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/ports');
+            const response = await axios.get(`https://auth.g42.biz/api/ports`);
             setPorts(response.data);
         } catch (error) {
             console.error('Error fetching ports:', error);
         }
+    };
+
+    const fetchCargoTypes = async () => {
+        try {
+            const response = await axios.get(`https://auth.g42.biz/api/cargo-types`);
+            setCargoTypes(response.data);
+        } catch (error) {
+            console.error('Error fetching cargo types:', error);
+        }
+    };
+
+    const getCargoTypeName = (cargoTypeId) => {
+        const cargoType = cargoTypes.find(type => type.id === cargoTypeId);
+        return cargoType ? cargoType.name : 'Unknown';
     };
 
     const calculateDetFee = () => {
@@ -49,10 +84,30 @@ export default function Table({ SI, fetchSI }) {
         }
     };
 
-    const showFormDialog = (si) => {
+    const showFormDialog = async (si) => {
         setSelectedSI(si);
         setDropDate(null);
         setDropLocation(null);
+        setDropOrderId(null);
+
+        try {
+            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`);
+            const existingOrder = response.data.find(order => order.si === si.id);
+
+            if (existingOrder) {
+                setDropDate(new Date(existingOrder.dropDate));
+                setDropLocation(ports.find(port => port.portName === existingOrder.dropLocation));
+                setDropOrderId(existingOrder.id);
+                setDialogTitle('Chỉnh sửa lệnh hạ hàng');
+                setButtonLabel('Chỉnh sửa');
+            } else {
+                setDialogTitle('Phát hành lệnh hạ hàng');
+                setButtonLabel('Phát hành');
+            }
+        } catch (error) {
+            console.error('Error fetching drop orders:', error);
+        }
+
         setIsDialogVisible(true);
     };
 
@@ -63,15 +118,20 @@ export default function Table({ SI, fetchSI }) {
 
     const submitDropOrder = async () => {
         const payload = {
-            si: selectedSI.id,  // Use SI id
+            si: selectedSI.id,
             dropDate: dropDate.toISOString(),
             dropLocation: dropLocation.portName,
             status
         };
 
         try {
-            await axios.post('http://localhost:8080/api/drop-orders', payload);
-            alert('Lệnh hạ hàng thành công');
+            if (dialogTitle === 'Chỉnh sửa lệnh hạ hàng') {
+                await axios.put(`https://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload);
+                alert('Cập nhật lệnh hạ hàng thành công');
+            } else {
+                await axios.post(`https://auth.g42.biz/api/drop-orders`, payload);
+                alert('Phát hành lệnh hạ hàng thành công');
+            }
             hideFormDialog();
             fetchSI(); // Refresh SI data after submitting
         } catch (error) {
@@ -81,21 +141,47 @@ export default function Table({ SI, fetchSI }) {
     };
 
     const issueDropOrder = (rowData) => {
-        return <Button icon="pi pi-check" text onClick={() => showFormDialog(rowData)}>Phát hành</Button>;
+        return (
+            <Button text onClick={() => showFormDialog(rowData)}>
+                {dropOrder[rowData.id] ? '🔄️Chỉnh sửa' : '📤Phát hành'}
+            </Button>
+        );
     };
 
     const dialogFooter = (
         <div>
             <Button label="Cancel" icon="pi pi-times" onClick={hideFormDialog} className="p-button-text" />
-            <Button label="Submit" icon="pi pi-check" onClick={submitDropOrder} autoFocus />
+            <Button label={buttonLabel} icon="pi pi-check" onClick={submitDropOrder} autoFocus />
         </div>
     );
 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
-            <span className="text-xl text-900 font-bold">Phát hành lệnh hạ hàng </span>
+            <span className="text-xl text-900 font-bold">Phát hành lệnh hạ hàng</span>
         </div>
     );
+
+    const cargoType = (rowData) => {
+        return getCargoTypeName(rowData.cargoTypeId);
+    };
+
+    const cargoWeight = (rowData) => {
+        return (<div style={{ display: 'flex', alignItems: 'center' }}>
+            <InputText type="text" value={rowData.cargoWeight} readOnly
+                       style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
+            <span style={{ color: 'coral' }}>kg</span>
+        </div>)
+    }
+
+    const cargoVolume = (rowData) =>{
+        return(
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <InputText type="text" value={rowData.cargoVolume} readOnly
+                           style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
+                <span style={{ color: 'coral' }}>m³</span>
+            </div>
+        );
+    }
 
     const footer = `Có ${SI ? SI.length : 0} đơn SI cần được phát lệnh hạ hàng`;
 
@@ -103,18 +189,18 @@ export default function Table({ SI, fetchSI }) {
         <div className="card">
             <DataTable value={SI} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }}>
                 <Column field="id" header="ID SI"></Column>
-                <Column field="cargoTypeId" header="ID loại hàng"></Column>
-                <Column field="cargoWeight" header="Trọng lượng hàng"></Column>
-                <Column field="cargoVolume" header="Thể tích hàng"></Column>
+                <Column header="Loaị hàng" body={cargoType}></Column>
+                <Column field="cargoWeight" header="Trọng lượng hàng" body={cargoWeight}></Column>
+                <Column field="cargoVolume" header="Thể tích hàng" body={cargoVolume}></Column>
                 <Column header="Phát hành lệnh hạ hàng" body={issueDropOrder}></Column>
             </DataTable>
 
-            <Dialog header="Phát hành lệnh hạ hàng" visible={isDialogVisible} style={{ width: '50vw' }} footer={dialogFooter} onHide={hideFormDialog}>
+            <Dialog header={dialogTitle} visible={isDialogVisible} style={{ width: '50vw' }} footer={dialogFooter} onHide={hideFormDialog}>
                 {selectedSI && (
                     <div>
                         <h5>Thông tin chi tiết Container:</h5>
                         <p>ID SI: {selectedSI.id}</p>
-                        <p>Loại hàng: {selectedSI.cargoTypeId}</p>
+                        <p>Loại hàng: {getCargoTypeName(selectedSI.cargoTypeId)}</p>
                         <p>Trọng lượng hàng: {selectedSI.cargoWeight} kg</p>
                         <p>Thể tích hàng: {selectedSI.cargoVolume} m³</p>
                         <p>Phí DET: {detFee} VND</p>
