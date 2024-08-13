@@ -6,15 +6,15 @@ interface AppLayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: 'PrimeReact Sakai',
-    description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.',
+    title: 'Hệ thống quản lý containers - VIMC',
+    description: 'Quản lý xuất nhập container, tuyến tàu, sản phẩm của nhóm đồ án G42',
     robots: { index: false, follow: false },
     viewport: { initialScale: 1, width: 'device-width' },
     openGraph: {
         type: 'website',
-        title: 'React SAKAI-REACT',
-        url: 'https://sakai.primereact.org/',
-        description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.',
+        title: 'Hệ thống quản lý containers - VIMC',
+        url: 'https://g42.biz/',
+        description: 'Quản lý xuất nhập container, tuyến tàu, sản phẩm của nhóm đồ án G42',
         images: ['https://www.primefaces.org/static/social/sakai-react.png'],
         ttl: 604800
     },
