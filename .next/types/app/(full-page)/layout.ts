@@ -1,4 +1,4 @@
-// File: C:\Users\Admin\AndroidStudioProjects\ctms_frontend\app\(full-page)\layout.tsx
+// File: C:\Users\admin\WebstormProjects\ctms_frontend\app\(full-page)\layout.tsx
 import * as entry from '../../../../app/(full-page)/layout.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
