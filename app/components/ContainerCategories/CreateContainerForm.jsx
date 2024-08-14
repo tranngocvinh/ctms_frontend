@@ -94,7 +94,7 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                         maxLoad: blankError,
                     })}
                     onSubmit={(values, { setSubmitting }) => {
-                        add(values).then(res => {
+                        add({route: values}).then(res => {
                             fetchContainers();
                         }).catch(err => {
                             console.log(err);
@@ -105,6 +105,7 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                     }}
                 >
                     {({ values, setFieldValue }) => {
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             if (values.length && values.width && values.height) {
                                 const volume = values.length * values.width * values.height;

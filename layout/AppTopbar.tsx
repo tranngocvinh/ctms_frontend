@@ -1,14 +1,18 @@
-import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { AppTopbarRef } from '@/types';
 import { LayoutContext } from './context/layoutcontext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import _default from "chart.js/dist/core/core.interaction";
 import SearchIcon from "@mui/icons-material/Search";
 import { InputBase, MenuItem, Select } from "@mui/material";
 import { useRouter } from 'next/navigation';
+import {classNames} from "primereact/utils";
+
+interface User {
+    roles: string[]; // Adjust based on your actual roles structure
+    // Add other properties as needed
+}
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
@@ -16,7 +20,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const topbarmenuRef = useRef<HTMLDivElement>(null);
     const topbarmenubuttonRef = useRef<HTMLButtonElement>(null);
     const [showMenu, setShowMenu] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -38,7 +42,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('user');
         setUser(null);
-        router.push('/auth/login')
+        router.push('/auth/login');
         console.log('User logged out');
         closeMenu();
     };
@@ -105,7 +109,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {user ? (
                             <div>
-                                <span>{user.roles}</span>
+                                <span>{user.roles.join(', ')}</span> {/* Assuming roles is an array */}
                                 <Button variant="contained" color="warning" onClick={handleLogout} sx={{boxShadow: 'none', borderRadius: 2, ml: 2 }}>
                                     Log Out
                                 </Button>
@@ -117,10 +121,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         )}
                     </Box>
                 </div>
-
             </div>{/* Box sẽ được đặt ở hàng thứ hai nếu sử dụng Grid Layout */}
-
-
         </div>
     );
 });
