@@ -1,5 +1,0 @@
-{
-  "/(main)/page": "app/(main)/page.js",
-  "/(main)/uikit/tinhphiDEM/page": "app/(main)/uikit/tinhphiDEM/page.js",
-  "/(main)/uikit/user/page": "app/(main)/uikit/user/page.js"
-}
