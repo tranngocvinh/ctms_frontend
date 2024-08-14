@@ -11,7 +11,7 @@ import { Message } from 'primereact/message';
 import { Button } from 'primereact/button';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { update } from 'app/api/container';
+import { update } from '/app/api/container';
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);

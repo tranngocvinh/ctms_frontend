@@ -97,7 +97,7 @@ import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -132,7 +132,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 import Layout from "../../layout/layout";
 
 interface MainLayoutProps {
-  children: React.ReactNode;
+  React.ReactNode;
 }
 
 export const metadata: Metadata = {
@@ -157,7 +157,7 @@ import AppConfig from "../../layout/AppConfig";
 import React from "react";
 
 interface FullPageLayoutProps {
-  children: React.ReactNode;
+  React.ReactNode;
 }
 
 export const metadata: Metadata = {
@@ -225,9 +225,9 @@ export const LayoutProvider = (props) => {
                             <code>
                                 {`
 /* General */
-$scale:14px;                    /* initial font size */ 
-$borderRadius:12px;             /* border radius of layout element e.g. card, sidebar */ 
-$transitionDuration:.2s;        /* transition duration of layout elements e.g. sidebar */ 
+$scale:14px;                    /* initial font size */
+$borderRadius:12px;             /* border radius of layout element e.g. card, sidebar */
+$transitionDuration:.2s;        /* transition duration of layout elements e.g. sidebar */
 `}
                             </code>
                         </pre>

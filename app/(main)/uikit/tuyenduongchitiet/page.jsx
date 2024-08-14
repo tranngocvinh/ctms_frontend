@@ -7,7 +7,7 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import {getRoute} from "../../../api/route";
-import Table from "app/components/RouteDetail/dataTable";
+import Table from "/app/components/RouteDetail/dataTable";
 
 export default function TemplateDemo() {
     const [routes,setRoutes] = useState([])

@@ -8,7 +8,8 @@ import { Message } from 'primereact/message';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { update } from "../../api/container_size";
-
+import ErrorGlobal from "../error_message_global";
+import './update_cont_form.css';
 const MyTextInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);
@@ -89,13 +90,13 @@ const CreateSupplierForm = ({ fetchContainers, container }) => {
                         containerType: Yup.object().shape({
                             id: Yup.string().required('Vui lòng chọn loại container')
                         }),
-                        length: Yup.number().required('Không được để trống'),
-                        width: Yup.number().required('Không được để trống'),
-                        height: Yup.number().required('Không được để trống'),
-                        volume: Yup.number().required('Không được để trống'),
-                        weight: Yup.number().required('Không được để trống'),
-                        loadCapacity: Yup.number().required('Không được để trống'),
-                        maxLoad: Yup.number().required('Không được để trống'),
+                        length: Yup.number().required(ErrorGlobal.blankError),
+                        width: Yup.number().required(ErrorGlobal.blankError),
+                        height: Yup.number().required(ErrorGlobal.blankError),
+                        volume: Yup.number().required(ErrorGlobal.blankError),
+                        weight: Yup.number().required(ErrorGlobal.blankError),
+                        loadCapacity: Yup.number().required(ErrorGlobal.blankError),
+                        maxLoad: Yup.number().required(ErrorGlobal.blankError),
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                         update(values.id, values).then(res => {

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         title: 'Hệ thống quản lý containers - VIMC',
         url: 'https://g42.biz/',
         description: 'Quản lý xuất nhập container, tuyến tàu, sản phẩm của nhóm đồ án G42',
-        images: ['https://www.primefaces.org/static/social/sakai-react.png'],
+        images: [''],
         ttl: 604800
     },
     icons: {

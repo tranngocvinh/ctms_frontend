@@ -11,7 +11,7 @@ import axios from 'axios';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-
+import './custom_si_style.css';
 export default function Table({ SIs }) {
     const [selectedSI, setSelectedSI] = useState(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
@@ -147,13 +147,13 @@ export default function Table({ SIs }) {
             <ul>
                 {details.map((detail, index) => (
                     <li key={index}>
-                        <p>Loại container: {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p>
-                        <p>Kích thước: {detail.containerSize.length}m x {detail.containerSize.width}m x {detail.containerSize.height}m</p>
-                        <p>Thể tích: {detail.containerSize.volume}m³</p>
-                        <p>Cân nặng: {detail.containerSize.weight}kg</p>
-                        <p>Tải trọng: {detail.containerSize.loadCapacity}kg</p>
-                        <p>Tải trọng tối đa: {detail.containerSize.maxLoad}kg</p>
-                        <p>Số lượng: {detail.quantity}</p>
+                        <p>Loại container: <span>{detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</span></p>
+                        <p>Kích thước: <span>{detail.containerSize.length}m x {detail.containerSize.width}m x {detail.containerSize.height}m</span></p>
+                        <p>Thể tích: <span>{detail.containerSize.volume}m³</span></p>
+                        <p>Cân nặng: <span>{detail.containerSize.weight}kg</span></p>
+                        <p>Tải trọng: <span>{detail.containerSize.loadCapacity}kg</span></p>
+                        <p>Tải trọng tối đa: <span>{detail.containerSize.maxLoad}kg</span></p>
+                        <p>Số lượng: <span>{detail.quantity}</span></p>
                     </li>
                 ))}
             </ul>

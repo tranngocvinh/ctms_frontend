@@ -1,20 +1,11 @@
 "use client"
-import React, {useRef, useState} from 'react';
-import ReactDOM from 'react-dom';
-import {Formik, Form, useField,useFormikContext } from 'formik';
+import React, { useEffect } from 'react';
+import { Formik, Form, useField, useFormikContext } from 'formik';
 import * as Yup from 'yup';
-import {InputText} from 'primereact/inputtext';
-import {InputTextarea} from 'primereact/inputtextarea';
-import {Button} from 'primereact/button';
-import {Message} from 'primereact/message';
-import {FileUpload} from 'primereact/fileupload';
-import 'primeflex/primeflex.css';
-import {Toast} from 'primereact/toast';
-import {uploadImage} from "../../api/container_supplier";
-import SeverityDemo from "./Toast";
-import {Dropdown} from "primereact/dropdown";
-import {InputNumber} from "primereact/inputnumber";
-import {add} from "../../api/container_size";
+import { InputNumber } from 'primereact/inputnumber';
+import { Button } from 'primereact/button';
+import { Dropdown } from "primereact/dropdown";
+import ErrorGlobal from "../error_message_global";
 
 const MyTextInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
@@ -31,7 +22,6 @@ const MyTextInput = ({ label, ...props }) => {
                 id={props.id || props.name}
                 value={field.value}
                 onValueChange={handleChange}
-                inputId="locale-user"
                 minFractionDigits={2}
                 {...props}
             />
@@ -41,8 +31,6 @@ const MyTextInput = ({ label, ...props }) => {
         </div>
     );
 };
-
-
 
 const FormikDropdown = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
@@ -68,22 +56,22 @@ const FormikDropdown = ({ label, ...props }) => {
         </div>
     );
 };
+
 const containertype = [
     { name: 'Thường 20 feet', containerTypeId: 1 },
     { name: 'Thường 40 feet', containerTypeId: 2 },
     { name: 'Đông lạnh 20 feet', containerTypeId: 3 },
     { name: 'Đông lạnh 40 feet', containerTypeId: 4 },
-
 ];
-//check test
-const CreateSupplierForm = ({ fetchContainers }) => {
 
+const CreateSupplierForm = ({ fetchContainers }) => {
+    const blankError = Yup.number().required(ErrorGlobal.blankError);
     return (
         <div className="p-grid p-justify-center p-align-center">
             <div className="p-col-12 p-md-8">
                 <Formik
                     initialValues={{
-                        containerType: {id: ''} ,
+                        containerType: { id: '' },
                         length: '',
                         width: '',
                         height: '',
@@ -92,83 +80,90 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                         loadCapacity: '',
                         maxLoad: '',
                     }}
+
                     validationSchema={Yup.object({
                         containerType: Yup.object().shape({
                             id: Yup.string().required('Vui lòng chọn loại container')
                         }),
-                        length: Yup.number().required('Không được để trống'),
-                        width: Yup.number().required('Không được để trống'),
-                        height: Yup.number().required('Không được để trống'),
-                        volume: Yup.number().required('Không được để trống'),
-                        weight: Yup.number().required('Không được để trống'),
-                        loadCapacity: Yup.number().required('Không được để trống'),
-                        maxLoad: Yup.number().required('Không được để trống'),
+                        length: blankError,
+                        width: blankError,
+                        height: blankError,
+                        volume: blankError,
+                        weight: blankError,
+                        loadCapacity: blankError,
+                        maxLoad: blankError,
                     })}
-                    onSubmit={(values, {setSubmitting}) => {
-
+                    onSubmit={(values, { setSubmitting }) => {
                         add(values).then(res => {
-
                             fetchContainers();
-
-
                         }).catch(err => {
-                            console.log(err)
+                            console.log(err);
                         }).finally(() => {
-                            console.log("finish")
-
-                        })
+                            console.log("finish");
+                        });
                         setSubmitting(false);
-
                     }}
                 >
-                    <Form className="p-fluid p-formgrid p-grid">
-                        <FormikDropdown
-                            name="containerType.id"
-                            options={containertype}
-                            optionLabel="name"
-                            placeholder="Chọn loại container"
-                            className="w-full md:w-14rem"
-                            label="Loại container"
-                        />
-                        <MyTextInput
-                            label="Chiều dài"
-                            name="length"
-                            type="text"
-                        />
-                        <MyTextInput
-                            label="Chiều rộng"
-                            name="width"
-                            type="text"
-                        />
-                        <MyTextInput
-                            label="Chiều cao"
-                            name="height"
-                            type="text"
-                        />
-                        <MyTextInput
-                            label="Thể tích"
-                            name="volume"
-                            type="text"
-                        />
-                        <MyTextInput
-                            label="Cân nặng"
-                            name="weight"
-                            type="text"
-                        />
-                        <MyTextInput
-                            label="Tải trọng chứa hàng"
-                            name="loadCapacity"
-                            type="text"
-                        />
-                        <MyTextInput
-                            label="Tải trọng tối đa"
-                            name="maxLoad"
-                            type="text"
-                        />
-                        <div className="p-col-12">
-                            <Button type="submit" label="Submit" className="p-button-primary" />
-                        </div>
-                    </Form>
+                    {({ values, setFieldValue }) => {
+                        useEffect(() => {
+                            if (values.length && values.width && values.height) {
+                                const volume = values.length * values.width * values.height;
+                                setFieldValue('volume', volume);
+                            }
+                        }, [values.length, values.width, values.height, setFieldValue]);
+
+                        return (
+                            <Form className="p-fluid p-formgrid p-grid">
+                                <FormikDropdown
+                                    name="containerType.id"
+                                    options={containertype}
+                                    optionLabel="name"
+                                    placeholder="Chọn loại container"
+                                    className="w-full md:w-14rem"
+                                    label="Loại container"
+                                />
+                                <MyTextInput
+                                    label="Chiều dài"
+                                    name="length"
+                                    type="text"
+                                />
+                                <MyTextInput
+                                    label="Chiều rộng"
+                                    name="width"
+                                    type="text"
+                                />
+                                <MyTextInput
+                                    label="Chiều cao"
+                                    name="height"
+                                    type="text"
+                                />
+                                <MyTextInput
+                                    label="Thể tích"
+                                    name="volume"
+                                    type="text"
+                                    disabled
+                                />
+                                <MyTextInput
+                                    label="Cân nặng"
+                                    name="weight"
+                                    type="text"
+                                />
+                                <MyTextInput
+                                    label="Tải trọng chứa hàng"
+                                    name="loadCapacity"
+                                    type="text"
+                                />
+                                <MyTextInput
+                                    label="Tải trọng tối đa"
+                                    name="maxLoad"
+                                    type="text"
+                                />
+                                <div className="p-col-12">
+                                    <Button type="submit" label="Submit" className="p-button-primary" />
+                                </div>
+                            </Form>
+                        );
+                    }}
                 </Formik>
             </div>
         </div>
