@@ -5,19 +5,17 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
 import 'leaflet/dist/leaflet.css';
-import { add } from "/app/api/route";
-import MapComponent from "../../../components/Route/MapComponent";
-import axios from "axios";
+import axios from 'axios';
 import '/app/custom-autocomplete.css'
-import { AutoComplete } from "primereact/autocomplete";
+import { AutoComplete } from 'primereact/autocomplete';
 import { Formik, Form, FieldArray, useField } from 'formik';
-import { InputText } from "primereact/inputtext";
-import { Message } from "primereact/message";
-import { InputTextarea } from "primereact/inputtextarea";
-import * as Yup from "yup";
-import { Button } from "primereact/button";
-import ErrorGlobal from "../../../components/error_message_global";
+import * as Yup from 'yup';
+import { Button } from 'primereact/button';
+import ErrorGlobal from '/app/components/error_message_global';
+import dynamic from 'next/dynamic';
 
+// Dynamically import MapComponent with ssr: false to avoid server-side rendering
+const MapComponent = dynamic(() => import('/app/components/Route/MapComponent'), { ssr: false });
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -25,9 +23,10 @@ const MyTextInput = ({ label, ...props }) => {
     return (
         <div className="field col-12 md:col-6">
             <label htmlFor={props.id || props.name}>{label}</label>
-            <input type="text"
-                   className="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                   id={props.id || props.name} {...field} {...props} />
+            <input
+                type="text"
+                className="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                id={props.id || props.name} {...field} {...props} />
             {meta.touched && meta.error ? (
                 <small className="p-error">{meta.error}</small>
             ) : null}
@@ -41,9 +40,10 @@ const MyTextInputArea = ({ label, ...props }) => {
     return (
         <div className="field col-12">
             <label htmlFor={props.id || props.name}>{label}</label>
-            <textarea type="text" rows="4"
-                      className="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                      id={props.id || props.name} {...field} {...props} />
+            <textarea
+                rows="4"
+                className="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                id={props.id || props.name} {...field} {...props} />
             {meta.touched && meta.error ? (
                 <small className="p-error">{meta.error}</small>
             ) : null}
@@ -191,7 +191,7 @@ const App = () => {
                             ...values,
                             waypoints
                         };
-                        add(dataToSend)
+                        add({ route: dataToSend })
                             .then(res => {
                                 alert(res.data);
                             })
@@ -208,6 +208,7 @@ const App = () => {
                             <div className="grid nested-grid">
                                 <div className="col-8">
                                     <div className="p-col-12">
+                                        {/* Use dynamic MapComponent */}
                                         <MapComponent
                                             waypoints={waypoints.filter(wp => wp.lat !== null && wp.lon !== null)}
                                             routeSegments={routeSegments}

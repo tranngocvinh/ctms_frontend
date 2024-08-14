@@ -1,12 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import {getRoute} from "../../../api/route";
+import {getRoutes} from "/app/api/routes";
 import Table from "/app/components/RouteDetail/dataTable";
 
 export default function TemplateDemo() {
@@ -16,7 +11,7 @@ export default function TemplateDemo() {
     const fetchRoutes = () =>{
         setLoading(true);
 
-        getRoute().then(res => {
+        getRoutes().then(res => {
             setRoutes(res.data)
         }).catch(err => {
             console.log(err);
