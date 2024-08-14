@@ -12,9 +12,9 @@ import {Dialog} from 'primereact/dialog';
 import {Card} from 'primereact/card';
 import * as Yup from 'yup';
 import axios from 'axios';
-import {allocateContainersToPort, allocateContainersToShip} from 'app/api/container'; // replace with your actual import
+import {allocateContainersToPort, allocateContainersToShip} from '/app/api/container';
 import jsPDF from 'jspdf';
-import 'app/components/AllocateEmptyContainersForm.css';
+import '/app/components/AllocateEmptyContainersForm.css';
 
 const MyTextInput = ({label, ...props}) => {
     const [field, meta] = useField(props);

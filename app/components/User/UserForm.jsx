@@ -4,7 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import jwtDecode from 'jwt-decode';
-
+import './custom_user.css';
 export default function UserForm({ user, onSave, onCancel }) {
     const [name, setName] = useState(user ? user.name : '');
     const [email, setEmail] = useState(user ? user.email : '');
@@ -50,8 +50,8 @@ export default function UserForm({ user, onSave, onCancel }) {
                 />
             </div>
             <div className="p-grid p-justify-end">
-                <Button label="Cancel" icon="pi pi-times" onClick={onCancel} className="p-button-text" />
                 <Button label="Save" icon="pi pi-check" onClick={saveUser} />
+                <Button label="Cancel" icon="pi pi-times" onClick={onCancel} className="p-button-text" />
             </div>
         </div>
     );

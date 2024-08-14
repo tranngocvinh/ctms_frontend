@@ -5,10 +5,10 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
 import 'leaflet/dist/leaflet.css';
-import { add } from "app/api/route";
+import { add } from "/app/api/route";
 import MapComponent from "../../../components/Route/MapComponent";
 import axios from "axios";
-import 'app/custom-autocomplete.css'
+import '/app/custom-autocomplete.css'
 import { AutoComplete } from "primereact/autocomplete";
 import { Formik, Form, FieldArray, useField } from 'formik';
 import { InputText } from "primereact/inputtext";
@@ -16,6 +16,8 @@ import { Message } from "primereact/message";
 import { InputTextarea } from "primereact/inputtextarea";
 import * as Yup from "yup";
 import { Button } from "primereact/button";
+import ErrorGlobal from "../../../components/error_message_global";
+
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -172,15 +174,15 @@ const App = () => {
                     }}
                     validationSchema={Yup.object({
                         name: Yup.string().required('Vui lòng nhập tên tuyến'),
-                        estimatedTime: Yup.number().required('Vui lòng nhập thời gian ước tính'),
-                        description: Yup.string().min(10, 'Vui lòng nhập mô tả có độ dài lớn hơn 10 kí tự').required('Không được để trống'),
-                        distance: Yup.number().required('Không được để trống'),
-                        status: Yup.string().required('Không được để trống'),
+                        estimatedTime: Yup.number().required('Vui lòng nhập thời gian ước tính').typeError('Khoảng cách phải là một số'),
+                        description: Yup.string().min(10, 'Vui lòng nhập mô tả có độ dài lớn hơn 10 kí tự').required(ErrorGlobal.blankError),
+                        distance: Yup.number().required(ErrorGlobal.blankError).typeError('Khoảng cách phải là một số'),
+                        status: Yup.string().required(ErrorGlobal.blankError),
                         waypoints: Yup.array().of(
                             Yup.object().shape({
-                                portName: Yup.string().required('Không được để trống'),
-                                lat: Yup.number().nullable().required('Không được để trống'),
-                                lon: Yup.number().nullable().required('Không được để trống')
+                                portName: Yup.string().required(ErrorGlobal.blankError),
+                                lat: Yup.number().nullable().required(ErrorGlobal.blankError),
+                                lon: Yup.number().nullable().required(ErrorGlobal.blankError)
                             })
                         ).min(2, 'Cần ít nhất 2 điểm dừng')
                     })}

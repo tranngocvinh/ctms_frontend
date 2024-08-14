@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
 import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
@@ -13,120 +13,94 @@ import Delete from "./DeleteContainer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
 
 export default function Table({ containers, fetchContainers }) {
-    const [filters, setFilters] = useState({
-        containerTypeType: '',
-        containerTypeName: '',
-        length: '',
-        width: '',
-        height: '',
-        volume: '',
-        weight: '',
-        loadCapacity: '',
-        maxLoad: ''
-    });
+    const [searchType, setSearchType] = useState('containerTypeType');
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const onFilterChange = (e, field) => {
-        const value = e.target.value;
-        setFilters({ ...filters, [field]: value });
+    const searchTypes = [
+        { label: 'Loại', value: 'containerTypeType' },
+        { label: 'Kích thước', value: 'containerTypeName' },
+        { label: 'Dài', value: 'length' },
+        { label: 'Rộng', value: 'width' },
+        { label: 'Cao', value: 'height' },
+        { label: 'Thể tích', value: 'volume' },
+        { label: 'Cân nặng', value: 'weight' },
+        { label: 'Tải trọng chứa hàng', value: 'loadCapacity' },
+        { label: 'Tải trọng tối đa', value: 'maxLoad' }
+    ];
+
+    const filteredContainers = useMemo(() => {
+        if (!searchQuery) return containers;
+
+        return containers.filter(container => {
+            let fieldValue = '';
+            if (searchType === 'containerTypeType') {
+                fieldValue = container.containerType?.type || '';
+            } else if (searchType === 'containerTypeName') {
+                fieldValue = container.containerType?.name || '';
+            } else {
+                fieldValue = container[searchType] || '';
+            }
+            return fieldValue.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [searchType, searchQuery, containers]);
+    const spanValueStyle = {
+        width: '90px',
+        height: '30px',
+        textAlign: 'center'
     };
+    const containerType_type = (rowData) => (
+        <span style={spanValueStyle}>{rowData.containerType.type === "Normal" ? "Thường" : "Đông lạnh"}</span>
+    );
 
-    const filteredContainers = containers.filter(container => {
-        return (
-            container.containerType.type.toLowerCase().includes(filters.containerTypeType.toLowerCase()) &&
-            container.containerType.name.toLowerCase().includes(filters.containerTypeName.toLowerCase()) &&
-            container.length.toString().includes(filters.length) &&
-            container.width.toString().includes(filters.width) &&
-            container.height.toString().includes(filters.height) &&
-            container.volume.toString().includes(filters.volume) &&
-            container.weight.toString().includes(filters.weight) &&
-            container.loadCapacity.toString().includes(filters.loadCapacity) &&
-            container.maxLoad.toString().includes(filters.maxLoad)
-        );
-    });
+    const containerType_name = (rowData) => (
+        <span style={spanValueStyle}>{rowData.containerType.name}</span>
+    );
 
-    const containerType_type = (rowData) => {
-        return (
-            <InputText type="text" value={rowData.containerType.type === "Normal" ? "Thường" : "Đông lạnh"} readOnly
-                       style={{ width: '90px', height: '30px', borderRadius: '15px' }} />
-        );
-    };
+    const wid = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'left'}}>
+            <span style={spanValueStyle}>{rowData.width}</span>
+            <span style={{color: 'coral'}}>m</span>
+        </div>
+);
 
-    const containerType_name = (rowData) => {
-        return (
-            <InputText type="text" value={rowData.containerType.name} readOnly
-                       style={{ width: '80px', height: '30px', borderRadius: '15px' }} />
-        );
-    };
+const leng = (rowData) => (
+    <div style={{display: 'flex', alignItems: 'center'}}>
+        <span style={spanValueStyle}>{rowData.length}</span><span style={{color: 'coral'}}>m</span>
+    </div>
+);
 
-    const wid = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.width} readOnly
-                           style={{ width: '55px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>m</span>
-            </div>
-        );
-    };
+    const hei = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.height}</span>
+            <span style={{color: 'coral'}}>m</span>
+        </div>
+    );
 
-    const leng = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.length} readOnly
-                           style={{ width: '55px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>m</span>
-            </div>
-        );
-    };
+    const vol = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.volume}</span><span style={{color: 'coral'}}>m³</span>
+        </div>
+    );
 
-    const hei = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.height} readOnly
-                           style={{ width: '55px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>m</span>
-            </div>
-        );
-    };
+    const wei = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.weight}</span><span style={{color: 'coral'}}>kg</span>
+        </div>
+    );
 
-    const vol = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.volume} readOnly
-                           style={{ width: '60px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>m³</span>
-            </div>
-        );
-    };
+    const maxLoad = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.maxLoad}</span>
+            <span style={{color: 'coral'}}>kg</span>
+        </div>
+    );
 
-    const wei = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.weight} readOnly
-                           style={{ width: '65px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>kg</span>
-            </div>
-        );
-    };
-
-    const maxLoad = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.maxLoad} readOnly
-                           style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>kg</span>
-            </div>
-        );
-    };
-
-    const loadCapacity = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.loadCapacity} readOnly
-                           style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>kg</span>
-            </div>
-        );
-    };
+    const loadCapacity = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.loadCapacity}</span>
+            <span style={{color: 'coral'}}>kg</span>
+        </div>
+    );
 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
@@ -135,38 +109,44 @@ export default function Table({ containers, fetchContainers }) {
         </div>
     );
 
-    const renderHeaderWithIcon = (icon, title, filterKey, placeholder) => {
-        return (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className={`pi ${icon}`} style={{ marginRight: '5px' }}></i>
-                    {title}
-                </div>
-                <InputText
-                    value={filters[filterKey]}
-                    onChange={(e) => onFilterChange(e, filterKey)}
-                    style={{ marginTop: '5px', width: '100%' }}
-                    placeholder={placeholder}
-                />
+    const renderHeaderWithIcon = (icon, title, filterKey, placeholder) => (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <i className={`pi ${icon}`} style={{ marginRight: '5px' }}></i>
+                {title}
             </div>
-        );
-    };
+        </div>
+    );
 
-    const ActionButtons = (rowData) => {
-        return (
-            <div className="flex flex-wrap justify-content-center gap-1">
-                <UpdateContainerDrawer
-                    container={rowData} fetchContainers={fetchContainers} label="Sửa" severity="info"
-                />
-                <Delete container={rowData} fetchContainers={fetchContainers}/>
-            </div>
-        );
-    };
+    const ActionButtons = (rowData) => (
+        <div className="flex flex-wrap justify-content-center gap-1">
+            <UpdateContainerDrawer
+                container={rowData} fetchContainers={fetchContainers} label="Sửa" severity="info"
+            />
+            <Delete container={rowData} fetchContainers={fetchContainers}/>
+        </div>
+    );
 
     const footer = `Có ${filteredContainers.length} loại container.`;
 
     return (
         <div className="card">
+            <div className="p-d-flex p-ai-center p-jc-between p-mb-2">
+                <Dropdown
+                    value={searchType}
+                    options={searchTypes}
+                    onChange={(e) => setSearchType(e.value)}
+                    optionLabel="label"
+                    placeholder="Chọn loại tìm kiếm"
+                    style={{ width: '200px', marginRight: '10px' }}
+                />
+                <InputText
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm"
+                    style={{ width: '300px' }}
+                />
+            </div>
             <DataTable value={filteredContainers} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }}>
                 <Column field="containerTypeType" header={renderHeaderWithIcon('pi pi-box', 'Loại', 'containerTypeType', 'Tìm kiếm')} body={containerType_type}></Column>
                 <Column field="containerTypeName" header={renderHeaderWithIcon('pi pi-arrows-alt', 'Kích thước', 'containerTypeName', 'Tìm kiếm')} body={containerType_name}></Column>
