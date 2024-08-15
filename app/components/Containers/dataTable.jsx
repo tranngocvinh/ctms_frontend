@@ -23,7 +23,6 @@ export const getSchedules = async (id) => {
         const response = await axios.get(`https://auth.g42.biz/api/schedules/${id}`);
         return response.data;
     } catch (e) {
-        console.error('Error fetching schedule details:', e);
         throw e;
     }
 };
@@ -39,7 +38,6 @@ export default function ContainerTable({ containers, fetchContainers }) {
             const data = await Promise.all(promises);
             setScheduleDetails(data);
         } catch (error) {
-            console.error('Error fetching schedule details:', error);
         }
     };
 
@@ -61,7 +59,7 @@ export default function ContainerTable({ containers, fetchContainers }) {
     const ActionButtons = (rowData) => {
         return (
             <div className="">
-                <Button label="Chi tiết" onClick={() => showDetailDialog(rowData)} />
+                <Button label="Chi tiết" onClick={() => showDetailDialog(rowData)} disabled={rowData.status !== 'In Transit'} />
                 <UpdateContainerDrawer
                     container={rowData} fetchContainers={fetchContainers} label="Sửa" severity="info"
                 />
@@ -137,7 +135,7 @@ export default function ContainerTable({ containers, fetchContainers }) {
             </DataTable>
 
             <Dialog header="Chi tiết Lịch trình" visible={displayDialog} style={{ width: '50vw' }} onHide={hideDetailDialog}>
-                {selectedContainer && scheduleDetails.length > 0 && (
+                {selectedContainer && scheduleDetails.length > 0 ? (
                     <div>
                         {scheduleDetails.map((detail, index) => (
                             <div key={index}>
@@ -154,6 +152,8 @@ export default function ContainerTable({ containers, fetchContainers }) {
                             </div>
                         ))}
                     </div>
+                ) : (
+                    <p>Container này hiện chưa có lịch trình</p>
                 )}
             </Dialog>
         </div>

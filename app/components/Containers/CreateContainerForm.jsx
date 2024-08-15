@@ -223,11 +223,13 @@ const CreateContainerForm = ({ fetchContainers }) => {
 
                         console.log("Form values:", cleanedValues);
                         add(cleanedValues).then(res => {
-                            alert(JSON.stringify(cleanedValues, null, 2));
+                            //alert(JSON.stringify(cleanedValues, null, 2));
+                            alert("Đã thêm")
                             fetchContainers();
                             console.log("Add response:", res);
                         }).catch(err => {
-                            alert(JSON.stringify(cleanedValues, null, 2));
+                            //alert(JSON.stringify(cleanedValues, null, 2));
+                            alert("Mã định danh phải là duy nhất");
                             console.log("Add error:", err);
                         }).finally(() => {
                             setSubmitting(false);

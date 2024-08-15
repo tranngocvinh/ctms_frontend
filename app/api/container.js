@@ -24,9 +24,9 @@ export const update = async (id, container) => {
         return await axios.put(
             `https://auth.g42.biz/api/containers/${id}`,
             container,
-
         );
     } catch (e) {
+        con
         throw e;
     }
 };
@@ -35,7 +35,6 @@ export const dele = async (id) => {
     try {
         return await axios.delete(
             `https://auth.g42.biz/api/containers/${id}`,
-
         )
 
     } catch (e) {
