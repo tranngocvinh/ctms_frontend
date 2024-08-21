@@ -29,8 +29,8 @@ const LoginPage = () => {
                 password: password
             });
 
-            const token = response.data.token;
-            const user = response.data.customerDTO;
+            const token = response.data.token;// data
+            const user = response.data.customerDTO;//date user
             const userRole = response.data.customerDTO.roles;
             // Lưu trữ token và thông tin người dùng vào Local Storage
             localStorage.setItem('jwtToken', token);
@@ -39,7 +39,6 @@ const LoginPage = () => {
             localStorage.setItem('userRole', userRole); // Lưu vai trò người dùng phan chia role
 
             // Điều hướng tới trang chính
-
             router.push('/');
         } catch (error) {
             console.error('Đăng nhập thất bại:', error);
