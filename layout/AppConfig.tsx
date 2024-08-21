@@ -84,14 +84,14 @@ const AppConfig = (props: AppConfigProps) => {
                             <div className="field-radiobutton flex-1">
                                 <RadioButton name="menuMode" value={'static'} checked={layoutConfig.menuMode === 'static'} onChange={(e) => changeMenuMode(e)} inputId="mode1"></RadioButton>
                                 <label htmlFor="mode1">Static</label>
-                            </div>
+                            </div>//Menu
                             <div className="field-radiobutton flex-1">
                                 <RadioButton name="menuMode" value={'overlay'} checked={layoutConfig.menuMode === 'overlay'} onChange={(e) => changeMenuMode(e)} inputId="mode2"></RadioButton>
                                 <label htmlFor="mode2">Overlay</label>
                             </div>
                         </div>
 
-                        <h5>Input Style</h5>
+                        <h5>Input Style</h5>//type
                         <div className="flex">
                             <div className="field-radiobutton flex-1">
                                 <RadioButton name="inputStyle" value={'outlined'} checked={layoutConfig.inputStyle === 'outlined'} onChange={(e) => changeInputStyle(e)} inputId="outlined_input"></RadioButton>

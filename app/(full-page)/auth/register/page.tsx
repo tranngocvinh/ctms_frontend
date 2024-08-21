@@ -177,7 +177,7 @@ const RegisterPage = () => {
                 </div>
             </div>
 
-            <Footer />
+            <Footer />//truyen file
         </>
     );
 };

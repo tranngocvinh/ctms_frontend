@@ -52,7 +52,7 @@ const AppMenuitem = (props: AppMenuItemProps) => {
                     return <AppMenuitem item={child} index={i} className={child.badgeClass} parentKey={key} key={child.label} />;
                 })}
             </ul>
-        </CSSTransition>
+        </CSSTransition>// css truyen
     );
 
     return (

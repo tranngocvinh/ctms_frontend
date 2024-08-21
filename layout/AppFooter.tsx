@@ -7,7 +7,7 @@ const AppFooter = () => {
     const { layoutConfig } = useContext(LayoutContext);
 
     return (
-        <div className="layout-footer">
+        <div className="layout-footer">//data
             {/*<img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Logo" height="20" className="mr-2" />*/}
             {/*by*/}
             {/*<span className="font-medium ml-2">SEP490_G42 Summer 2024</span>*/}
