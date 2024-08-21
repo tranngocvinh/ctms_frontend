@@ -82,7 +82,7 @@ const LoginPage = () => {
                                 </div>
 
 
-                                <div>
+                                <div> //chcrk mail
                                     <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
                                         Email
                                     </label>
