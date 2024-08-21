@@ -36,7 +36,7 @@ const LoginPage = () => {
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('user', JSON.stringify(user));
 
-            localStorage.setItem('userRole', userRole); // Lưu vai trò người dùng
+            localStorage.setItem('userRole', userRole); // Lưu vai trò người dùng phan chia role
 
             // Điều hướng tới trang chính
 
