@@ -111,7 +111,7 @@ const LoginPage = () => {
 // login
                                     <Button label="Sign In" className="w-full p-3 text-xl"
                                             onClick={handleLogin}></Button>
-
+//
                                     <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                                         <Button label="Not yet registered?" className="p-button-link"
                                                 onClick={() => router.push('/auth/register')}

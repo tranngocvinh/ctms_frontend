@@ -169,7 +169,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                     >
                         <MenuItem value="en">English</MenuItem>
                         <MenuItem value="vi">Tiếng Việt</MenuItem>
-                        <MenuItem value="fr">Français</MenuItem>
+
                     </Select>
                 </div>
             </Box>
