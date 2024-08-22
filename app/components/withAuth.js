@@ -9,7 +9,7 @@ const withAuth = (WrappedComponent) => {
 
         useEffect(() => {
             if (!isAuthenticated) {
-                alert("Vui lòng đăng nhập để tiếp tục")
+
                 router.replace('/auth/login');
             }
         }, [isAuthenticated]);

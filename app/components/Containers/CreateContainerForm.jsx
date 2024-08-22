@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
@@ -12,6 +12,8 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { add } from 'app/api/container';
 import {MultiSelect} from "primereact/multiselect";
+import { Toast } from 'primereact/toast';
+
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -102,13 +104,14 @@ const ResetFieldValues = ({ status, setFieldValue, setFieldTouched }) => {
     return null;
 };
 
-const CreateContainerForm = ({ fetchContainers }) => {
+const CreateContainerForm = ({ fetchContainers,showToast }) => {
     const [ships, setShips] = useState([]);
     const [schedules, setSchedules] = useState([]);
     const [containerSizes, setContainerSizes] = useState([]);
     const [portLocations, setPortLocations] = useState([]);
     const [containerSuppliers, setContainerSuppliers] = useState([]);
     const [shipSchedules, setShipSchedules] = useState([]);
+    const toast = useRef(null); // Create a reference for the Toast component
 
     useEffect(() => {
         fetchShips();
@@ -117,11 +120,12 @@ const CreateContainerForm = ({ fetchContainers }) => {
         fetchPortLocations();
         fetchContainerSuppliers();
         fetchShipSchedules();
+
     }, []);
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ships`);
+            const response = await axios.get(`http://localhost:8080/api/ships`);
             setShips(response.data);
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -130,7 +134,7 @@ const CreateContainerForm = ({ fetchContainers }) => {
 
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/schedules`);
+            const response = await axios.get(`http://localhost:8080/api/schedules`);
             setSchedules(response.data);
         } catch (error) {
             console.error('Error fetching schedules:', error);
@@ -139,7 +143,7 @@ const CreateContainerForm = ({ fetchContainers }) => {
 
     const fetchContainerSizes = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`);
+            const response = await axios.get(`http://localhost:8080/api/containers/sizes`);
             setContainerSizes(response.data);
         } catch (error) {
             console.error('Error fetching container sizes:', error);
@@ -148,7 +152,7 @@ const CreateContainerForm = ({ fetchContainers }) => {
 
     const fetchPortLocations = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports`);
+            const response = await axios.get(`http://localhost:8080/api/ports`);
             setPortLocations(response.data);
         } catch (error) {
             console.error('Error fetching port locations:', error);
@@ -157,7 +161,7 @@ const CreateContainerForm = ({ fetchContainers }) => {
 
     const fetchContainerSuppliers = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/v1/supplier`);
+            const response = await axios.get(`http://localhost:8080/api/v1/supplier`);
             setContainerSuppliers(response.data);
         } catch (error) {
             console.error('Error fetching container suppliers:', error);
@@ -166,7 +170,7 @@ const CreateContainerForm = ({ fetchContainers }) => {
 
     const fetchShipSchedules = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/shipSchedules`);
+            const response = await axios.get(`http://localhost:8080/api/shipSchedules`);
             setShipSchedules(response.data);
         } catch (error) {
             console.error('Error fetching ship schedules:', error);
@@ -180,14 +184,17 @@ const CreateContainerForm = ({ fetchContainers }) => {
     ];
 
     return (
+
         <div className="p-grid p-justify-center p-align-center">
+
             <div className="p-col-12 p-md-10">
+
                 <Formik
                     initialValues={{
                         containerCode: '',
                         containerSize: { id: '' },
                         shipSchedules: [{ schedule: { id: '' }, ship: { id: '' } }],
-                        status: '',
+                        status: 'In Port',
                         portLocation: { id: '' },
                         containerSupplier: { id: '' }
                     }}
@@ -196,44 +203,31 @@ const CreateContainerForm = ({ fetchContainers }) => {
                         containerSize: Yup.object().shape({
                             id: Yup.string().required('Vui lòng chọn kích thước container')
                         }),
-                        shipSchedules: Yup.array().of(
-                            Yup.object().shape({
-                                schedule: Yup.object().shape({
-                                    id: Yup.string().nullable()
-                                }),
-                                ship: Yup.object().shape({
-                                    id: Yup.string().nullable()
-                                })
-                            })
-                        ),
-                        status: Yup.string().required('Vui lòng chọn trạng thái container'),
+
+
                         portLocation: Yup.object().shape({
                             id: Yup.string().nullable()
                         }),
-                        containerSupplier: Yup.object().shape({
-                            id: Yup.string().nullable()
-                        })
+
                     })}
                     onSubmit={(values, { setSubmitting }) => {
-                        // Remove empty shipSchedules
                         const cleanedValues = {
                             ...values,
                             shipSchedules: values.shipSchedules.filter(ss => ss.schedule.id && ss.ship.id)
                         };
 
-                        console.log("Form values:", cleanedValues);
                         add(cleanedValues).then(res => {
-                            alert(JSON.stringify(cleanedValues, null, 2));
-                            fetchContainers();
-                            console.log("Add response:", res);
+                            showToast('success', 'Thành công', 'Thêm container thành công!');
+                            setTimeout(() => {
+                                fetchContainers();
+                            }, 1000); // Delay the fetch by 1 second
                         }).catch(err => {
-                            alert(JSON.stringify(cleanedValues, null, 2));
-                            console.log("Add error:", err);
+                            showToast('error', 'Lỗi', 'Đã tồn tại mã container trong hệ thống');
                         }).finally(() => {
                             setSubmitting(false);
-                            console.log("Submission finished");
                         });
                     }}
+
                 >
                     {({ isSubmitting, setFieldValue, values, setFieldTouched }) => {
                         return (
@@ -254,20 +248,8 @@ const CreateContainerForm = ({ fetchContainers }) => {
                                     }))}
                                     onChange={(e) => setFieldValue('containerSize.id', e.value)}
                                 />
-                                <MyDropdown
-                                    label="Trạng thái Container"
-                                    name="status"
-                                    options={containerStatuses}
-                                    onChange={(e) => setFieldValue('status', e.value)}
-                                />
 
-                                <MyDropdown
-                                    label="Công ty sửa chữa"
-                                    name="containerSupplier.id"
-                                    options={containerSuppliers.map(supplier => ({ label: supplier.name, value: supplier.supplierId }))}
-                                    onChange={(e) => setFieldValue('containerSupplier.id', e.value)}
-                                    disabled={values.status !== 'Under Maintenance'}
-                                />
+
                                 <MyDropdown
                                     label="Cảng"
                                     name="portLocation.id"
@@ -276,30 +258,10 @@ const CreateContainerForm = ({ fetchContainers }) => {
                                     disabled={values.status !== 'In Port' && values.status !== 'Under Maintenance'}
                                 />
 
-                                <MyMultiSelect
-                                    label="Lịch trình"
-                                    name="shipSchedules"
-                                    options={shipSchedules.map(schedule => ({
-                                        label: `${schedule.schedule.routeName} - ${schedule.ship.registrationNumber} - ${new Date(schedule.schedule.departureTime).toLocaleString()} đến ${new Date(schedule.schedule.estimatedArrivalTime).toLocaleString()}`,
-                                        value: { schedule:{id: schedule.schedule.id}, ship:{id: schedule.ship.id} }
-                                    }))}
-                                    onChange={(e) => {
-                                        const selectedSchedules = e.value.map(s => ({
-                                            schedule: { id: s.schedule.id },
-                                            ship: { id: s.ship.id }
-                                        }));
-                                        setFieldValue('shipSchedules', selectedSchedules);
-                                    }}
-                                    value={values.shipSchedules.map(s => ({
-                                        scheduleId: s.schedule.id,
-                                        shipId: s.ship.id
-                                    }))}
-                                    optionLabel="label"
-                                    disabled={values.status !== 'In Transit'}
-                                />
 
                                 <div className="p-col-12">
                                     <Button type="submit" label="Submit" className="p-button-primary" disabled={isSubmitting} />
+
                                 </div>
                             </Form>
                         )

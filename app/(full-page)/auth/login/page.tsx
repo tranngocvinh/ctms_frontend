@@ -24,7 +24,7 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post(`https://auth.g42.biz/api/v1/auth/login`, {
+            const response = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
                 username: email,
                 password: password
             });
@@ -43,7 +43,7 @@ const LoginPage = () => {
             router.push('/');
         } catch (error) {
             console.error('Đăng nhập thất bại:', error);
-            alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
+            alert("Vui lòng kiểm tra thông tin đăng nhập")
         }
     };
 
@@ -99,25 +99,11 @@ const LoginPage = () => {
                                               placeholder="Password" toggleMask className="w-full mb-5"
                                               inputClassName="w-full p-3 md:w-30rem"></Password>
 
-                                    <div className="flex align-items-center justify-content-between mb-5 gap-5">
-                                        <div className="flex align-items-center">
-                                            <Checkbox inputId="rememberme1" checked={checked}
-                                                      onChange={(e) => setChecked(e.checked ?? false)}
-                                                      className="mr-2"></Checkbox>
-                                            <label htmlFor="rememberme1">Remember my name</label>
-                                        </div>
-                                        <Button label="Forgot password?" className="p-button-link text-right" onClick={() => router.push('/auth/forget')}
-                                                style={{ color: 'var(--primary-color)' }} />
-                                    </div>
 
                                     <Button label="Sign In" className="w-full p-3 text-xl"
                                             onClick={handleLogin}></Button>
 
-                                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                                        <Button label="Not yet registered?" className="p-button-link"
-                                                onClick={() => router.push('/auth/register')}
-                                                style={{ color: 'var(--primary-color)' }} />
-                                    </div>
+
 
                                 </div>
                             </div>

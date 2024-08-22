@@ -13,7 +13,6 @@ export default function UserList() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [userDialog, setUserDialog] = useState(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
     const toast = React.useRef(null);
 
     useEffect(() => {
@@ -28,7 +27,6 @@ export default function UserList() {
 
     const openNew = () => {
         setSelectedUser(null);
-        setSubmitted(false);
         setUserDialog(true);
     };
 
@@ -36,20 +34,17 @@ export default function UserList() {
         setUserDialog(false);
     };
 
-    const saveUser = (user) => {
-        setSubmitted(true);
-
-        const role = user.role || 'customer'; // This should be decided by the API endpoint
-
-        if (user.id) {
-            UserService.updateUser(user.id, user).then(() => {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
+    const saveUser = (user, method) => {
+        if (method === "POST") {
+            const role = user.role || 'customer';
+            UserService.createUser(role, user).then(() => {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
                 loadUsers();
                 setUserDialog(false);
             });
-        } else {
-            UserService.createUser(role, user).then(() => {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
+        } else if (method === "PUT") {
+            UserService.updateUser(selectedUser.id, user).then(() => {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
                 loadUsers();
                 setUserDialog(false);
             });
@@ -104,6 +99,7 @@ export default function UserList() {
 
             <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Confirm" modal footer={null} onHide={() => setDeleteUserDialog(false)}>
                 <div className="confirmation-content">
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     {selectedUser && <span>Are you sure you want to delete <b>{selectedUser.name}</b>?</span>}
                 </div>

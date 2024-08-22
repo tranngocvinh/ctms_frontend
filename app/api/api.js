@@ -1,6 +1,6 @@
 // src/config.js
 const config = {
-    base_url: 'https://auth.g42.biz',
+    base_url: 'http://localhost:8080',
 };
 
 export default config;

@@ -1,9 +1,13 @@
 import axios from 'axios';
-
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+    }
+})
 export const getAllSIs = async () => {
     try {
         return await axios.get(
-            `https://auth.g42.biz/api/si`,
+            `http://localhost:8080/api/si/getByRole`,getAuthConfig()
         )
     } catch (e) {
         throw e;

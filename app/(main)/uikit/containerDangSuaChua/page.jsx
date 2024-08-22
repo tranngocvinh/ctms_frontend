@@ -1,5 +1,5 @@
 "use client"
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -7,23 +7,18 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import {getImageById} from "../../../api/container_supplier";
 import { ProgressSpinner } from 'primereact/progressspinner';
-import {getContainers} from "../../../api/container";
-import Table from "../../../components/Containers/dataTable";
-import { Toast } from 'primereact/toast';
+import {getAllRepair} from "../../../api/repair";
+import Table from "../../../components/Repair/dataTable";
 
 export default function TemplateDemo() {
-    const [containers,setContainers] = useState([])
+    const [repair,setRepair] = useState([])
     const [loading, setLoading] = useState(false);
-    const toast = useRef(null);  // Create the toast reference here
 
-    const showToast = (severity, summary, detail) => {
-        toast.current.show({ severity, summary, detail });
-    };
-    const fetchContainers = () =>{
+    const fetchRepair = () =>{
         setLoading(true);
 
-        getContainers().then(res => {
-            setContainers(res.data)
+        getAllRepair().then(res => {
+            setRepair(res.data)
         }).catch(err => {
             console.log(err);
         }).finally(() => {
@@ -31,7 +26,7 @@ export default function TemplateDemo() {
         })
     }
     useEffect(() => {
-        fetchContainers();
+        fetchRepair();
     }, [])
 
     if (loading) {
@@ -43,8 +38,7 @@ export default function TemplateDemo() {
     }
     return(
         <>
-            <Toast ref={toast} />
-            <Table  containers={containers} fetchContainers={fetchContainers} showToast={showToast}/>
+            <Table  repair={repair} fetchRepair={fetchRepair}/>
         </>
     )
 }

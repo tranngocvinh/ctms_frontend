@@ -25,6 +25,8 @@ export default function Table({ SI, fetchSI }) {
     const [dropOrderId, setDropOrderId] = useState(null);
     const [buttonLabel, setButtonLabel] = useState('Phát hành');
     const [dropOrder, setDropOrder] = useState({});
+    const [emptyContainer, setEmptyContainer] = useState({});
+
 
     useEffect(() => {
         fetchPorts();
@@ -35,10 +37,14 @@ export default function Table({ SI, fetchSI }) {
     useEffect(() => {
         calculateDetFee();
     }, [dropDate]);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+        }
+    })
     const fetchSIData = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`);
+            const response = await axios.get(`http://localhost:8080/api/drop-orders`,getAuthConfig());
             const dropOrderIdMap = {};
             response.data.forEach(si => {
                 dropOrderIdMap[si.si] = si;
@@ -49,9 +55,20 @@ export default function Table({ SI, fetchSI }) {
         }
     };
 
+     const getEmptyContainer = async (id) => {
+        try {
+            const response =  await axios.get(
+                `http://localhost:8080/api/containers/allocate/ship/${id}`
+            )
+            setEmptyContainer(response.data)
+        } catch (e) {
+            throw e;
+        }
+    }
+
     const fetchPorts = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports`);
+            const response = await axios.get(`http://localhost:8080/api/ports`);
             setPorts(response.data);
         } catch (error) {
             console.error('Error fetching ports:', error);
@@ -60,7 +77,7 @@ export default function Table({ SI, fetchSI }) {
 
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/cargo-types`);
+            const response = await axios.get(`http://localhost:8080/api/cargo-types`);
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -73,16 +90,21 @@ export default function Table({ SI, fetchSI }) {
     };
 
     const calculateDetFee = () => {
+        console.log(selectedSI)
+        const id = selectedSI?.emptyContainerId
+        getEmptyContainer(id)
         if (!selectedSI || !dropDate) return;
-        const requestDate = new Date(selectedSI.requestTime);
+        const requestDate = new Date(emptyContainer.requestTime);
         const selectedDropDate = new Date(dropDate);
         const diffDays = Math.floor((selectedDropDate - requestDate) / (1000 * 60 * 60 * 24));
         if (diffDays > 3) {
-            setDetFee((diffDays - 3) * 100); // Example DET fee calculation
+            const fee = (diffDays - 3) * 400000; // Example DET fee calculation
+            setDetFee(fee.toLocaleString('en-US')); // Format the fee
         } else {
             setDetFee(0);
         }
     };
+
 
     const showFormDialog = async (si) => {
         setSelectedSI(si);
@@ -91,7 +113,7 @@ export default function Table({ SI, fetchSI }) {
         setDropOrderId(null);
 
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`);
+            const response = await axios.get(`http://localhost:8080/api/drop-orders`,getAuthConfig());
             const existingOrder = response.data.find(order => order.si === si.id);
 
             if (existingOrder) {
@@ -126,10 +148,10 @@ export default function Table({ SI, fetchSI }) {
 
         try {
             if (dialogTitle === 'Chỉnh sửa lệnh hạ hàng') {
-                await axios.put(`https://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload);
+                await axios.put(`http://localhost:8080/api/drop-orders/${selectedSI.id}`, payload);
                 alert('Cập nhật lệnh hạ hàng thành công');
             } else {
-                await axios.post(`https://auth.g42.biz/api/drop-orders`, payload);
+                await axios.post(`http://localhost:8080/api/drop-orders`, payload);
                 alert('Phát hành lệnh hạ hàng thành công');
             }
             hideFormDialog();
@@ -167,7 +189,7 @@ export default function Table({ SI, fetchSI }) {
 
     const cargoWeight = (rowData) => {
         return (<div style={{ display: 'flex', alignItems: 'center' }}>
-            <InputText type="text" value={rowData.cargoWeight} readOnly
+            <InputText type="text" value={rowData.cargoWeight.toLocaleString('en-US')} readOnly
                        style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
             <span style={{ color: 'coral' }}>kg</span>
         </div>)
@@ -176,7 +198,7 @@ export default function Table({ SI, fetchSI }) {
     const cargoVolume = (rowData) =>{
         return(
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.cargoVolume} readOnly
+                <InputText type="text" value={rowData.cargoVolume.toLocaleString('en-US')} readOnly
                            style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
                 <span style={{ color: 'coral' }}>m³</span>
             </div>
@@ -201,8 +223,8 @@ export default function Table({ SI, fetchSI }) {
                         <h5>Thông tin chi tiết Container:</h5>
                         <p>ID SI: {selectedSI.id}</p>
                         <p>Loại hàng: {getCargoTypeName(selectedSI.cargoTypeId)}</p>
-                        <p>Trọng lượng hàng: {selectedSI.cargoWeight} kg</p>
-                        <p>Thể tích hàng: {selectedSI.cargoVolume} m³</p>
+                        <p>Trọng lượng hàng: {selectedSI.cargoWeight.toLocaleString('en-US')} kg</p>
+                        <p>Thể tích hàng: {selectedSI.cargoVolume.toLocaleString('en-US')} m³</p>
                         <p>Phí DET: {detFee} VND</p>
 
                         <h5>Thông tin lệnh hạ hàng:</h5>

@@ -1,370 +1,325 @@
-"use client"
-import React, { useState, useEffect, useRef } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { Toolbar } from 'primereact/toolbar';
-import { Dialog } from 'primereact/dialog';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { InputText } from 'primereact/inputtext';
-import axios from 'axios';
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import {
+    DataTable,
+    Column,
+    Toast,
+    Button,
+    Toolbar,
+    Dialog,
+    Dropdown,
+    Calendar,
+    InputText,
+    Checkbox,
 
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+} from "primereact";
+import axios from "axios";
+import { FixedSizeList as List } from "react-window";
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import {InputNumber} from "primereact/inputnumber";
 
 const DeliveryOrderTable = () => {
     const emptyDeliveryOrder = {
         id: null,
-        orderNumber: '',
+        orderNumber: "",
         customerId: null,
         scheduleId: null,
         orderDate: null,
         deliveryDate: null,
         totalAmount: 0,
-        status: '',
-        notes: '',
-        deliveryOrderDetails: [],
-        deliveryAddresses: [],
-        deliveryStatuses: []
+        status: "",
+        notes: "",
+        shipScheduleContainerMap: {},
     };
 
-    const [deliveryOrders, setDeliveryOrders] = useState([]);
-    const [customers, setCustomers] = useState([]);
-    const [schedules, setSchedules] = useState([]);
-    const [deliveryOrderDialog, setDeliveryOrderDialog] = useState(false);
-    const [deleteDeliveryOrderDialog, setDeleteDeliveryOrderDialog] = useState(false);
-    const [deliveryOrder, setDeliveryOrder] = useState(emptyDeliveryOrder);
-    const [selectedDeliveryOrders, setSelectedDeliveryOrders] = useState([]);
-    const [submitted, setSubmitted] = useState(false);
-    const [globalFilter, setGlobalFilter] = useState(null);
+    const [state, setState] = useState({
+        selectedDeliveryOrder: null,
+        deliveryOrders: [],
+        customers: [],
+        schedules: [],
+        containers: [],
+        shipSchedules: [],
+        deliveryOrderDialog: false,
+        deleteDeliveryOrderDialog: false,
+        deliveryOrder: emptyDeliveryOrder,
+        selectedDeliveryOrders: [],
+        submitted: false,
+        globalFilter: null,
+        page: 0, // Added for pagination
+    });
+
     const toast = useRef(null);
     const dt = useRef(null);
 
     useEffect(() => {
-       fetchData()
+        fetchData();
     }, []);
 
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
 
-    const fetchData = () =>{
-        axios.get(`https://auth.g42.biz/api/delivery-orders`).then(response => setDeliveryOrders(response.data));
-        axios.get(`https://auth.g42.biz/api/v1/customers`).then(response => setCustomers(response.data));
-        axios.get(`https://auth.g42.biz/api/schedules`).then(response => setSchedules(response.data));
-    }
-    const openNew = () => {
-        setDeliveryOrder(emptyDeliveryOrder);
-        setSubmitted(false);
-        setDeliveryOrderDialog(true);
+    const fetchData = () => {
+        axios
+            .get(`http://localhost:8080/api/delivery-orders`,getAuthConfig())
+            .then((response) => setState((prev) => ({ ...prev, deliveryOrders: response.data })));
+        axios
+            .get(`http://localhost:8080/api/v1/customers`)
+            .then((response) => setState((prev) => ({ ...prev, customers: response.data })));
+        axios
+            .get(`http://localhost:8080/api/schedules`)
+            .then((response) => setState((prev) => ({ ...prev, schedules: response.data })));
+        fetchContainers(); // Initial fetch for containers
     };
 
-    const hideDialog = () => {
-        setSubmitted(false);
-        setDeliveryOrderDialog(false);
+    const fetchContainers = (page = 0, size = 10) => {
+        axios
+            .get(`http://localhost:8080/api/containers?page=${page}&size=${size}`, getAuthConfig())
+            .then((response) => setState((prev) => ({ ...prev, containers: [...prev.containers, ...response.data] })));
     };
 
-    const hideDeleteDeliveryOrderDialog = () => {
-        setDeleteDeliveryOrderDialog(false);
+    const fetchShipSchedulesByScheduleId = (scheduleId) => {
+        axios
+            .get(`http://localhost:8080/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
+            .then((response) => {
+                const newShipScheduleContainerMap = response.data.reduce(
+                    (map, shipSchedule) => ({ ...map, [shipSchedule.id]: [] }),
+                    {}
+                );
+                setState((prev) => ({
+                    ...prev,
+                    shipSchedules: response.data,
+                    deliveryOrder: { ...prev.deliveryOrder, shipScheduleContainerMap: newShipScheduleContainerMap },
+                }));
+            });
     };
+
+    const updateState = (updates) => setState((prev) => ({ ...prev, ...updates }));
 
     const saveDeliveryOrder = () => {
-        setSubmitted(true);
+        if (state.deliveryOrder.customerId && state.deliveryOrder.scheduleId) {
+            const saveRequest = state.deliveryOrder.id
+                ? axios.put(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
+                : axios.post(`http://localhost:8080/api/delivery-orders`, state.deliveryOrder);
 
-        if (deliveryOrder.customerId && deliveryOrder.scheduleId && deliveryOrder.orderDate && deliveryOrder.deliveryDate) {
-            let _deliveryOrders = [...deliveryOrders];
-            let _deliveryOrder = { ...deliveryOrder };
-
-            if (deliveryOrder.id) {
-                axios.put(`https://auth.g42.biz/api/delivery-orders/${deliveryOrder.id}`, _deliveryOrder).then(response => {
-                    const index = findIndexById(deliveryOrder.id);
-                    _deliveryOrders[index] = response.data;
-                    setDeliveryOrders(_deliveryOrders);
-                    setDeliveryOrderDialog(false);
-                    setDeliveryOrder(emptyDeliveryOrder);
-                    fetchData()
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Lệnh giao hàng đã được cập nhật', life: 3000 });
+            saveRequest.then((response) => {
+                fetchData();
+                updateState({ deliveryOrderDialog: false, deliveryOrder: emptyDeliveryOrder, shipSchedules: [], containers: [] });
+                toast.current.show({
+                    severity: "success",
+                    summary: "Successful",
+                    detail: state.deliveryOrder.id ? "Lệnh giao hàng đã được cập nhật" : "Lệnh giao hàng đã được tạo",
+                    life: 3000,
                 });
-            } else {
-                axios.post(`https://auth.g42.biz/api/delivery-orders`, _deliveryOrder).then(response => {
-                    _deliveryOrders.push(response.data);
-                    setDeliveryOrders(_deliveryOrders);
-                    setDeliveryOrderDialog(false);
-                    setDeliveryOrder(emptyDeliveryOrder);
-                    fetchData();
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Lệnh giao hàng đã được tạo', life: 3000 });
-                });
-            }
+            });
         }
-    };
-
-    const editDeliveryOrder = (deliveryOrder) => {
-        setDeliveryOrder({ ...deliveryOrder });
-        setDeliveryOrderDialog(true);
-    };
-
-    const confirmDeleteDeliveryOrder = (deliveryOrder) => {
-        setDeliveryOrder(deliveryOrder);
-        setDeleteDeliveryOrderDialog(true);
     };
 
     const deleteDeliveryOrder = () => {
-        axios.delete(`https://auth.g42.biz/api/delivery-orders/${deliveryOrder.id}`).then(() => {
-            let _deliveryOrders = deliveryOrders.filter(val => val.id !== deliveryOrder.id);
-            setDeliveryOrders(_deliveryOrders);
-            setDeleteDeliveryOrderDialog(false);
-            setDeliveryOrder(emptyDeliveryOrder);
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Xóa lệnh giao hàng thành công', life: 3000 });
+        axios.delete(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
+            updateState({
+                deliveryOrders: state.deliveryOrders.filter((val) => val.id !== state.deliveryOrder.id),
+                deleteDeliveryOrderDialog: false,
+                deliveryOrder: emptyDeliveryOrder,
+                shipSchedules: [],
+                containers: [],
+            });
+            toast.current.show({
+                severity: "success",
+                summary: "Successful",
+                detail: "Xóa lệnh giao hàng thành công",
+                life: 3000,
+            });
         });
     };
 
-    const findIndexById = (id) => {
-        let index = -1;
-        for (let i = 0; i < deliveryOrders.length; i++) {
-            if (deliveryOrders[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    };
-
     const onInputChange = (e, name) => {
-        const val = (e.target && e.target.value) || '';
-        let _deliveryOrder = { ...deliveryOrder };
-        _deliveryOrder[`${name}`] = val;
-        setDeliveryOrder(_deliveryOrder);
+        const val = (e.target && e.target.value) || "";
+        updateState({
+            deliveryOrder: { ...state.deliveryOrder, [name]: val },
+        });
     };
 
     const onDropdownChange = (e, name) => {
-        let _deliveryOrder = { ...deliveryOrder };
-        _deliveryOrder[`${name}`] = e.value.id;
-        setDeliveryOrder(_deliveryOrder);
+        updateState({
+            deliveryOrder: { ...state.deliveryOrder, [name]: e.value.id },
+        });
+        if (name === "scheduleId") fetchShipSchedulesByScheduleId(e.value.id);
     };
 
-    const onDateChange = (e, name) => {
-        let _deliveryOrder = { ...deliveryOrder };
-        _deliveryOrder[`${name}`] = e.value;
-        setDeliveryOrder(_deliveryOrder);
+    const onContainerCheckboxChange = (e, shipScheduleId, containerCode) => {
+        if (!e.checked || !Object.values(state.deliveryOrder.shipScheduleContainerMap).flat().includes(containerCode)) {
+            const newMap = { ...state.deliveryOrder.shipScheduleContainerMap };
+            newMap[shipScheduleId] = e.checked
+                ? [...newMap[shipScheduleId], containerCode]
+                : newMap[shipScheduleId].filter((code) => code !== containerCode);
+
+            updateState({ deliveryOrder: { ...state.deliveryOrder, shipScheduleContainerMap: newMap } });
+        } else {
+            toast.current.show({
+                severity: "warn",
+                summary: "Duplicate Container",
+                detail: "Container is already selected for another ShipSchedule",
+                life: 3000,
+            });
+        }
     };
 
-    const leftToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <Button label="Thêm" icon="pi pi-plus" className="mr-2" onClick={openNew} />
-                <Button label="Xóa" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedDeliveryOrders || !selectedDeliveryOrders.length} />
-            </React.Fragment>
-        )
+    const renderContainerAssignment = () => {
+        return state.shipSchedules.map((shipSchedule) => (
+            <div className="field" key={shipSchedule.id}>
+                <label htmlFor={`container_${shipSchedule.id}`}>Containers for ShipSchedule {shipSchedule.id}</label>
+                <List
+                    height={150} // Adjust the height as necessary
+                    itemCount={state.containers.length}
+                    itemSize={35} // Adjust the size of each item as necessary
+                    width={"100%"}
+                >
+                    {({ index, style }) => (
+                        <div style={style} key={state.containers[index].containerCode}>
+                            <Checkbox
+                                inputId={`container_${state.containers[index].containerCode}`}
+                                checked={state.deliveryOrder.shipScheduleContainerMap[shipSchedule.id]?.includes(state.containers[index].containerCode)}
+                                onChange={(e) => onContainerCheckboxChange(e, shipSchedule.id, state.containers[index].containerCode)}
+                            />
+                            <label htmlFor={`container_${state.containers[index].containerCode}`}>{state.containers[index].containerCode}</label>
+                        </div>
+                    )}
+                </List>
+            </div>
+        ));
     };
 
-    const confirmDeleteSelected = () => {
-        setDeleteDeliveryOrderDialog(true);
+    const loadMoreContainers = () => {
+        fetchContainers(state.page + 1); // Load more containers when needed
+        setState((prev) => ({ ...prev, page: prev.page + 1 }));
     };
 
-    const deleteSelectedDeliveryOrders = () => {
-        let _deliveryOrders = deliveryOrders.filter(val => !selectedDeliveryOrders.includes(val));
-        setDeliveryOrders(_deliveryOrders);
-        setDeleteDeliveryOrderDialog(false);
-        setSelectedDeliveryOrders(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Xóa lệnh giao hàng thành công', life: 3000 });
+    const renderContainers = (rowData) => {
+        // Extract containers from shipScheduleContainerMap
+        const containers = Object.values(rowData.shipScheduleContainerMap).flat();
+
+        // Join all container codes into a single string or format them as you prefer
+        return containers.join(', ');
     };
-
-    const rightToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <Button label="Xuất Excel" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
-            </React.Fragment>
-        )
-    };
-
-    const exportCSV = () => {
-        dt.current.exportCSV();
-    };
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editDeliveryOrder(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteDeliveryOrder(rowData)} />
-            </React.Fragment>
-        );
-    };
-
-    const header = (
-        <div className="flex flex-wrap gap-2 align-items-center justify-content-between">
-            <h4 className="m-0">Quản lý lệnh giao hàng</h4>
-            <span className="p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Tìm kiếm..." />
-            </span>
-        </div>
-    );
-
-    const deliveryOrderDialogFooter = (
-        <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" onClick={saveDeliveryOrder} />
-        </React.Fragment>
-    );
-
-    const deleteDeliveryOrderDialogFooter = (
-        <React.Fragment>
-            <Button label="No" icon="pi pi-times" outlined onClick={hideDeleteDeliveryOrderDialog} />
-            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteDeliveryOrder} />
-        </React.Fragment>
-    );
-
-    const orderDateTemplate = (rowData) => {
-        return new Date(rowData.orderDate).toLocaleString();
-    };
-
-    const deliveryDateTemplate = (rowData) => {
-        return new Date(rowData.deliveryDate).toLocaleString();
-    };
-
-    const getCustomer = (rowData) =>{
-        const customerName = customers.find(customer => customer.id === rowData.customerId) ;
-        return customerName ? customerName.username : "unknown"
-    }
-
-    const getSchedule = (rowData) =>{
-        const schedule = schedules.find(schedule => schedule.id === rowData.scheduleId)
-        return schedule ? schedule.codeSchedule : "unknown"
-    }
 
     return (
         <div>
             <Toast ref={toast} />
             <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
-
+                <Toolbar
+                    className="mb-4"
+                    left={() => (
+                        <Button
+                            label="Thêm"
+                            icon="pi pi-plus"
+                            onClick={() => updateState({
+                                deliveryOrderDialog: true,
+                                deliveryOrder: emptyDeliveryOrder, // Reset to empty form
+                                shipSchedules: [], // Reset shipSchedules
+                                containers: [] // Reset containers
+                            })}
+                        />
+                    )}
+                    right={() => <Button label="Xuất Excel" icon="pi pi-upload" onClick={() => dt.current.exportCSV()} />}
+                />
                 <DataTable
                     ref={dt}
-                    value={deliveryOrders}
-                    selection={selectedDeliveryOrders}
-                    onSelectionChange={(e) => setSelectedDeliveryOrders(e.value)}
+                    value={state.deliveryOrders}
+                    selection={state.selectedDeliveryOrders}
+                    onSelectionChange={(e) => updateState({ selectedDeliveryOrders: e.value })}
                     dataKey="id"
                     paginator
                     rows={10}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    currentPageReportTemplate="Hiện từ {first} tới {last} trên tổng số {totalRecords} lệnh giao hàng"
-                    globalFilter={globalFilter}
-                    header={header}
-                    responsiveLayout="scroll"
+                    globalFilter={state.globalFilter}
+                    header={<div className="flex align-items-center justify-content-between"><h4 className="m-0">Quản lý lệnh giao hàng</h4><InputText type="search" onInput={(e) => updateState({ globalFilter: e.target.value })} placeholder="Tìm kiếm..." /></div>}
                 >
                     <Column selectionMode="multiple" exportable={false}></Column>
                     <Column field="orderNumber" header="Mã đơn hàng" sortable></Column>
-                    <Column field="customerId" header="Tên khách hàng" body={getCustomer} sortable></Column>
-                    <Column field="scheduleId" header="Mã lịch trình" body={getSchedule} sortable></Column>
-                    <Column header="Ngày đặt hàng" sortable body={orderDateTemplate}></Column>
-                    <Column header="Ngày giao hàng" sortable body={deliveryDateTemplate}></Column>
+                    <Column field="customerId" header="Tên khách hàng" body={(rowData) => state.customers.find((c) => c.id === rowData.customerId)?.username || "unknown"} sortable></Column>
+                    <Column field="scheduleId" header="Mã lịch trình" body={(rowData) => state.schedules.find((s) => s.id === rowData.scheduleId)?.codeSchedule || "unknown"} sortable></Column>
+                    <Column header="Ngày đặt hàng" body={(rowData) => new Date(rowData.orderDate).toLocaleString()} sortable></Column>
+                    <Column header="Ngày giao hàng" body={(rowData) => new Date(rowData.deliveryDate).toLocaleString()} sortable></Column>
                     <Column field="totalAmount" header="Tổng tiền" sortable></Column>
                     <Column field="status" header="Trạng thái" sortable></Column>
-                    <Column body={actionBodyTemplate} exportable={false}></Column>
+                    <Column header="Containers" body={renderContainers} />
+                    <Column body={(rowData) =>
+                        <>
+                            <Button
+                                icon="pi pi-pencil"
+                                className="p-button-rounded p-button-success mr-2"
+                                onClick={() => {
+                                    // Set the selected order data, including containers, to the state
+                                    updateState({
+                                        deliveryOrder: { ...rowData }, // Copy all fields from the selected row
+                                        deliveryOrderDialog: true, // Open the dialog
+                                        shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
+                                            id: parseInt(id),
+                                            containers: rowData.shipScheduleContainerMap[id],
+                                        })), // Set the ship schedules for rendering containers
+                                    });
+                                }}
+                            />
+                            <Button
+                                icon="pi pi-trash"
+                                className="p-button-rounded p-button-warning"
+                                onClick={() => updateState({
+                                    deliveryOrder: rowData,
+                                    deleteDeliveryOrderDialog: true,
+                                })}
+                            />
+                        </>
+                    } exportable={false}>
+                    </Column>
+
                 </DataTable>
             </div>
 
-            <Dialog
-                visible={deliveryOrderDialog}
-                style={{ width: '450px' }}
-                header="Chi tiết lệnh giao hàng"
-                modal
-                className="p-fluid"
-                footer={deliveryOrderDialogFooter}
-                onHide={hideDialog}
-            >
+            <Dialog visible={state.deliveryOrderDialog} style={{ width: "450px" }} header="Chi tiết lệnh giao hàng" modal className="p-fluid" footer={<><Button label="Cancel" icon="pi pi-times" outlined onClick={() => updateState({ deliveryOrderDialog: false, submitted: false })} /><Button label="Save" icon="pi pi-check" onClick={saveDeliveryOrder} /></>} onHide={() => updateState({ deliveryOrderDialog: false, submitted: false })}>
                 <div className="field">
                     <label htmlFor="orderNumber">Mã lệnh giao hàng</label>
-                    <InputText
-                        id="orderNumber"
-                        value={deliveryOrder.orderNumber}
-                        onChange={(e) => onInputChange(e, 'orderNumber')}
-                    />
+                    <InputText id="orderNumber" value={state.deliveryOrder.orderNumber} onChange={(e) => onInputChange(e, "orderNumber")} />
                 </div>
                 <div className="field">
                     <label htmlFor="customer">Khách hàng</label>
-                    <Dropdown
-                        id="customer"
-                        value={customers.find((customer) => customer.id === deliveryOrder.customerId)}
-                        options={customers}
-                        onChange={(e) => onDropdownChange(e, 'customerId')}
-                        optionLabel="name"
-                        placeholder="Chọn khách hàng"
-                    />
+                    <Dropdown id="customer" value={state.customers.find((customer) => customer.id === state.deliveryOrder.customerId)} options={state.customers} onChange={(e) => onDropdownChange(e, "customerId")} optionLabel="name" placeholder="Chọn khách hàng" />
                 </div>
                 <div className="field">
                     <label htmlFor="schedule">Lịch trình</label>
-                    <Dropdown
-                        id="schedule"
-                        value={schedules.find((schedule) => schedule.id === deliveryOrder.scheduleId)}
-                        options={schedules}
-                        onChange={(e) => onDropdownChange(e, 'scheduleId')}
-                        optionLabel="codeSchedule"
-                        placeholder="Chọn lịch trình"
-                    />
+                    <Dropdown id="schedule" value={state.schedules.find((schedule) => schedule.id === state.deliveryOrder.scheduleId) || null} options={state.schedules} onChange={(e) => onDropdownChange(e, "scheduleId")} optionLabel="codeSchedule" placeholder="Chọn lịch trình" />
                 </div>
                 <div className="field">
                     <label htmlFor="orderDate">Ngày đặt hàng</label>
-                    <Calendar
-                        id="orderDate"
-                        value={deliveryOrder.orderDate ? new Date(deliveryOrder.orderDate) : null}
-                        onChange={(e) => onDateChange(e, 'orderDate')}
-                        showTime
-                        showSeconds
-                    />
+                    <Calendar id="orderDate" value={state.deliveryOrder.orderDate ? new Date(state.deliveryOrder.orderDate) : null} onChange={(e) => onInputChange(e, "orderDate")} showTime showSeconds />
                 </div>
                 <div className="field">
                     <label htmlFor="deliveryDate">Ngày giao hàng</label>
-                    <Calendar
-                        id="deliveryDate"
-                        value={deliveryOrder.deliveryDate ? new Date(deliveryOrder.deliveryDate) : null}
-                        onChange={(e) => onDateChange(e, 'deliveryDate')}
-                        showTime
-                        showSeconds
-                    />
+                    <Calendar id="deliveryDate" value={state.deliveryOrder.deliveryDate ? new Date(state.deliveryOrder.deliveryDate) : null} onChange={(e) => onInputChange(e, "deliveryDate")} showTime showSeconds />
                 </div>
                 <div className="field">
                     <label htmlFor="totalAmount">Tổng tiền</label>
-                    <InputText
-                        id="totalAmount"
-                        value={deliveryOrder.totalAmount}
-                        onChange={(e) => onInputChange(e, 'totalAmount')}
-                    />
+                    <InputNumber id="totalAmount" value={state.deliveryOrder.totalAmount} onChange={(e) => onInputChange(e, "totalAmount")} />
                 </div>
                 <div className="field">
                     <label htmlFor="status">Trạng thái</label>
-                    <InputText
-                        id="status"
-                        value={deliveryOrder.status}
-                        onChange={(e) => onInputChange(e, 'status')}
-                    />
+                    <InputText id="status" value={state.deliveryOrder.status} onChange={(e) => onInputChange(e, "status")} />
                 </div>
                 <div className="field">
                     <label htmlFor="notes">Ghi chú</label>
-                    <InputText
-                        id="notes"
-                        value={deliveryOrder.notes}
-                        onChange={(e) => onInputChange(e, 'notes')}
-                    />
+                    <InputText id="notes" value={state.deliveryOrder.notes} onChange={(e) => onInputChange(e, "notes")} />
                 </div>
+                {renderContainerAssignment()}
+                <Button label="Load More Containers" onClick={loadMoreContainers} />
             </Dialog>
 
-            <Dialog
-                visible={deleteDeliveryOrderDialog}
-                style={{ width: '450px' }}
-                header="Xác nhận"
-                modal
-                footer={deleteDeliveryOrderDialogFooter}
-                onHide={hideDeleteDeliveryOrderDialog}
-            >
+            <Dialog visible={state.deleteDeliveryOrderDialog} style={{ width: "450px" }} header="Xác nhận" modal footer={<><Button label="No" icon="pi pi-times" outlined onClick={() => updateState({ deleteDeliveryOrderDialog: false })} /><Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteDeliveryOrder} /></>} onHide={() => updateState({ deleteDeliveryOrderDialog: false })}>
                 <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                    {deliveryOrder && (
-                        <span>
-                            Bạn có chắc chắn muốn xóa lệnh giao hàng <b>{deliveryOrder.orderNumber}</b>?
-                        </span>
-                    )}
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }} />
+                    {state.deliveryOrder && <span>Bạn có chắc chắn muốn xóa lệnh giao hàng <b>{state.deliveryOrder.orderNumber}</b>?</span>}
                 </div>
             </Dialog>
         </div>

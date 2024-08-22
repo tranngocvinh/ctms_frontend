@@ -17,12 +17,13 @@ import {getEmptyContainerById} from "../../../ctms_frontend/app/api/container";
 import EmptyContainerDetailModal from './EmptyContainerDetailModal';
 
 import { ChartData, ChartOptions } from 'chart.js';
+import Calendar from "@/app/(main)/uikit/Calendar";
 
 const lineData: ChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
         {
-            label: 'First Dataset',
+            label: 'Phí sửa chữa container',
             data: [65, 59, 80, 81, 56, 55, 40],
             fill: false,
             backgroundColor: '#2f4860',
@@ -30,7 +31,7 @@ const lineData: ChartData = {
             tension: 0.4
         },
         {
-            label: 'Second Dataset',
+            label: 'Phí DET',
             data: [28, 48, 40, 19, 86, 27, 90],
             fill: false,
             backgroundColor: '#00bb7e',
@@ -48,6 +49,37 @@ const Dashboard = () => {
     const { layoutConfig } = useContext(LayoutContext);
     const [selectedContainer, setSelectedContainer] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [totalDetFee, setTotalDetFee] = useState(0);
+    const [totalPaidRepairCost, setTotalPaidRepairCost] = useState(0);
+    const [totalCusTomer, setTotalCusTomer] = useState(0);
+
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+        }
+    })
+    useEffect(() => {
+        fetch('http://localhost:8080/api/drop-orders/detfee/sum')
+            .then(response => response.json())
+            .then(data => setTotalDetFee(data))
+            .catch(error => console.error('Error fetching det fee sum:', error));
+    }, []);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/v1/repair/cost/paid')
+            .then(response => response.json())
+            .then(data => setTotalPaidRepairCost(data))
+            .catch(error => console.error('Error fetching paid repair cost:', error));
+    }, []);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/v1/customers/count')
+            .then(response => response.json())
+            .then(data => setTotalCusTomer(data))
+            .catch(error => console.error('Error fetching paid repair cost:', error));
+    },[]);
+
+
     const applyLightTheme = () => {
         const lineOptions: ChartOptions = {
             plugins: {
@@ -179,8 +211,8 @@ const Dashboard = () => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Orders</span>
-                            <div className="text-900 font-medium text-xl">152</div>
+                            <span className="block text-500 font-medium mb-3">Tổng số tiền phí DET</span>
+                            <div className="text-900 font-medium text-xl">{totalDetFee.toLocaleString()} VNĐ</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-shopping-cart text-blue-500 text-xl" />
@@ -194,8 +226,8 @@ const Dashboard = () => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Revenue</span>
-                            <div className="text-900 font-medium text-xl">$2.100</div>
+                            <span className="block text-500 font-medium mb-3">Tổng số tiền phí sửa chữa container</span>
+                            <div className="text-900 font-medium text-xl">{totalPaidRepairCost.toLocaleString()} VNĐ</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-map-marker text-orange-500 text-xl" />
@@ -209,7 +241,7 @@ const Dashboard = () => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Customers</span>
+                            <span className="block text-500 font-medium mb-3">Tổng chi phí giao hàng</span>
                             <div className="text-900 font-medium text-xl">28441</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
@@ -224,8 +256,8 @@ const Dashboard = () => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Comments</span>
-                            <div className="text-900 font-medium text-xl">152 Unread</div>
+                            <span className="block text-500 font-medium mb-3">Số lượng người dùng</span>
+                            <div className="text-900 font-medium text-xl">{totalCusTomer}</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-comment text-purple-500 text-xl" />
@@ -260,94 +292,10 @@ const Dashboard = () => {
                     </DataTable>
                 </div>
                 <div className="card">
-                    <div className="flex justify-content-between align-items-center mb-5">
-                        <h5>Best Selling Products</h5>
-                        <div>
-                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain" onClick={(event) => menu1.current?.toggle(event)} />
-                            <Menu
-                                ref={menu1}
-                                popup
-                                model={[
-                                    { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-                                    { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-                                ]}
-                            />
-                        </div>
+                    <h5>Lịch hôm nay</h5>
+                    <div className="flex justify-content-center align-items-center">
+                        <Calendar />
                     </div>
-                    <ul className="list-none p-0 m-0">
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Space T-Shirt</span>
-                                <div className="mt-1 text-600">Clothing</div>
-                            </div>
-                            <div className="mt-2 md:mt-0 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
-                                    <div className="bg-orange-500 h-full" style={{ width: '50%' }} />
-                                </div>
-                                <span className="text-orange-500 ml-3 font-medium">%50</span>
-                            </div>
-                        </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Portal Sticker</span>
-                                <div className="mt-1 text-600">Accessories</div>
-                            </div>
-                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
-                                    <div className="bg-cyan-500 h-full" style={{ width: '16%' }} />
-                                </div>
-                                <span className="text-cyan-500 ml-3 font-medium">%16</span>
-                            </div>
-                        </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Supernova Sticker</span>
-                                <div className="mt-1 text-600">Accessories</div>
-                            </div>
-                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
-                                    <div className="bg-pink-500 h-full" style={{ width: '67%' }} />
-                                </div>
-                                <span className="text-pink-500 ml-3 font-medium">%67</span>
-                            </div>
-                        </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Wonders Notebook</span>
-                                <div className="mt-1 text-600">Office</div>
-                            </div>
-                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
-                                    <div className="bg-green-500 h-full" style={{ width: '35%' }} />
-                                </div>
-                                <span className="text-green-500 ml-3 font-medium">%35</span>
-                            </div>
-                        </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mat Black Case</span>
-                                <div className="mt-1 text-600">Accessories</div>
-                            </div>
-                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
-                                    <div className="bg-purple-500 h-full" style={{ width: '75%' }} />
-                                </div>
-                                <span className="text-purple-500 ml-3 font-medium">%75</span>
-                            </div>
-                        </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Robots T-Shirt</span>
-                                <div className="mt-1 text-600">Clothing</div>
-                            </div>
-                            <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
-                                    <div className="bg-teal-500 h-full" style={{ width: '40%' }} />
-                                </div>
-                                <span className="text-teal-500 ml-3 font-medium">%40</span>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
 

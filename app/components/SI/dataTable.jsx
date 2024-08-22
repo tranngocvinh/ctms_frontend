@@ -22,6 +22,7 @@ export default function Table({ SIs }) {
     const [cargoTypes, setCargoTypes] = useState([]);
     const [siData, setSiData] = useState({});
     const [dialogTitle, setDialogTitle] = useState(''); // New state for dialog title
+    const [containerDetails, setContainerDetails] = useState([]); // New state for container details
 
     useEffect(() => {
         fetchCargoTypes();
@@ -30,7 +31,7 @@ export default function Table({ SIs }) {
 
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/si/cargo`);
+            const response = await axios.get(`http://localhost:8080/api/si/cargo`);
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -39,7 +40,7 @@ export default function Table({ SIs }) {
 
     const fetchSIData = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/si`);
+            const response = await axios.get(`http://localhost:8080/api/si`);
             const siDataMap = {};
             response.data.forEach(si => {
                 siDataMap[si.emptyContainerId] = si;
@@ -50,8 +51,23 @@ export default function Table({ SIs }) {
         }
     };
 
-    const showDetails = (si) => {
-        setSelectedSI(si);
+    const fetchContainerSize = async (containerCode) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/containers/${containerCode}`);
+            return response.data.containerSize;
+        } catch (error) {
+            console.error(`Error fetching container size for ${containerCode}:`, error);
+            return null;
+        }
+    };
+
+    const showDetails = async (si) => {
+        const detailsWithSize = await Promise.all(si.details.map(async (detail) => {
+            const containerSize = await fetchContainerSize(detail.containerCode);
+            return { ...detail, containerSize };
+        }));
+
+        setSelectedSI({ ...si, details: detailsWithSize });
         setIsDialogVisible(true);
     };
 
@@ -92,10 +108,10 @@ export default function Table({ SIs }) {
 
         try {
             if (dialogTitle === 'Khai báo SI') {
-                await axios.post(`https://auth.g42.biz/api/si`, payload);
+                await axios.post(`http://localhost:8080/api/si`, payload);
                 alert('Khai báo SI thành công');
             } else if (dialogTitle === 'Chỉnh sửa SI') {
-                await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload);
+                await axios.put(`http://localhost:8080/api/si/${selectedSI.id}`, payload);
                 alert('Cập nhật SI thành công');
             }
             hideFormDialog();
@@ -114,7 +130,6 @@ export default function Table({ SIs }) {
         const existingSI = siData[rowData.id];
         return (
             <Button
-
                 text
                 onClick={() => showFormDialog(rowData) }
             >
@@ -146,15 +161,19 @@ export default function Table({ SIs }) {
         return (
             <ul>
                 {details.map((detail, index) => (
-                    <li key={index}>
-                        <p>Loại container: {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p>
-                        <p>Kích thước: {detail.containerSize.length}m x {detail.containerSize.width}m x {detail.containerSize.height}m</p>
-                        <p>Thể tích: {detail.containerSize.volume}m³</p>
-                        <p>Cân nặng: {detail.containerSize.weight}kg</p>
-                        <p>Tải trọng: {detail.containerSize.loadCapacity}kg</p>
-                        <p>Tải trọng tối đa: {detail.containerSize.maxLoad}kg</p>
-                        <p>Số lượng: {detail.quantity}</p>
-                    </li>
+                    detail.containerSize ? (
+                        <li key={index}>
+                            <p>Mã container: {detail.containerCode}kg</p>
+                            <p>Loại container: {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p>
+                            <p>Kích thước: {detail.containerSize.length}m x {detail.containerSize.width}m x {detail.containerSize.height}m</p>
+                            <p>Thể tích: {detail.containerSize.volume}m³</p>
+                            <p>Cân nặng: {detail.containerSize.weight}kg</p>
+                            <p>Tải trọng: {detail.containerSize.loadCapacity}kg</p>
+                            <p>Tải trọng tối đa: {detail.containerSize.maxLoad}kg</p>
+                        </li>
+                    ) : (
+                        <li key={index}>Loading container size for {detail.containerCode}...</li>
+                    )
                 ))}
             </ul>
         );

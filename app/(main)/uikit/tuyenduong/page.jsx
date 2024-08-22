@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
@@ -16,7 +16,7 @@ import { Message } from "primereact/message";
 import { InputTextarea } from "primereact/inputtextarea";
 import * as Yup from "yup";
 import { Button } from "primereact/button";
-
+import {Toast} from "primereact";
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
 
@@ -60,7 +60,7 @@ const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
         }
 
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports/search`, {
+            const response = await axios.get(`http://localhost:8080/api/ports/search`, {
                 params: {
                     name: event.query
                 }
@@ -117,6 +117,7 @@ const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
 const App = () => {
     const [waypoints, setWaypoints] = useState([]);
     const [routeSegments, setRouteSegments] = useState([]);
+    const toast = useRef(null);
 
     useEffect(() => {
         console.log("Route Segments Updated:", routeSegments);
@@ -131,7 +132,7 @@ const App = () => {
             const allSegments = [];
             for (let i = 0; i < newWaypoints.length - 1; i++) {
                 try {
-                    const response = await axios.post(`https://auth.g42.biz/api/proxy/waypoints`, {
+                    const response = await axios.post(`http://localhost:8080/api/proxy/waypoints`, {
                         fromPort: newWaypoints[i].portName,
                         toPort: newWaypoints[i + 1].portName
                     });
@@ -160,6 +161,8 @@ const App = () => {
 
     return (
         <div className="p-grid p-justify-center p-align-center">
+            <Toast ref={toast} />
+
             <div className="p-col-12 p-md-10">
                 <Formik
                     initialValues={{
@@ -191,7 +194,13 @@ const App = () => {
                         };
                         add(dataToSend)
                             .then(res => {
-                                alert(res.data);
+                                toast.current.show({
+                                    severity: "success",
+                                    summary: "Thành công",
+                                    detail: "Tuyến đường đã được thêm",
+                                    life: 3000,
+                                });
+
                             })
                             .catch(err => {
                                 alert(err);

@@ -5,9 +5,7 @@ import { LayoutContext } from './context/layoutcontext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import _default from "chart.js/dist/core/core.interaction";
-import SearchIcon from "@mui/icons-material/Search";
-import { InputBase, MenuItem, Select } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading spinner
 import { useRouter } from 'next/navigation';
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
@@ -17,10 +15,12 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const topbarmenubuttonRef = useRef<HTMLButtonElement>(null);
     const [showMenu, setShowMenu] = useState(false);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false); // Loading state
     const router = useRouter();
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
+
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
@@ -34,13 +34,28 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         setShowMenu(false);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        setLoading(true); // Show loading spinner
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('user');
         setUser(null);
-        router.push('/auth/login')
-        console.log('User logged out');
+
+        // Simulate a small delay for better UX
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        setLoading(false); // Hide loading spinner
+        router.push('/auth/login');
         closeMenu();
+    };
+
+    const handleLogin = async () => {
+        setLoading(true); // Show loading spinner
+
+        // Simulate login process
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        setLoading(false); // Hide loading spinner
+        router.push('/auth/login'); // Redirect to login page
     };
 
     useImperativeHandle(ref, () => ({
@@ -89,7 +104,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Link href="/dashboard" underline="none" sx={{ color: '#ed6c02;', mx: 2, fontWeight: 'bold', fontSize: 'medium' }}>
-                            XIN CHAO
+                            Xin chào
                         </Link>
                     </Box>
                     <Box
@@ -103,24 +118,24 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         }}
                     />
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        {user ? (
+                        {loading ? (
+                            <CircularProgress color="inherit" size={24} />
+                        ) : user ? (
                             <div>
-                                <span>{user.roles}</span>
+                                <span>{user.name} ({user.roles})</span>
                                 <Button variant="contained" color="warning" onClick={handleLogout} sx={{boxShadow: 'none', borderRadius: 2, ml: 2 }}>
                                     Log Out
                                 </Button>
                             </div>
                         ) : (
-                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} sx={{boxShadow: 'none', borderRadius: 2 }}>
+                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} onClick={handleLogin} sx={{boxShadow: 'none', borderRadius: 2 }}>
                                 Log In
                             </Button>
                         )}
                     </Box>
                 </div>
 
-            </div>{/* Box sẽ được đặt ở hàng thứ hai nếu sử dụng Grid Layout */}
-
-
+            </div>
         </div>
     );
 });

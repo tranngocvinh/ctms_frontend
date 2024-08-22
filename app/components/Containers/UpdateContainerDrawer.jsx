@@ -13,9 +13,9 @@ const UpdateContainerDrawer = ({ container,fetchContainers }) => {
 
     return (
         <>
-            <Button  severity="success" label="Sửa" onClick={() => setVisible(true)} />
+            <Button  style={{marginLeft:10}} severity="success" label="Báo hỏng" onClick={() => setVisible(true)} />
 
-            <Dialog header="Cập nhật container" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+            <Dialog header="Thông tin sưar chữa container" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
                 <UpdateContainerForm fetchContainers={fetchContainers} container={container}  />
             </Dialog>
         </>

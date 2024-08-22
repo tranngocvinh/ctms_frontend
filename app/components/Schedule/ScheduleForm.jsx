@@ -29,11 +29,11 @@ const ScheduleForm = ({ onSave }) => {
 
     useEffect(() => {
         // Fetch routes and ships from the API
-        axios.get(`https://auth.g42.biz/api/routes`).then(response => {
+        axios.get(`http://localhost:8080/api/routes`).then(response => {
             setRoutes(response.data);
         });
 
-        axios.get(`https://auth.g42.biz/api/ships`).then(response => {
+        axios.get(`http://localhost:8080/api/ships`).then(response => {
             setShips(response.data);
         });
     }, []);
@@ -74,7 +74,7 @@ const ScheduleForm = ({ onSave }) => {
             }))
         };
 
-        axios.post(`https://auth.g42.biz/api/schedules`, dataToSubmit)
+        axios.post(`http://localhost:8080/api/schedules`, dataToSubmit)
             .then(response => {
                 console.log('Schedule added successfully', response.data);
                 // Reset form or show success message

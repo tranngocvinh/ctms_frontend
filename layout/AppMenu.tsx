@@ -36,6 +36,8 @@ const AppMenu = () => {
                                 {label: 'Loại container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
                                 {label: 'Tạo lịch trình', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/lichtrinh'},
                                 {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
+                                {label: 'Danh sách container đang sửa chữa', icon: 'pi pi-fw pi-th-large', to: '/uikit/containerDangSuaChua'},
+
                                 {
                                     label: 'Đơn vị sửa chữa container',
                                     icon: 'pi pi-fw pi-th-large',
@@ -58,9 +60,11 @@ const AppMenu = () => {
                             label: 'Thủ tục tài chính',
                             icon: 'pi pi-fw pi-sitemap',
                             items: [
-                                {label: 'Tính phí DET', icon: 'pi pi-fw pi-tag', to: '/uikit/tinhphiDEM'},
-                                {label: 'Tính Phí DEM', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhphiDEM'},
-                               ]
+                                {label: 'Phí DET/DEM', icon: 'pi pi-fw pi-tag', to: '/uikit/tinhphiDET'},
+                                {label: 'Phí sửa chữa container', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhPhiSuaContainer'},
+                                {label: 'Phí giao hàng', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhPhiGiaoHang'},
+
+                            ]
                         },
 
                         {
@@ -75,37 +79,141 @@ const AppMenu = () => {
 
             ];
 
-        } else if (userRole === 'customer') {
+        } else if (userRole === 'CUSTOMER') {
             menuItems = [
                 {
-                    label: 'Home',
-                    items: [{ label: 'Home', icon: 'pi pi-fw pi-home', to: '/' }]
-                },
-                {
-                    label: 'Customer Services',
-                    items: [{ label: 'Orders', icon: 'pi pi-fw pi-shopping-cart', to: '/customer/orders' }]
+                    label: 'Danh mục quản lý',
+                    items: [
+                        {
+                            label: 'Container và lịch trình',
+                            icon: 'pi pi-fw pi-box',
+                            items: [
+                                // {label: 'Tạo tuyến', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduong'},
+                                // {label: 'Tạo tàu', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tau'},
+                                // {label: 'Loại container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
+                                // {label: 'Tạo lịch trình', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/lichtrinh'},
+                                {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
+                                {label: 'Danh sách container đang sửa chữa', icon: 'pi pi-fw pi-th-large', to: '/uikit/containerDangSuaChua'}
+
+                                // {
+                                //     label: 'Đơn vị sửa chữa container',
+                                //     icon: 'pi pi-fw pi-th-large',
+                                //     to: '/uikit/container_supplier'
+                                // }
+
+                            ]
+                        },
+                        {
+                            label: 'Thủ tục hàng hải',
+                            icon: 'pi pi-fw pi-tag',
+                            items: [
+                                {label: 'Lệnh cấp container rỗng', icon: 'pi pi-fw pi-megaphone', to: '/uikit/capContRong'},
+                                {label: 'Khai báo SI', icon: 'pi pi-fw pi-send', to: '/uikit/khaiBaoSI'},
+                                {label: 'Lệnh hạ Hàng', icon: 'pi pi-fw pi-chevron-down', to: '/uikit/haHang'},
+                            ]
+                        },
+                        {
+                            label: 'Thủ tục tài chính',
+                            icon: 'pi pi-fw pi-sitemap',
+                            items: [
+                                {label: 'Phí DET/DEM', icon: 'pi pi-fw pi-tag', to: '/uikit/tinhphiDET'},
+                                {label: 'Phí sửa chữa container', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhPhiSuaContainer'},
+                                {label: 'Phí giao hàng', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhPhiGiaoHang'},
+                            ]
+                        },
+
+
+                    ]
+
                 }
             ];
-        } else if (userRole === 'shipping_company') {
+        } else if (userRole === 'STAFF') {
             menuItems = [
                 {
-                    label: 'Home',
-                    items: [{ label: 'Home', icon: 'pi pi-fw pi-home', to: '/' }]
-                },
-                {
-                    label: 'Shipping Services',
-                    items: [{ label: 'Manage Ships', icon: 'pi pi-fw pi-ship', to: '/shipping/ships' }]
+                    label: 'Danh mục quản lý',
+                    items: [
+                        {
+                            label: 'Container và lịch trình',
+                            icon: 'pi pi-fw pi-box',
+                            items: [
+                                //{label: 'Tạo tuyến', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduong'},
+                                {label: 'Tạo tàu', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tau'},
+                                {label: 'Loại container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
+                                //{label: 'Tạo lịch trình', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/lichtrinh'},
+                                {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
+                                {label: 'Đơn vị sửa chữa container', icon: 'pi pi-fw pi-th-large', to: '/uikit/container_supplier'},
+                                {label: 'Danh sách container đang sửa chữa', icon: 'pi pi-fw pi-th-large', to: '/uikit/containerDangSuaChua'}
+
+
+                            ]
+                        },
+                        // {
+                        //     label: 'Thủ tục hàng hải',
+                        //     icon: 'pi pi-fw pi-tag',
+                        //     items: [
+                        //         {label: 'Lệnh cấp container rỗng', icon: 'pi pi-fw pi-megaphone', to: '/uikit/capContRong'},
+                        //         {label: 'Khai báo SI', icon: 'pi pi-fw pi-send', to: '/uikit/khaiBaoSI'},
+                        //         {label: 'Lệnh hạ Hàng', icon: 'pi pi-fw pi-chevron-down', to: '/uikit/haHang'},
+                        //     ]
+                        // },
+                        {
+                            label: 'Thủ tục tài chính',
+                            icon: 'pi pi-fw pi-sitemap',
+                            items: [
+                                {label: 'Phí DET', icon: 'pi pi-fw pi-tag', to: '/uikit/tinhphiDET'},
+                                {label: 'Phí sửa chữa container', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhphiDET'},
+                                {label: 'Phí làm sạch container', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhphiDET'}
+                            ]
+                        },
+
+
+                    ]
+
                 }
             ];
-        } else if (userRole === 'transport_unit') {
+        } else if (userRole === 'MANAGER') {
             menuItems = [
                 {
-                    label: 'Home',
-                    items: [{ label: 'Home', icon: 'pi pi-fw pi-home', to: '/' }]
-                },
-                {
-                    label: 'Transport Services',
-                    items: [{ label: 'Manage Transport', icon: 'pi pi-fw pi-truck', to: '/transport/manage' }]
+                    label: 'Danh mục quản lý',
+                    items: [
+                        {
+                            label: 'Container và lịch trình',
+                            icon: 'pi pi-fw pi-box',
+                            items: [
+                                {label: 'Tạo tuyến', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tuyenduong'},
+                                {label: 'Tạo tàu', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/tau'},
+                                {label: 'Loại container', icon: 'pi pi-fw pi-align-left', to: '/uikit/container'},
+                                {label: 'Tạo lịch trình', icon: 'pi pi-fw pi-sliders-v', to: '/uikit/lichtrinh'},
+                                {label: 'Trạng Thái Container', icon: 'pi pi-fw pi-slack', to: '/uikit/trangthaiCont'},
+                                {
+                                    label: 'Đơn vị sửa chữa container',
+                                    icon: 'pi pi-fw pi-th-large',
+                                    to: '/uikit/container_supplier'
+                                }
+
+                            ]
+                        },
+                        {
+                            label: 'Thủ tục hàng hải',
+                            icon: 'pi pi-fw pi-tag',
+                            items: [
+                                {label: 'Lệnh cấp container rỗng', icon: 'pi pi-fw pi-megaphone', to: '/uikit/capContRong'},
+                                {label: 'Khai báo SI', icon: 'pi pi-fw pi-send', to: '/uikit/khaiBaoSI'},
+                                {label: 'Lệnh hạ Hàng', icon: 'pi pi-fw pi-chevron-down', to: '/uikit/haHang'},
+                            ]
+                        },
+                        {
+                            label: 'Thủ tục tài chính',
+                            icon: 'pi pi-fw pi-sitemap',
+                            items: [
+                                {label: 'Tính phí DET', icon: 'pi pi-fw pi-tag', to: '/uikit/tinhphiDET'},
+                                {label: 'Tính Phí DEM', icon: 'pi pi-fw pi-money-bill', to: '/uikit/tinhphiDET'},
+                            ]
+                        },
+
+
+                    ]
+
                 }
             ];
         }
