@@ -10,7 +10,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { add } from 'app/api/container';
+import { add } from '/app/api/container';
 import {MultiSelect} from "primereact/multiselect";
 import { Toast } from 'primereact/toast';
 

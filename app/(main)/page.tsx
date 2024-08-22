@@ -10,9 +10,9 @@ import { ProductService } from '../../demo/service/ProductService';
 import { LayoutContext } from '../../layout/context/layoutcontext';
 import Link from 'next/link';
 import { Demo } from '@/types';
-import {isUpdateApproved} from "../../../ctms_frontend/app/api/container";
-import {getEmptyContainers} from "../../../ctms_frontend/app/api/container";
-import {getEmptyContainerById} from "../../../ctms_frontend/app/api/container";
+import {isUpdateApproved} from '/ctms-frontend/app/api/container';
+import {getEmptyContainers} from '/ctms-frontend/app/api/container';
+import {getEmptyContainerById} from '/ctms-frontend/app/api/container';
 
 import EmptyContainerDetailModal from './EmptyContainerDetailModal';
 

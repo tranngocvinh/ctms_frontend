@@ -12,7 +12,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { FileUpload } from 'primereact/fileupload';
 import { Message } from 'primereact/message';
 import axios from 'axios';
-import { getContainers, uploadImage, updateSupplier, deleteSupplier } from 'app/api/container_supplier';
+import { getContainers, uploadImage, updateSupplier, deleteSupplier } from '/app/api/container_supplier';
 
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';

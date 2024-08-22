@@ -5,8 +5,8 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
-import UserService from 'app/components/User/UserService';
-import UserForm from 'app/components/User/UserForm';
+import UserService from '/app/components/User/UserService';
+import UserForm from '/app/components/User/UserForm';
 
 export default function UserList() {
     const [users, setUsers] = useState([]);
