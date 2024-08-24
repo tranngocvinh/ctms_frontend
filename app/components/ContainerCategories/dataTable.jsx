@@ -12,7 +12,7 @@ import UpdateContainerDrawer from "./UpdateContainerDrawer";
 import Delete from "./DeleteContainer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
 
-export default function Table({ containers, fetchContainers }) {
+export default function Table({ containers, fetchContainers, showToast }) {
     const [searchType, setSearchType] = useState('containerTypeType');
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -105,7 +105,7 @@ const leng = (rowData) => (
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Loại Containers</span>
-            <CreateContainerDrawer fetchContainers={fetchContainers} />
+            <CreateContainerDrawer fetchContainers={fetchContainers} showToast={showToast} />
         </div>
     );
 
@@ -121,9 +121,9 @@ const leng = (rowData) => (
     const ActionButtons = (rowData) => (
         <div className="flex flex-wrap justify-content-center gap-1">
             <UpdateContainerDrawer
-                container={rowData} fetchContainers={fetchContainers} label="Sửa" severity="info"
+                container={rowData} fetchContainers={fetchContainers} showToast={showToast} label="Sửa" severity="info"
             />
-            <Delete container={rowData} fetchContainers={fetchContainers}/>
+            <Delete container={rowData} fetchContainers={fetchContainers} showToast={showToast}/>
         </div>
     );
 

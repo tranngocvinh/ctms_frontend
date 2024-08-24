@@ -6,7 +6,7 @@ import CreateShipForm from "./CreateShipForm";
 
 
 
-export default function CreateShipDrawer({fetchShips}) {
+export default function CreateShipDrawer({fetchShips, showToast}) {
     const [visible, setVisible] = useState(false);
 
 
@@ -15,7 +15,7 @@ export default function CreateShipDrawer({fetchShips}) {
         <>
             <Sidebar visible={visible} onHide={() => setVisible(false)}>
                 <h2>Thêm tàu</h2>
-                <CreateShipForm fetchShips={fetchShips} />
+                <CreateShipForm fetchShips={fetchShips} showToast={showToast} />
             </Sidebar>
 
 

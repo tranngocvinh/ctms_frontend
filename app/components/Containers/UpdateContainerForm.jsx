@@ -87,7 +87,7 @@ const RepairContainerForm = ({ container, fetchContainers }) => {
 
     const fetchSuppliers = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/v1/supplier`);
+            const response = await axios.get(`http://localhost:8080/api/v1/supplier`);
             setSuppliers(response.data);
         } catch (error) {
             console.error('Error fetching suppliers:', error);a
@@ -121,7 +121,7 @@ const RepairContainerForm = ({ container, fetchContainers }) => {
                             description: values.description
                         };
 
-                        axios.post(`http://auth.g42.biz/api/v1/repair`, repairData)
+                        axios.post(`http://localhost:8080/api/v1/repair`, repairData)
                             .then(res => {
                                 fetchContainers();
                             })

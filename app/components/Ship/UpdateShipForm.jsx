@@ -84,7 +84,7 @@ const status_ship = [
     {name: 'Đang bảo trì', value: 'Đang bảo trì'},
 ];
 
-const CreateShipForm = ({fetchShips, ships}) => {
+const CreateShipForm = ({fetchShips, ships, showToast}) => {
     const initialValues = {
         id: ships?.id || '' ,
         name: ships?.name || '',
@@ -108,9 +108,12 @@ const CreateShipForm = ({fetchShips, ships}) => {
                     })}
                     onSubmit={(values, {setSubmitting}) => {
                         update(values.id, values).then(res => {
-                            fetchShips();
+                            showToast('success', 'Thành công', 'Cập nhật tàu thành công!');
+                            setTimeout(() => {
+                                fetchShips();
+                            }, 1000);
                         }).catch(err => {
-                            console.log(err)
+                            showToast('error', 'Thất bại', 'Cập nhật tàu thất bại!');
                         }).finally(() => {
                             setSubmitting(false);
                             console.log("finish");

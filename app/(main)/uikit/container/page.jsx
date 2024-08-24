@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -9,12 +9,17 @@ import {getImageById} from "../../../api/container_supplier";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import {getContainers} from "../../../api/container_size";
 import Table from "../../../components/ContainerCategories/dataTable";
+import { Toast } from 'primereact/toast';
 
 
 export default function TemplateDemo() {
     const [containers,setContainers] = useState([])
     const [loading, setLoading] = useState(false);
+    const toast = useRef(null);  // Create the toast reference here
 
+    const showToast = (severity, summary, detail) => {
+        toast.current.show({ severity, summary, detail });
+    };
     const fetchContainers = () =>{
         setLoading(true);
 
@@ -39,7 +44,8 @@ export default function TemplateDemo() {
     }
     return(
         <>
-            <Table  containers={containers} fetchContainers={fetchContainers}/>
+            <Toast ref={toast} />
+            <Table  containers={containers} fetchContainers={fetchContainers} showToast={showToast}/>
         </>
     )
 }

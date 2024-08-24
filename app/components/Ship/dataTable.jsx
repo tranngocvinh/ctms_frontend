@@ -14,7 +14,7 @@ import Delete from "../Ship/DeleleShip";
 import UpdateShipDrawer from "./UpdateShipDrawer";
 import CreateShipDrawer from "./CreateShipDrawer";
 
-export default function Table({ ships, fetchShips }) {
+export default function Table({ ships, fetchShips, showToast}) {
     const [filters, setFilters] = useState({
         name: '',
         company: '',
@@ -125,9 +125,9 @@ export default function Table({ ships, fetchShips }) {
         return (
             <div className="flex flex-wrap justify-content-center gap-1">
                 <UpdateShipDrawer
-                    ships={rowData} fetchShips={fetchShips} label="Sửa" severity="info"
+                    ships={rowData} fetchShips={fetchShips}  showToast={showToast} label="Sửa" severity="info"
                 />
-                <Delete ships={rowData} fetchShips={fetchShips} />
+                <Delete ships={rowData} fetchShips={fetchShips} showToast={showToast} />
             </div>
         );
     };
@@ -135,7 +135,7 @@ export default function Table({ ships, fetchShips }) {
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Thêm tàu</span>
-            <CreateShipDrawer fetchShips={fetchShips} />
+            <CreateShipDrawer fetchShips={fetchShips} showToast={showToast} />
         </div>
     );
 

@@ -68,7 +68,7 @@ const containertype = [
     { name: 'Đông lạnh 40 feet', containerTypeId: 4 },
 ];
 
-const CreateSupplierForm = ({ fetchContainers, container }) => {
+const CreateSupplierForm = ({ fetchContainers, container, showToast }) => {
     const initialValues = {
         id:container?.id || '',
         containerType:{id:  container?.containerType.id || ''},
@@ -100,9 +100,12 @@ const CreateSupplierForm = ({ fetchContainers, container }) => {
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                         update(values.id, values).then(res => {
-                            fetchContainers();
+                            showToast('success', 'Thành công', 'cập nhật container thành công!');
+                            setTimeout(() => {
+                                fetchContainers();
+                            },1000)
                         }).catch(err => {
-                            console.log(err);
+                            showToast('error', 'Thất bại', 'cập nhật container thất bại!');
                         }).finally(() => {
                             setSubmitting(false);
                             console.log("finish");

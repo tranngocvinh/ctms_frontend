@@ -8,13 +8,20 @@ import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import axios from 'axios';
+import Delete from "../../../components/phiDET/DeleleRepair";
 
 export default function DropOrdersTable() {
     const [dropOrders, setDropOrders] = useState([]);
     const [dialogVisible, setDialogVisible] = useState(false);
     const [paymentInfo, setPaymentInfo] = useState({}); // State to hold payment info
     const [customerNames, setCustomerNames] = useState({}); // Store customer names
+    const [userRole,setUserRole] = useState() ;
 
+
+    useEffect(() => {
+        const userRole = localStorage.getItem('userRole');
+        setUserRole(userRole)
+    },[])
     useEffect(() => {
         fetchDropOrders();
     }, []);
@@ -25,7 +32,7 @@ export default function DropOrdersTable() {
     })
     const fetchDropOrders = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/drop-orders`,getAuthConfig());
+            const response = await axios.get(`http://localhost:8080/api/drop-orders`,getAuthConfig());
             const orders = response.data;
             setDropOrders(orders);
 
@@ -53,7 +60,7 @@ export default function DropOrdersTable() {
 
     const fetchSI = async (id) => {
         try {
-            return await axios.get(`http://auth.g42.biz/api/si/${id}`);
+            return await axios.get(`http://localhost:8080/api/si/${id}`);
         } catch (error) {
             console.error('Error fetching SI:', error);
         }
@@ -61,7 +68,7 @@ export default function DropOrdersTable() {
 
     const fetchEmptyContainer = async (id) => {
         try {
-            return await axios.get(`http://auth.g42.biz/api/containers/allocate/ship/${id}`);
+            return await axios.get(`http://localhost:8080/api/containers/allocate/ship/${id}`);
         } catch (error) {
             console.error('Error fetching empty container:', error);
         }
@@ -82,7 +89,24 @@ export default function DropOrdersTable() {
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <Button label="Thanh Toán" onClick={() => handlePaymentClick(rowData)} className="p-button-success" />
+            <div className="flex flex-wrap justify-content-center gap-1">
+                {rowData.isPay === 1  ? (
+
+                    <p>Đã thanh toán</p>
+
+                ) : (
+                    <>
+                        {userRole === 'CUSTOMER' ? (
+                            <Button label="Thanh Toán" onClick={() => handlePaymentClick(rowData)} className="p-button-success" />
+                        ) : (
+
+                            <Delete repair={rowData} fetchDropOrders={fetchDropOrders()} />
+                        )
+                        }
+                    </>
+                )}
+            </div>
+
         );
     };
 

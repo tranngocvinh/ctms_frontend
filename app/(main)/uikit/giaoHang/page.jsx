@@ -65,26 +65,26 @@ const DeliveryOrderTable = () => {
 
     const fetchData = () => {
         axios
-            .get(`http://auth.g42.biz/api/delivery-orders`,getAuthConfig())
+            .get(`http://localhost:8080/api/delivery-orders`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, deliveryOrders: response.data })));
         axios
-            .get(`http://auth.g42.biz/api/v1/customers`)
+            .get(`http://localhost:8080/api/v1/customers`)
             .then((response) => setState((prev) => ({ ...prev, customers: response.data })));
         axios
-            .get(`http://auth.g42.biz/api/schedules`)
+            .get(`http://localhost:8080/api/schedules`)
             .then((response) => setState((prev) => ({ ...prev, schedules: response.data })));
         fetchContainers(); // Initial fetch for containers
     };
 
     const fetchContainers = (page = 0, size = 10) => {
         axios
-            .get(`http://auth.g42.biz/api/containers?page=${page}&size=${size}`, getAuthConfig())
+            .get(`http://localhost:8080/api/containers?page=${page}&size=${size}`, getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, containers: [...prev.containers, ...response.data] })));
     };
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
         axios
-            .get(`http://auth.g42.biz/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
+            .get(`http://localhost:8080/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
             .then((response) => {
                 const newShipScheduleContainerMap = response.data.reduce(
                     (map, shipSchedule) => ({ ...map, [shipSchedule.id]: [] }),
@@ -103,8 +103,8 @@ const DeliveryOrderTable = () => {
     const saveDeliveryOrder = () => {
         if (state.deliveryOrder.customerId && state.deliveryOrder.scheduleId) {
             const saveRequest = state.deliveryOrder.id
-                ? axios.put(`http://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
-                : axios.post(`http://auth.g42.biz/api/delivery-orders`, state.deliveryOrder);
+                ? axios.put(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
+                : axios.post(`http://localhost:8080/api/delivery-orders`, state.deliveryOrder);
 
             saveRequest.then((response) => {
                 fetchData();
@@ -120,7 +120,7 @@ const DeliveryOrderTable = () => {
     };
 
     const deleteDeliveryOrder = () => {
-        axios.delete(`http://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
+        axios.delete(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
             updateState({
                 deliveryOrders: state.deliveryOrders.filter((val) => val.id !== state.deliveryOrder.id),
                 deleteDeliveryOrderDialog: false,
@@ -302,7 +302,7 @@ const DeliveryOrderTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="totalAmount">Tổng tiền</label>
-                    <InputNumber id="totalAmount" value={state.deliveryOrder.totalAmount} onChange={(e) => onInputChange(e, "totalAmount")} />
+                    <InputText id="totalAmount" value={state.deliveryOrder.totalAmount} onChange={(e) => onInputChange(e, "totalAmount")} />
                 </div>
                 <div className="field">
                     <label htmlFor="status">Trạng thái</label>

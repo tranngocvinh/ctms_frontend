@@ -8,7 +8,7 @@ const getAuthConfig = () => ({
 export const getAllRepair = async () => {
     try {
         return await axios.get(
-            `http://auth.g42.biz/api/v1/repair`,getAuthConfig()
+            `http://localhost:8080/api/v1/repair`,getAuthConfig()
         )
     } catch (e) {
         throw e;
@@ -18,7 +18,7 @@ export const getAllRepair = async () => {
 export const createRepair = async (repair) => {
     try {
         console.log("Sending add request:", repair); // Log the request data
-        return await axios.post(`http://auth.g42.biz/api/v1/repair`, repair);
+        return await axios.post(`http://localhost:8080/api/v1/repair`, repair);
     } catch (e) {
         console.log("Add request error:", e); // Log the error
         throw e;
@@ -27,7 +27,7 @@ export const createRepair = async (repair) => {
 export const update = async (id, repair) => {
     try {
         return await axios.put(
-            `http://auth.g42.biz/api/v1/repair/${id}`,
+            `http://localhost:8080/api/v1/repair/${id}`,
             repair,
 
         );
@@ -39,7 +39,7 @@ export const update = async (id, repair) => {
 export const repairFinish = async (id) => {
     try {
         return await axios.put(
-            `http://auth.g42.biz/api/v1/repair/finish/${id}`,
+            `http://localhost:8080/api/v1/repair/finish/${id}`,
 
         )
 
@@ -51,7 +51,7 @@ export const repairFinish = async (id) => {
 export const handlePayment = async (id) => {
     try {
         return await axios.put(
-            `http://auth.g42.biz/api/v1/repair/payment/${id}`,
+            `http://localhost:8080/api/v1/repair/payment/${id}`,
 
         )
 

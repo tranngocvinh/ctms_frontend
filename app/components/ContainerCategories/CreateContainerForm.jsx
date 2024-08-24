@@ -6,6 +6,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { Dropdown } from "primereact/dropdown";
 import ErrorGlobal from "../error_message_global";
+import { add } from "../../api/container_size";
 
 const MyTextInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
@@ -64,7 +65,7 @@ const containertype = [
     { name: 'Đông lạnh 40 feet', containerTypeId: 4 },
 ];
 
-const CreateSupplierForm = ({ fetchContainers }) => {
+const CreateSupplierForm = ({ fetchContainers, showToast }) => {
     const blankError = Yup.number().required(ErrorGlobal.blankError);
     return (
         <div className="p-grid p-justify-center p-align-center">
@@ -94,10 +95,13 @@ const CreateSupplierForm = ({ fetchContainers }) => {
                         maxLoad: blankError,
                     })}
                     onSubmit={(values, { setSubmitting }) => {
-                        add({route: values}).then(res => {
-                            fetchContainers();
+                        add(values).then(res => {
+                            showToast('success', 'Thành công', 'Thêm container thành công!');
+                            setTimeout(() => {
+                                fetchContainers();
+                            },1000)
                         }).catch(err => {
-                            console.log(err);
+                            showToast('error', 'Thất bại', 'Thêm container thất bại!');
                         }).finally(() => {
                             console.log("finish");
                         });

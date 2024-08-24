@@ -7,7 +7,7 @@ const getAuthConfig = () => ({
 export const getAllSIs = async () => {
     try {
         return await axios.get(
-            `http://auth.g42.biz/api/si/getByRole`,getAuthConfig()
+            `http://localhost:8080/api/si/getByRole`,getAuthConfig()
         )
     } catch (e) {
         throw e;

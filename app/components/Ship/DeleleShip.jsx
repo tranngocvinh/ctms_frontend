@@ -4,7 +4,7 @@ import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import {dele} from "../../api/ship";
 
-export default function Delete({ ships, fetchShips }) {
+export default function Delete({ ships, fetchShips,showToast}) {
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
 
@@ -12,16 +12,18 @@ export default function Delete({ ships, fetchShips }) {
 
         dele(ships.id)  // Ensure this is the correct ID field
             .then(res => {
-                toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
-                fetchShips();
+                showToast('success', 'Thành công', 'Xóa thành công!');
+                setTimeout(() => {
+                    fetchShips();
+                }, 1000);
             })
             .catch(err => {
-                toast.current.show({ severity: 'warn', summary: 'Error', detail: 'Deletion failed', life: 3000 });
+                toast.current.show({ severity: 'warn', summary: 'Error', detail: 'Tàu đang ở trong một lịch trình đang di chuyển, không thể xóa', life: 3000 });
             });
     };
 
     const reject = () => {
-        toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        toast.current.show({ severity: 'warn', summary: 'Từ chối', detail: 'Bạn vừa từ chối lệnh xóa tàu', life: 3000 });
     };
 
     return (

@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getShip = async () => {
     try {
         return await axios.get(
-            `http://auth.g42.biz/api/ships`,
+            `http://localhost:8080/api/ships`,
         )
     } catch (e) {
         throw e;
@@ -13,7 +13,7 @@ export const getShip = async () => {
 export const add = async (ship) => {
     try {
         return await axios.post(
-            `http://auth.g42.biz/api/ships`,
+            `http://localhost:8080/api/ships`,
             ship
 
         )
@@ -26,7 +26,7 @@ export const add = async (ship) => {
 export const update = async (id, ship) => {
     try {
         return await axios.put(
-            `http://auth.g42.biz/api/ships/${id}`,
+            `http://localhost:8080/api/ships/${id}`,
             ship,
 
         );
@@ -37,7 +37,7 @@ export const update = async (id, ship) => {
 export const dele = async (id) => {
     try {
         return await axios.delete(
-            `http://auth.g42.biz/api/ships/${id}`,
+            `http://localhost:8080/api/ships/${id}`,
 
         )
 

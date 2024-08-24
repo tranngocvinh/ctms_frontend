@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { deleteSupplier } from "../../api/container_supplier";
 import {dele} from "../../api/container_size";
 
-export default function Delete({ container, fetchContainers }) {
+export default function Delete({ container, fetchContainers, showToast }) {
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
 
@@ -14,15 +14,18 @@ export default function Delete({ container, fetchContainers }) {
 
         dele(container.id)  // Ensure this is the correct ID field
             .then(res => {
-                fetchContainers();
+                showToast('success', 'Thành công', 'Xóa container thành công!');
+                setTimeout(() => {
+                    fetchContainers();
+                },1000)
             })
             .catch(err => {
-                toast.current.show({ severity: 'warn', summary: 'Lỗi', detail: 'Không thể xóa bởi vì container đang dùng trong một chức năng khác', life: 3000 });
+                showToast('info', 'Thất bại', 'Không thế xóa bởi vì container đang nằm trong một chức năng khác!');
             });
     };
 
     const reject = () => {
-        toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        toast.current.show({ severity: 'warn', summary: 'Từ chối', detail: 'Bạn vừa từ chối lệnh xóa container', life: 3000 });
     };
 
     return (

@@ -81,7 +81,7 @@ const status_ship = [
     { name: 'Đang bảo trì', value: 'Đang bảo trì' },
 ];
 
-const CreateShipForm = ({ fetchShips }) => {
+const CreateShipForm = ({ fetchShips,showToast }) => {
     return (
         <div className="p-grid p-justify-center p-align-center">
             <div className="p-col-12 p-md-8">
@@ -103,9 +103,12 @@ const CreateShipForm = ({ fetchShips }) => {
                     })}
                     onSubmit={(values, {setSubmitting}) => {
                         add(values).then(res => {
-                            fetchShips();
+                            showToast('success', 'Thành công', 'Thêm tàu thành công!');
+                            setTimeout(() => {
+                                fetchShips();
+                            }, 1000);
                         }).catch(err => {
-                            console.log(err)
+                            showToast('error', 'Thất bại', 'Thêm tàu thất bại!');
                         }).finally(() => {
                             setSubmitting(false);
                             console.log("finish");

@@ -60,7 +60,7 @@ const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
         }
 
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ports/search`, {
+            const response = await axios.get(`http://localhost:8080/api/ports/search`, {
                 params: {
                     name: event.query
                 }
@@ -132,7 +132,7 @@ const App = () => {
             const allSegments = [];
             for (let i = 0; i < newWaypoints.length - 1; i++) {
                 try {
-                    const response = await axios.post(`http://auth.g42.biz/api/proxy/waypoints`, {
+                    const response = await axios.post(`http://localhost:8080/api/proxy/waypoints`, {
                         fromPort: newWaypoints[i].portName,
                         toPort: newWaypoints[i + 1].portName
                     });

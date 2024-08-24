@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -20,7 +20,7 @@ const containerStatusMap = {
 
 export const getSchedules = async (id) => {
     try {
-        const response = await axios.get(`http://auth.g42.biz/api/schedules/${id}`);
+        const response = await axios.get(`http://localhost:8080/api/schedules/${id}`);
         return response.data;
     } catch (e) {
         console.error('Error fetching schedule details:', e);
@@ -32,7 +32,13 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
     const [selectedContainer, setSelectedContainer] = useState(null);
     const [scheduleDetails, setScheduleDetails] = useState([]);
     const [displayDialog, setDisplayDialog] = useState(false);
+    const [userRole,setUserRole] = useState() ;
 
+
+    useEffect(() => {
+        const userRole = localStorage.getItem('userRole');
+        setUserRole(userRole)
+    },[])
     const fetchScheduleDetails = async (scheduleIds) => {
         try {
             const promises = scheduleIds.map(id => getSchedules(id));
@@ -65,12 +71,18 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
                 {rowData.isRepair === 1 ? (
                     <Button label="đang sửa chữa" disabled style={{marginLeft:10}} />
                 ) : (
+                    <>
+                    {(userRole === 'STAFF' || userRole === 'MANAGER') ? (
                     <UpdateContainerDrawer
                         container={rowData}
                         fetchContainers={fetchContainers}
                         label="Sửa"
                         severity="info"
-                    />
+                    />)
+                     : null
+                    }
+                    </>
+
                 )}
             </div>
         );
@@ -125,7 +137,9 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Trạng thái chi tiết container</span>
-            <CreateContainerDrawer showToast={showToast} fetchContainers={fetchContainers} />
+
+            {userRole === 'MANAGER' && <CreateContainerDrawer showToast={showToast} fetchContainers={fetchContainers} />}
+
         </div>
     );
 

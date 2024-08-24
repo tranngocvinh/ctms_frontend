@@ -44,7 +44,7 @@ export default function Table({ SI, fetchSI }) {
     })
     const fetchSIData = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/drop-orders`,getAuthConfig());
+            const response = await axios.get(`http://localhost:8080/api/drop-orders`,getAuthConfig());
             const dropOrderIdMap = {};
             response.data.forEach(si => {
                 dropOrderIdMap[si.si] = si;
@@ -58,7 +58,7 @@ export default function Table({ SI, fetchSI }) {
      const getEmptyContainer = async (id) => {
         try {
             const response =  await axios.get(
-                `http://auth.g42.biz/api/containers/allocate/ship/${id}`
+                `http://localhost:8080/api/containers/allocate/ship/${id}`
             )
             setEmptyContainer(response.data)
         } catch (e) {
@@ -68,7 +68,7 @@ export default function Table({ SI, fetchSI }) {
 
     const fetchPorts = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ports`);
+            const response = await axios.get(`http://localhost:8080/api/ports`);
             setPorts(response.data);
         } catch (error) {
             console.error('Error fetching ports:', error);
@@ -77,7 +77,7 @@ export default function Table({ SI, fetchSI }) {
 
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/cargo-types`);
+            const response = await axios.get(`http://localhost:8080/api/cargo-types`);
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -113,7 +113,7 @@ export default function Table({ SI, fetchSI }) {
         setDropOrderId(null);
 
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/drop-orders`,getAuthConfig());
+            const response = await axios.get(`http://localhost:8080/api/drop-orders`,getAuthConfig());
             const existingOrder = response.data.find(order => order.si === si.id);
 
             if (existingOrder) {
@@ -148,10 +148,10 @@ export default function Table({ SI, fetchSI }) {
 
         try {
             if (dialogTitle === 'Chỉnh sửa lệnh hạ hàng') {
-                await axios.put(`http://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload);
+                await axios.put(`http://localhost:8080/api/drop-orders/${selectedSI.id}`, payload);
                 alert('Cập nhật lệnh hạ hàng thành công');
             } else {
-                await axios.post(`http://auth.g42.biz/api/drop-orders`, payload);
+                await axios.post(`http://localhost:8080/api/drop-orders`, payload);
                 alert('Phát hành lệnh hạ hàng thành công');
             }
             hideFormDialog();

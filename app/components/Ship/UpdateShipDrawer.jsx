@@ -3,7 +3,7 @@ import { Sidebar } from 'primereact/sidebar';
 import UpdateShipForm from './UpdateShipForm';
 import { Button } from 'primereact/button';
 
-const UpdateShipDrawer = ({ ships,fetchShips }) => {
+const UpdateShipDrawer = ({ ships,fetchShips, showToast }) => {
     const [visible, setVisible] = useState(false);
 
 
@@ -14,7 +14,7 @@ const UpdateShipDrawer = ({ ships,fetchShips }) => {
             <Button  severity="success" label="Sửa" onClick={() => setVisible(true)} />
             <Sidebar visible={visible} onHide={() => setVisible(false)} >
                 <h2>Cập nhật tàu</h2>
-                <UpdateShipForm fetchShips={fetchShips} ships={ships}  />
+                <UpdateShipForm fetchShips={fetchShips} ships={ships} showToast={showToast}  />
             </Sidebar>
         </>
     );

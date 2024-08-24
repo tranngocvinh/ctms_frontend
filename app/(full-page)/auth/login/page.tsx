@@ -10,6 +10,7 @@ import { classNames } from 'primereact/utils';
 import axios from 'axios';
 import AppHeader from '../login/AppHeader'
 import Footer from './Footer/Footer'
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ const LoginPage = () => {
     const handleLogin = async () => {
         setLoading(true); // Start loading
         try {
-            const response = await axios.post(`http://auth.g42.biz/api/v1/auth/login`, {
+            const response = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
                 username: email,
                 password: password
             });
@@ -36,16 +37,18 @@ const LoginPage = () => {
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('userRole', userRole);
-
+            const role = localStorage.getItem('userRole');
+            {(role === 'ADMIN' || role === 'CUSTOMER') ? (router.push('/pages/landing')) : router.push('/') }
             // Navigate to the main page
-            router.push('/');
+
         } catch (error) {
             console.error('Login failed:', error);
-            alert("Please check your login information.");
+            alert("Vui lòng kiểm tra lại thông tin đăng nhập của bạn.");
         } finally {
             setLoading(false); // Stop loading
         }
     };
+
 
     return (
         <>
@@ -100,7 +103,11 @@ const LoginPage = () => {
                                               inputClassName="w-full p-3 md:w-30rem"></Password>
 
                                     {/* Button with loading state */}
-                                    <Button label={loading ? "Đang đăng nhập..." : "Đăng nhập"}
+                                    {/*//{loading && (<div>ddddddddddddd</div>)}*/}
+
+                                    <Button
+
+                                      label= "Đăng nhập"
                                             className=" p-3 text-xl"
                                             onClick={handleLogin}
                                             disabled={loading} // Disable the button while loading

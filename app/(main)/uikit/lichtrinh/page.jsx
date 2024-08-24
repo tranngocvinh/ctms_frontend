@@ -38,9 +38,9 @@ const ScheduleTable = () => {
     const dt = useRef(null);
 
     useEffect(() => {
-        axios.get(`http://auth.g42.biz/api/schedules`).then(response => setSchedules(response.data));
-        axios.get(`http://auth.g42.biz/api/routes`).then(response => setRoutes(response.data));
-        axios.get(`http://auth.g42.biz/api/ships`).then(response => setShips(response.data));
+        axios.get(`http://localhost:8080/api/schedules`).then(response => setSchedules(response.data));
+        axios.get(`http://localhost:8080/api/routes`).then(response => setRoutes(response.data));
+        axios.get(`http://localhost:8080/api/ships`).then(response => setShips(response.data));
     }, []);
 
     const openNew = () => {
@@ -69,7 +69,7 @@ const ScheduleTable = () => {
             let _schedule = { ...schedule };
 
             if (schedule.id) {
-                axios.put(`http://auth.g42.biz/api/schedules/${schedule.id}`, _schedule).then(response => {
+                axios.put(`http://localhost:8080/api/schedules/${schedule.id}`, _schedule).then(response => {
                     const index = findIndexById(schedule.id);
                     _schedules[index] = response.data;
                     setSchedules(_schedules);
@@ -78,7 +78,7 @@ const ScheduleTable = () => {
                     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Schedule Updated', life: 3000 });
                 });
             } else {
-                axios.post(`http://auth.g42.biz/api/schedules`, _schedule).then(response => {
+                axios.post(`http://localhost:8080/api/schedules`, _schedule).then(response => {
                     _schedules.push(response.data);
                     setSchedules(_schedules);
                     setScheduleDialog(false);
@@ -100,7 +100,7 @@ const ScheduleTable = () => {
     };
 
     const deleteSchedule = () => {
-        axios.delete(`http://auth.g42.biz/api/schedules/${schedule.id}`).then(() => {
+        axios.delete(`http://localhost:8080/api/schedules/${schedule.id}`).then(() => {
             let _schedules = schedules.filter(val => val.id !== schedule.id);
             setSchedules(_schedules);
             setDeleteScheduleDialog(false);

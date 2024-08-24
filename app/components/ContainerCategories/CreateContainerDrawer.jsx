@@ -6,7 +6,7 @@ import CreateContainerForm from "./CreateContainerForm";
 
 
 
-export default function CreateContainerDrawer({fetchContainers}) {
+export default function CreateContainerDrawer({fetchContainers, showToast}) {
     const [visible, setVisible] = useState(false);
 
 
@@ -15,7 +15,7 @@ export default function CreateContainerDrawer({fetchContainers}) {
         <>
             <Sidebar visible={visible} onHide={() => setVisible(false)}>
                 <h2>Thêm container</h2>
-                <CreateContainerForm fetchContainers={fetchContainers} />
+                <CreateContainerForm fetchContainers={fetchContainers} showToast={showToast} />
             </Sidebar>
 
 
