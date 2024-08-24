@@ -2,7 +2,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
-import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { LayoutContext } from '@/layout/context/layoutcontext';
@@ -11,18 +10,18 @@ import { classNames } from 'primereact/utils';
 import axios from 'axios';
 import AppHeader from '../login/AppHeader'
 import Footer from './Footer/Footer'
-// import AppHeader from './Header/AppHeader'
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [checked, setChecked] = useState(false);
+    const [loading, setLoading] = useState(false); // Loading state
     const { layoutConfig } = useContext(LayoutContext);
     const router = useRouter();
 
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', {'p-input-filled': layoutConfig.inputStyle === 'filled'});
 
     const handleLogin = async () => {
+        setLoading(true); // Start loading
         try {
             const response = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
                 username: email,
@@ -32,18 +31,19 @@ const LoginPage = () => {
             const token = response.data.token;
             const user = response.data.customerDTO;
             const userRole = response.data.customerDTO.roles;
-            // Lưu trữ token và thông tin người dùng vào Local Storage
+
+            // Store token and user information in Local Storage
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('userRole', userRole);
 
-            localStorage.setItem('userRole', userRole); // Lưu vai trò người dùng
-
-            // Điều hướng tới trang chính
-
+            // Navigate to the main page
             router.push('/');
         } catch (error) {
-            console.error('Đăng nhập thất bại:', error);
-            alert("Vui lòng kiểm tra thông tin đăng nhập")
+            console.error('Login failed:', error);
+            alert("Please check your login information.");
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
@@ -52,10 +52,10 @@ const LoginPage = () => {
             <AppHeader />
             <div className={containerClassName}
                  style={{
-                     backgroundImage: 'url("/demo/images/login/R12.jpg")', // Đường dẫn tới ảnh nền
-                     backgroundSize: 'cover', // Ảnh sẽ được bao phủ toàn bộ khu vực
-                     backgroundPosition: 'center', // Ảnh sẽ không lặp lại
-                     backgroundRepeat: 'no-repeat' // Ảnh sẽ không lặp lại
+                     backgroundImage: 'url("/demo/images/login/R12.jpg")', // Background image path
+                     backgroundSize: 'cover', // Cover the entire area
+                     backgroundPosition: 'center', // Center the image
+                     backgroundRepeat: 'no-repeat' // Don't repeat the image
                  }}
             >
 
@@ -78,8 +78,8 @@ const LoginPage = () => {
                             </div>
                             <div>
                                 <div className="ml-10 text-center flex-grow ">
-                                    <div className="text-1200 text-3xl font-medium mb-3">Login</div>
-                                    <span className="text-600 font-medium">Welcome Back! Please enter your detail.</span>
+                                    <div className="text-1200 text-3xl font-medium mb-3">Đăng nhập</div>
+                                    <span className="text-600 font-medium">Chào mừng bạn đến với VIMC, vui lòng đăng nhập để tiếp tục</span>
                                 </div>
 
 
@@ -87,23 +87,25 @@ const LoginPage = () => {
                                     <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
                                         Email
                                     </label>
-                                    <InputText id="email1" type="text" placeholder="Email address"
+                                    <InputText id="email1" type="text" placeholder="Đia chỉ email"
                                                value={email} onChange={(e) => setEmail(e.target.value)}
                                                className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
 
                                     <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
-                                        Password
+                                        Mật khẩu
                                     </label>
                                     <Password inputId="password1" value={password}
                                               onChange={(e) => setPassword(e.target.value)}
-                                              placeholder="Password" toggleMask className="w-full mb-5"
+                                              placeholder="Mật khẩu" toggleMask className="w-full mb-5"
                                               inputClassName="w-full p-3 md:w-30rem"></Password>
 
-
-                                    <Button label="Sign In" className="w-full p-3 text-xl"
-                                            onClick={handleLogin}></Button>
-
-
+                                    {/* Button with loading state */}
+                                    <Button label={loading ? "Đang đăng nhập..." : "Đăng nhập"}
+                                            className=" p-3 text-xl"
+                                            onClick={handleLogin}
+                                            disabled={loading} // Disable the button while loading
+                                            loading={loading} // Display the PrimeReact loading indicator
+                                    ></Button>
 
                                 </div>
                             </div>
@@ -112,7 +114,7 @@ const LoginPage = () => {
                 </div>
             </div>
 
-            <Footer />
+
         </>
     );
 };

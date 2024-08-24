@@ -8,7 +8,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-import Delete from "app/components/RepairFee/DeleleRepair";
+import Delete from "/app/components/RepairFee/DeleleRepair";
 
 import { InputText } from "primereact/inputtext";
 
