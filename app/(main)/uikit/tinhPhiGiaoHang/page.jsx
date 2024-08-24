@@ -23,7 +23,7 @@ export default function TemplateDemo() {
         setLoading(true);
 
         axios
-            .get(`http://localhost:8080/api/delivery-orders`,getAuthConfig())
+            .get(`http://auth.g42.biz/api/delivery-orders`,getAuthConfig())
             .then(res => {
             setDelivery(res.data)
         }).catch(err => {

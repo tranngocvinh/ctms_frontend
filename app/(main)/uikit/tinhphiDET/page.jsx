@@ -25,7 +25,7 @@ export default function DropOrdersTable() {
     })
     const fetchDropOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/drop-orders',getAuthConfig());
+            const response = await axios.get(`http://auth.g42.biz/api/drop-orders`,getAuthConfig());
             const orders = response.data;
             setDropOrders(orders);
 
@@ -53,7 +53,7 @@ export default function DropOrdersTable() {
 
     const fetchSI = async (id) => {
         try {
-            return await axios.get(`http://localhost:8080/api/si/${id}`);
+            return await axios.get(`http://auth.g42.biz/api/si/${id}`);
         } catch (error) {
             console.error('Error fetching SI:', error);
         }
@@ -61,7 +61,7 @@ export default function DropOrdersTable() {
 
     const fetchEmptyContainer = async (id) => {
         try {
-            return await axios.get(`http://localhost:8080/api/containers/allocate/ship/${id}`);
+            return await axios.get(`http://auth.g42.biz/api/containers/allocate/ship/${id}`);
         } catch (error) {
             console.error('Error fetching empty container:', error);
         }
