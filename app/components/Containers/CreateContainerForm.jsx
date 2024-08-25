@@ -125,7 +125,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/ships`);
+            const response = await axios.get(`http://auth.g42.biz/api/ships`);
             setShips(response.data);
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -134,7 +134,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/schedules`);
+            const response = await axios.get(`http://auth.g42.biz/api/schedules`);
             setSchedules(response.data);
         } catch (error) {
             console.error('Error fetching schedules:', error);
@@ -143,7 +143,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchContainerSizes = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/containers/sizes`);
+            const response = await axios.get(`http://auth.g42.biz/api/containers/sizes`);
             setContainerSizes(response.data);
         } catch (error) {
             console.error('Error fetching container sizes:', error);
@@ -152,7 +152,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchPortLocations = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/ports`);
+            const response = await axios.get(`http://auth.g42.biz/api/ports`);
             setPortLocations(response.data);
         } catch (error) {
             console.error('Error fetching port locations:', error);
@@ -161,7 +161,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchContainerSuppliers = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/supplier`);
+            const response = await axios.get(`http://auth.g42.biz/api/v1/supplier`);
             setContainerSuppliers(response.data);
         } catch (error) {
             console.error('Error fetching container suppliers:', error);
@@ -170,7 +170,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchShipSchedules = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/shipSchedules`);
+            const response = await axios.get(`http://auth.g42.biz/api/shipSchedules`);
             setShipSchedules(response.data);
         } catch (error) {
             console.error('Error fetching ship schedules:', error);

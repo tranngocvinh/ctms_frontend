@@ -109,28 +109,28 @@ const Dashboard = () => {
     const [totalDelivery, setTotalDelivery] = useState(0);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/drop-orders/detfee/sum`)
+        fetch(`http://auth.g42.biz/api/drop-orders/detfee/sum`)
             .then(response => response.json())
             .then(data => setTotalDetFee(data))
             .catch(error => console.error('Error fetching det fee sum:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/repair/cost/paid`)
+        fetch(`http://auth.g42.biz/api/v1/repair/cost/paid`)
             .then(response => response.json())
             .then(data => setTotalPaidRepairCost(data))
             .catch(error => console.error('Error fetching paid repair cost:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/customers/count`)
+        fetch(`http://auth.g42.biz/api/v1/customers/count`)
             .then(response => response.json())
             .then(data => setTotalCusTomer(data))
             .catch(error => console.error('Error fetching customer count:', error));
     },[]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/delivery-orders/cost/paid`)
+        fetch(`http://auth.g42.biz/api/delivery-orders/cost/paid`)
             .then(response => response.json())
             .then(data => setTotalDelivery(data))
             .catch(error => console.error('Error fetching delivery cost:', error));
@@ -340,9 +340,9 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <LineChart
                     apiUrls={{
-                        deliveryUrl: `http://localhost:8080/api/delivery-orders/total-amounts-by-month`,
-                        detFeeUrl: `http://localhost:8080/api/drop-orders/detfee-count`,
-                        repairCostUrl: `http://localhost:8080/api/v1/repair/repaircost-count`
+                        deliveryUrl: `http://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
+                        detFeeUrl: `http://auth.g42.biz/api/drop-orders/detfee-count`,
+                        repairCostUrl: `http://auth.g42.biz/api/v1/repair/repaircost-count`
                     }}
                     labels={['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']}
                     colors={{
@@ -355,9 +355,9 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <LineChart
                     apiUrls={{
-                        deliveryUrl: `http://localhost:8080/api/delivery-orders/total-amounts-by-month`,
-                        detFeeUrl: `http://localhost:8080/api/drop-orders/detfee-count`,
-                        repairCostUrl: `http://localhost:8080/api/v1/repair/repaircost-count`
+                        deliveryUrl: `http://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
+                        detFeeUrl: `http://auth.g42.biz/api/drop-orders/detfee-count`,
+                        repairCostUrl: `http://auth.g42.biz/api/v1/repair/repaircost-count`
                     }}
                     labels={['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']}
                     colors={{

@@ -20,7 +20,7 @@ const containerStatusMap = {
 
 export const getSchedules = async (id) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/schedules/${id}`);
+        const response = await axios.get(`http://auth.g42.biz/api/schedules/${id}`);
         return response.data;
     } catch (e) {
         console.error('Error fetching schedule details:', e);

@@ -11,7 +11,7 @@ export default function Delete({ delivery, fetchDelivery }) {
 
     const accept = () => {
 
-        axios.put(`http://localhost:8080/api/delivery-orders/isPay/${delivery.id}`)  // Ensure this is the correct ID field
+        axios.put(`http://auth.g42.biz/api/delivery-orders/isPay/${delivery.id}`)  // Ensure this is the correct ID field
             .then(res => {
                 toast.current.show({ severity: 'success', summary: 'Thành công', detail: 'Xác nhận đơn hàng thanh toán thành công', life: 3000 });
                 fetchDelivery();

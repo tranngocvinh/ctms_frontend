@@ -113,7 +113,7 @@ const ContainerRepairSupplierTable = () => {
     };
 
     const deleteSupplier = () => {
-        axios.delete(`http://localhost:8080/api/v1/supplier/${supplier.supplierId}`).then(() => {
+        axios.delete(`http://auth.g42.biz/api/v1/supplier/${supplier.supplierId}`).then(() => {
             let _suppliers = suppliers.filter((val) => val.supplierId !== supplier.supplierId);
             setSuppliers(_suppliers);
             setDeleteSupplierDialog(false);
@@ -175,7 +175,7 @@ const ContainerRepairSupplierTable = () => {
     };
 
     const imageBodyTemplate = (rowData) => {
-        return <img src={`http://localhost:8080/api/v1/supplier/${rowData.supplierId}`} alt="supplier" className="w-6rem shadow-2 border-round" />;
+        return <img src={`http://auth.g42.biz/api/v1/supplier/${rowData.supplierId}`} alt="supplier" className="w-6rem shadow-2 border-round" />;
     };
 
     const actionBodyTemplate = (rowData) => {
