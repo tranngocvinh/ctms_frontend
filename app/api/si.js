@@ -7,7 +7,7 @@ const getAuthConfig = () => ({
 export const getEmptyContainertoAddSI = async () => {
     try {
         return await axios.get(
-            `http://auth.g42.biz/api/containers/allocate/ship/isApprove`,getAuthConfig()
+            `https://auth.g42.biz/api/containers/allocate/ship/isApprove`,getAuthConfig()
         )
     } catch (e) {
         throw e;

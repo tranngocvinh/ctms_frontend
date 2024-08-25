@@ -13,7 +13,7 @@ export const getRoute = async () => {
 export const add = async (route) => {
     try {
         return await axios.post(
-            `http://auth.g42.biz/api/routes`,
+            `https://auth.g42.biz/api/routes`,
             route
 
         )

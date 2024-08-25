@@ -86,7 +86,7 @@ const AllocateEmptyContainersForm = () => {
 
     const fetchContainerSizes = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/containers/sizes`);
+            const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`);
             setContainerSizes(response.data);
         } catch (error) {
             console.error('Error fetching container sizes:', error);
@@ -95,7 +95,7 @@ const AllocateEmptyContainersForm = () => {
 
     const fetchContainerCodesByPort = async (portId) => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/containers/getByPort`, {
+            const response = await axios.get(`https://auth.g42.biz/api/containers/getByPort`, {
                 params: { portId }, // Filter by selected port
                 ...getAuthConfig()
             });
@@ -108,7 +108,7 @@ const AllocateEmptyContainersForm = () => {
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ships`);
+            const response = await axios.get(`https://auth.g42.biz/api/ships`);
             setShips(response.data);
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -117,7 +117,7 @@ const AllocateEmptyContainersForm = () => {
 
     const fetchPorts = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ports`);
+            const response = await axios.get(`https://auth.g42.biz/api/ports`);
             setPorts(response.data);
         } catch (error) {
             console.error('Error fetching ports:', error);
@@ -132,7 +132,7 @@ const AllocateEmptyContainersForm = () => {
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
             const containerDetailsPromises = values.details.map(allocation =>
-                axios.get(`http://auth.g42.biz/api/containers/${allocation.containerCode}`, getAuthConfig())
+                axios.get(`https://auth.g42.biz/api/containers/${allocation.containerCode}`, getAuthConfig())
             );
 
             const containerDetailsResponses = await Promise.all(containerDetailsPromises);

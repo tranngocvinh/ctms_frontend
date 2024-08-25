@@ -31,7 +31,7 @@ export default function Table({ SIs }) {
 
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/si/cargo`);
+            const response = await axios.get(`https://auth.g42.biz/api/si/cargo`);
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -40,7 +40,7 @@ export default function Table({ SIs }) {
 
     const fetchSIData = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/si`);
+            const response = await axios.get(`https://auth.g42.biz/api/si`);
             const siDataMap = {};
             response.data.forEach(si => {
                 siDataMap[si.emptyContainerId] = si;
@@ -53,7 +53,7 @@ export default function Table({ SIs }) {
 
     const fetchContainerSize = async (containerCode) => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/containers/${containerCode}`);
+            const response = await axios.get(`https://auth.g42.biz/api/containers/${containerCode}`);
             return response.data.containerSize;
         } catch (error) {
             console.error(`Error fetching container size for ${containerCode}:`, error);
@@ -108,10 +108,10 @@ export default function Table({ SIs }) {
 
         try {
             if (dialogTitle === 'Khai báo SI') {
-                await axios.post(`http://auth.g42.biz/api/si`, payload);
+                await axios.post(`https://auth.g42.biz/api/si`, payload);
                 alert('Khai báo SI thành công');
             } else if (dialogTitle === 'Chỉnh sửa SI') {
-                await axios.put(`http://auth.g42.biz/api/si/${selectedSI.id}`, payload);
+                await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload);
                 alert('Cập nhật SI thành công');
             }
             hideFormDialog();

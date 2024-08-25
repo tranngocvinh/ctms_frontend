@@ -7,19 +7,16 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Menu } from 'primereact/menu';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { LayoutContext } from '../../layout/context/layoutcontext';
+import { LayoutContext } from '@/layout/context/layoutcontext';
 import Link from 'next/link';
-import { isUpdateApproved, getEmptyContainers, getEmptyContainerById } from "../../../ctms_frontend/app/api/container";
+import { isUpdateApproved, getEmptyContainers, getEmptyContainerById } from "@/app/api/container";
 import EmptyContainerDetailModal from './EmptyContainerDetailModal';
 import { ChartData, ChartOptions } from 'chart.js';
 import Calendar from "@/app/(main)/uikit/Calendar";
 import axios from "axios";
 
-// Register the components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-// Define the props interface
-// Define the props interface
 interface LineChartProps {
     apiUrls: {
         deliveryUrl: string;
@@ -109,28 +106,28 @@ const Dashboard = () => {
     const [totalDelivery, setTotalDelivery] = useState(0);
 
     useEffect(() => {
-        fetch(`http://auth.g42.biz/api/drop-orders/detfee/sum`)
+        fetch(`https://auth.g42.biz/api/drop-orders/detfee/sum`)
             .then(response => response.json())
             .then(data => setTotalDetFee(data))
             .catch(error => console.error('Error fetching det fee sum:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://auth.g42.biz/api/v1/repair/cost/paid`)
+        fetch(`https://auth.g42.biz/api/v1/repair/cost/paid`)
             .then(response => response.json())
             .then(data => setTotalPaidRepairCost(data))
             .catch(error => console.error('Error fetching paid repair cost:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://auth.g42.biz/api/v1/customers/count`)
+        fetch(`https://auth.g42.biz/api/v1/customers/count`)
             .then(response => response.json())
             .then(data => setTotalCusTomer(data))
             .catch(error => console.error('Error fetching customer count:', error));
     },[]);
 
     useEffect(() => {
-        fetch(`http://auth.g42.biz/api/delivery-orders/cost/paid`)
+        fetch(`https://auth.g42.biz/api/delivery-orders/cost/paid`)
             .then(response => response.json())
             .then(data => setTotalDelivery(data))
             .catch(error => console.error('Error fetching delivery cost:', error));
@@ -340,9 +337,9 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <LineChart
                     apiUrls={{
-                        deliveryUrl: `http://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
-                        detFeeUrl: `http://auth.g42.biz/api/drop-orders/detfee-count`,
-                        repairCostUrl: `http://auth.g42.biz/api/v1/repair/repaircost-count`
+                        deliveryUrl: `https://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
+                        detFeeUrl: `https://auth.g42.biz/api/drop-orders/detfee-count`,
+                        repairCostUrl: `https://auth.g42.biz/api/v1/repair/repaircost-count`
                     }}
                     labels={['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']}
                     colors={{
@@ -355,9 +352,9 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <LineChart
                     apiUrls={{
-                        deliveryUrl: `http://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
-                        detFeeUrl: `http://auth.g42.biz/api/drop-orders/detfee-count`,
-                        repairCostUrl: `http://auth.g42.biz/api/v1/repair/repaircost-count`
+                        deliveryUrl: `https://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
+                        detFeeUrl: `https://auth.g42.biz/api/drop-orders/detfee-count`,
+                        repairCostUrl: `https://auth.g42.biz/api/v1/repair/repaircost-count`
                     }}
                     labels={['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']}
                     colors={{

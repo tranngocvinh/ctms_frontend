@@ -46,7 +46,7 @@ const EmptyContainerDetailModal: React.FC<EmptyContainerDetailModalProps> = ({ v
             const fetchContainerSizes = async () => {
                 const updatedDetails = await Promise.all(
                     emptyContainer.details.map(async (detail) => {
-                        const response = await fetch(`http://auth.g42.biz/api/containers/${detail.containerCode}`);
+                        const response = await fetch(`https://auth.g42.biz/api/containers/${detail.containerCode}`);
                         const data = await response.json();
                         return { ...detail, containerSize: data.containerSize };
                     })
