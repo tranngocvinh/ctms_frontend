@@ -231,6 +231,7 @@ const ContainerRepairSupplierTable = () => {
                     globalFilter={globalFilter}
                     header={header}
                     responsiveLayout="scroll"
+                    className="custom-datatable"
                 >
                     <Column field="name" header="Tên công ty" style={{ minWidth: '12rem' }}></Column>
                     <Column header="Logo" body={imageBodyTemplate}></Column>

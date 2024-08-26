@@ -7,6 +7,8 @@ import {Dialog} from 'primereact/dialog';
 import {Toast} from 'primereact/toast';
 import UserService from '/app/components/User/UserService';
 import UserForm from '/app/components/User/UserForm';
+import '/app/components/User/custom_user.css';
+import {Tag} from "primereact/tag";
 
 export default function UserList() {
     const [users, setUsers] = useState([]);
@@ -38,13 +40,15 @@ export default function UserList() {
         if (method === "POST") {
             const role = user.role || 'customer';
             UserService.createUser(role, user).then(() => {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
+                toast.current.show({severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000});
                 loadUsers();
                 setUserDialog(false);
+            }).catch(() => {
+                toast.current.show({ severity: 'error', summary: 'Lỗi', detail: 'Hãy kiểm tra lại thông tin', life: 3000 });
             });
         } else if (method === "PUT") {
             UserService.updateUser(selectedUser.id, user).then(() => {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
+                toast.current.show({severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000});
                 loadUsers();
                 setUserDialog(false);
             });
@@ -52,7 +56,7 @@ export default function UserList() {
     };
 
     const editUser = (user) => {
-        setSelectedUser({ ...user });
+        setSelectedUser({...user});
         setUserDialog(true);
     };
 
@@ -63,7 +67,7 @@ export default function UserList() {
 
     const deleteUser = () => {
         UserService.deleteUser(selectedUser.id).then(() => {
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
+            toast.current.show({severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000});
             loadUsers();
             setDeleteUserDialog(false);
             setSelectedUser(null);
@@ -73,39 +77,55 @@ export default function UserList() {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editUser(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => confirmDeleteUser(rowData)} />
+                <i className="pi pi-pencil" style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
+                   onClick={() => editUser(rowData)}/>
+                <i className="pi pi-trash" style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
+                   onClick={() => confirmDeleteUser(rowData)}/>
             </React.Fragment>
         );
     };
-
+    const roleSeverities = {
+        "ADMIN": "danger",
+        "MANAGER": "warning",
+        "STAFF": "primary",
+        "CUSTOMER": "info"
+    };
+    const roles = (rowData) => {
+        const severity = roleSeverities[rowData.roles];
+        return (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Tag severity={severity} value={rowData.roles}></Tag>
+            </div>
+        );
+    };
     return (
         <div className="datatable-crud-demo">
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
             <div className="card">
-                <Button label="New User" icon="pi pi-plus" className="p-button-success mb-3" onClick={openNew} />
-                <DataTable value={users} paginator rows={10} responsiveLayout="scroll">
-                    <Column field="id" header="ID" />
-                    <Column field="name" header="Name" />
-                    <Column field="email" header="Email" />
-                    <Column field="roles" header="Roles" />
-                    <Column body={actionBodyTemplate} />
+                <Button label="New User" icon="pi pi-plus" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg
+                    text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onClick={openNew}/>
+                <DataTable value={users} paginator rows={10} showGridlines className="custom-datatable">
+                    <Column field="name" header="Name"/>
+                    <Column field="email" header="Email"/>
+                    <Column field="roles" header="Roles" body={roles}/>
+                    <Column body={actionBodyTemplate}/>
                 </DataTable>
             </div>
 
-            <Dialog visible={userDialog} style={{ width: '450px' }} header="User Details" modal className="p-fluid" footer={null} onHide={hideDialog}>
-                <UserForm user={selectedUser} onSave={saveUser} onCancel={hideDialog} />
+            <Dialog visible={userDialog} style={{width: '450px'}} header="User Details" modal className="p-fluid"
+                    footer={null} onHide={hideDialog}>
+                <UserForm user={selectedUser} onSave={saveUser} onCancel={hideDialog}/>
             </Dialog>
 
-            <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Confirm" modal footer={null} onHide={() => setDeleteUserDialog(false)}>
+            <Dialog visible={deleteUserDialog} style={{width: '450px'}} header="Confirm" modal footer={null}
+                    onHide={() => setDeleteUserDialog(false)}>
                 <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                    <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
                     {selectedUser && <span>Are you sure you want to delete <b>{selectedUser.name}</b>?</span>}
                 </div>
-                <div className="p-grid p-justify-end">
-                    <Button label="No" icon="pi pi-times" onClick={() => setDeleteUserDialog(false)} className="p-button-text" />
-                    <Button label="Yes" icon="pi pi-check" onClick={deleteUser} />
+                <div className="p-grid p-justify-end" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button arial-label="Yes" icon="pi pi-check" onClick={deleteUser} severity="success" style={{marginRight: '2px'}} text/>
+                    <Button arial-="Hủy" icon="pi pi-times"  onClick={() => setDeleteUserDialog(false)} text severity="danger"/>
                 </div>
             </Dialog>
         </div>

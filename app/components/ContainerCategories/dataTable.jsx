@@ -162,7 +162,7 @@ const leng = (rowData) => (
                 </div>
             </div>
 
-                <DataTable value={filteredContainers} header={header} footer={footer} tableStyle={{minWidth: '60rem'}} showGridlines className="custom-datatable">
+                <DataTable value={filteredContainers} paginator rows={20} header={header} footer={footer} tableStyle={{minWidth: '60rem'}} showGridlines className="custom-datatable">
                     <Column field="containerTypeName"
                             header={renderHeaderWithIcon('Loại')}
                             body={containerType_name}></Column>

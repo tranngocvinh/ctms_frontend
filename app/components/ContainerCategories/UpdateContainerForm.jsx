@@ -18,7 +18,7 @@ const MyTextInput = ({ label, ...props }) => {
     };
 
     return (
-        <div className="p-field p-col-12 p-md-6">
+        <div className="p-field p-col-12 p-md-6 them-container-field">
             <label htmlFor={props.id || props.name}>{label}</label>
             <InputNumber
                 id={props.id || props.name}

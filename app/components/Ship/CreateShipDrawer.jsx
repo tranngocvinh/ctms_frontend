@@ -14,7 +14,7 @@ export default function CreateShipDrawer({fetchShips, showToast}) {
     return (
         <>
             <Sidebar visible={visible} onHide={() => setVisible(false)}>
-                <h2>Thêm tàu</h2>
+                <h2 className="them-tau">Thêm tàu</h2>
                 <CreateShipForm fetchShips={fetchShips} showToast={showToast} />
             </Sidebar>
 

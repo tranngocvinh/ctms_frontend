@@ -11,8 +11,14 @@ class UserService {
         return axios.get(`${API_URL}/${id}`);
     }
 
-    createUser(role, user) {
-        return axios.post(`${API_URL}/${role}`, user);  // Role determines the API endpoint (admin, customer, ship)
+    async createUser(role, user) {
+        try {
+            return await axios.post(`${API_URL}/${role}`, user);
+        } catch (error) {
+            const errorMessage = 'An unexpected error occurred';
+            console.error(errorMessage);
+            throw new Error(errorMessage);
+        }
     }
 
     updateUser(id, user) {

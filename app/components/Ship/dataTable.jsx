@@ -142,7 +142,7 @@ export default function Table({ ships, fetchShips, showToast }) {
                 </div>
             </div>
 
-            <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable" >
+            <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} paginator rows={20} showGridlines className="custom-datatable" >
                 <Column field="name" header={renderHeaderWithIcon( 'Tên')} body={name}></Column>
                 <Column field="company" header={renderHeaderWithIcon('Công ty')} body={company}></Column>
                 <Column field="capacity" header={renderHeaderWithIcon('Trọng tải (kg)')} body={capacity}></Column>

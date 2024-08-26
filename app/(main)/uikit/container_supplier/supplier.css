@@ -4,8 +4,8 @@
 
 .p-datatable-thead th,
 .p-datatable-tbody td {
-    text-align: center;  /* Center text horizontally */
-    vertical-align: middle;  /* Center text vertically */
+    text-align: center;
+    vertical-align: middle;
 }
 
 .p-datatable-thead th .p-column-header-content,
@@ -15,11 +15,6 @@
     align-items: center;
 }
 
-.p-datatable-tbody td span,
-.p-datatable-tbody td div {
-    width: 100%;
-    text-align: center;
-}
 .image-preview {
     display: flex;
     justify-content: center; /* Center the image */
