@@ -159,12 +159,21 @@ const DeliveryOrderTable = () => {
     };
 
     const onContainerCheckboxChange = (e, shipScheduleId, containerCode) => {
-        const newMap = { ...state.deliveryOrder.shipScheduleContainerMap };
-        newMap[shipScheduleId] = e.checked
-            ? [...newMap[shipScheduleId], containerCode]
-            : newMap[shipScheduleId].filter((code) => code !== containerCode);
+        if (!e.checked || !Object.values(state.deliveryOrder.shipScheduleContainerMap).flat().includes(containerCode)) {
+            const newMap = { ...state.deliveryOrder.shipScheduleContainerMap };
+            newMap[shipScheduleId] = e.checked
+                ? [...newMap[shipScheduleId], containerCode]
+                : newMap[shipScheduleId].filter((code) => code !== containerCode);
 
-        updateState({ deliveryOrder: { ...state.deliveryOrder, shipScheduleContainerMap: newMap } });
+            updateState({ deliveryOrder: { ...state.deliveryOrder, shipScheduleContainerMap: newMap } });
+        } else {
+            toast.current.show({
+                severity: "warn",
+                summary: "Trùng container",
+                detail: "Container đã ở trong một lịch tàu khác",
+                life: 3000,
+            });
+        }
     };
 
     const renderContainerAssignment = () => {
