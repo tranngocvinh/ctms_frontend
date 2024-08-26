@@ -1,8 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { deleteSupplier } from "../../api/container_supplier";
+import React, {useRef, useState} from 'react';
+import {ConfirmDialog} from 'primereact/confirmdialog';
+import {Toast} from 'primereact/toast';
 import {dele} from "../../api/container_size";
 
 export default function Delete({ container, fetchContainers, showToast }) {

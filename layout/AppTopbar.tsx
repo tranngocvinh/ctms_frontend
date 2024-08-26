@@ -1,12 +1,12 @@
-import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { AppTopbarRef } from '@/types';
-import { LayoutContext } from './context/layoutcontext';
+import {classNames} from 'primereact/utils';
+import React, {forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import {AppTopbarRef} from '@/types';
+import {LayoutContext} from './context/layoutcontext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading spinner
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);

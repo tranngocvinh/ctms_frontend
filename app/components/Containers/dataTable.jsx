@@ -1,15 +1,14 @@
-import React, {useRef, useState, useEffect} from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
-import { Dialog } from 'primereact/dialog';
+import React, {useEffect, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Button} from 'primereact/button';
+import {Tag} from 'primereact/tag';
+import {Dialog} from 'primereact/dialog';
 import axios from 'axios';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import UpdateContainerDrawer from "./UpdateContainerDrawer";
-import DeleteContainer from "./DeleteContainer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
 
 const containerStatusMap = {

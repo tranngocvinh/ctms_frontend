@@ -1,8 +1,8 @@
 import React from 'react';
 import './Footer.scss';
-import { ImFacebook } from 'react-icons/im';
-import { BsTwitter } from 'react-icons/bs';
-import { AiFillInstagram } from 'react-icons/ai';
+import {ImFacebook} from 'react-icons/im';
+import {BsTwitter} from 'react-icons/bs';
+import {AiFillInstagram} from 'react-icons/ai';
 //test
 const Footer = () => {
     return (

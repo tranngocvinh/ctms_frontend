@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Sidebar } from 'primereact/sidebar';
+import React, {useState} from 'react';
+import {Sidebar} from 'primereact/sidebar';
 import UpdateShipForm from './UpdateRouteForm';
-import { Button } from 'primereact/button';
+import {Button} from 'primereact/button';
 
 const UpdateRouteDrawer = ({ ships,fetchShips }) => {
     const [visible, setVisible] = useState(false);

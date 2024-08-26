@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Dialog } from 'primereact/dialog';
-import { Button } from 'primereact/button';
+import React, {useEffect, useState} from 'react';
+import {Dialog} from 'primereact/dialog';
+import {Button} from 'primereact/button';
 
 interface ContainerSize {
     length: number;

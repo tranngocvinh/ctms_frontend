@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Sidebar } from 'primereact/sidebar';
+import React, {useState} from 'react';
+import {Sidebar} from 'primereact/sidebar';
 import UpdateShipForm from './UpdateShipForm';
-import { Button } from 'primereact/button';
 import 'primeicons/primeicons.css';
+import './custom_ship.css';
 
 const UpdateShipDrawer = ({ ships,fetchShips, showToast }) => {
     const [visible, setVisible] = useState(false);

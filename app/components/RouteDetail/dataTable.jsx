@@ -1,7 +1,6 @@
 import React from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
 
 import 'primeicons/primeicons.css';
 
@@ -12,8 +11,6 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import {InputText} from "primereact/inputtext"
 import Delete from "../Ship/DeleleShip";
 import UpdateRouteDrawer from "./UpdateRouteDrawer";
-import CreateShipDrawer from "../Ship/CreateShipDrawer";
-
 
 
 export default function Table({ routes, fetchRoutes }) {

@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
+import React, {useEffect, useState} from 'react';
+import {InputText} from 'primereact/inputtext';
+import {Password} from 'primereact/password';
+import {Button} from 'primereact/button';
+import {Dropdown} from 'primereact/dropdown';
 
 export default function UserForm({ user, onSave, onCancel }) {
     const [name, setName] = useState('');

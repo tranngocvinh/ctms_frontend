@@ -1,21 +1,19 @@
-import React, { useState, useMemo } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
+import React, {useMemo, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-import './custom_ship.css';
-
-import UpdateContainerDrawer from "../ContainerCategories/UpdateContainerDrawer";
 import Delete from "../Ship/DeleleShip";
 import UpdateShipDrawer from "./UpdateShipDrawer";
 import CreateShipDrawer from "./CreateShipDrawer";
 import {Chip} from "primereact/chip";
-import {ButtonGroup} from "@mui/material";
+import './custom_ship.css';
+import {InputIcon} from "primereact/inputicon";
+import {IconField} from "primereact/iconfield";
 
 export default function Table({ ships, fetchShips, showToast }) {
     const [searchType, setSearchType] = useState('name');
@@ -44,31 +42,31 @@ export default function Table({ ships, fetchShips, showToast }) {
 
     const name = (rowData) => (
         <div style={{display: 'flex', alignItems: 'center'}}>
-            <p style={spanValueStyle}>{rowData.name}</p>
+            <span style={spanValueStyle}>{rowData.name}</span>
         </div>
     );
 
     const company = (rowData) => (
         <div style={{display: 'flex', alignItems: 'center'}}>
-            <p style={spanValueStyle}>{rowData.company}</p>
+            <span style={spanValueStyle}>{rowData.company}</span>
         </div>
     );
 
     const capacity = (rowData) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <p style={spanValueStyle}>{rowData.capacity}</p>
+            <span style={spanValueStyle}>{rowData.capacity}</span>
         </div>
     );
 
     const registrationNumber = (rowData) => (
         <div style={{display: 'flex', alignItems: 'center'}}>
-            <p style={spanValueStyle}>{rowData.registrationNumber}</p>
+            <span style={spanValueStyle}>{rowData.registrationNumber}</span>
         </div>
     );
 
     const yearBuilt = (rowData) => (
         <div style={{display: 'flex', alignItems: 'center'}}>
-            <p style={spanValueStyle}>{rowData.yearBuilt}</p>
+            <span style={spanValueStyle}>{rowData.yearBuilt}</span>
         </div>
     );
 
@@ -87,22 +85,24 @@ export default function Table({ ships, fetchShips, showToast }) {
                     style={{ fontSize: '12px' }}
                     icon={status_name === "Bảo trì" ? "pi pi-wrench" : "pi pi-truck"}
                     severity="warning"
+                    className="tao-tau"
                 />
             </div>
         );
     };
 
-    const renderHeaderWithIcon = (icon, title) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-            <i className={`pi ${icon}`} style={{ marginRight: '5px' }}></i>
-            {title}
+    const renderHeaderWithIcon = (title) => (
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                {title}
+            </div>
         </div>
     );
 
     const ActionButtons = (rowData) => (
         <div className="flex flex-wrap justify-content-center gap-1">
             <UpdateShipDrawer
-                ships={rowData} fetchShips={fetchShips}  showToast={showToast} label="Sửa"
+                ships={rowData} fetchShips={fetchShips} showToast={showToast} label="Sửa"
             />
             <Delete ships={rowData} fetchShips={fetchShips} showToast={showToast} />
         </div>
@@ -130,22 +130,25 @@ export default function Table({ ships, fetchShips, showToast }) {
                         placeholder="Chọn loại tìm kiếm"
                         style={{width: '200px', marginRight: '10px'}}
                     />
+                    <IconField iconPosition="right">
+                        <InputIcon className="pi pi-search"> </InputIcon>
                     <InputText
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Tìm kiếm"
                         style={{width: '300px'}}
                     />
+                    </IconField>
                 </div>
             </div>
 
             <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable" >
-                <Column field="name" header={renderHeaderWithIcon('', 'Tên')} body={name}></Column>
-                <Column field="company" header={renderHeaderWithIcon('', 'Công ty')} body={company}></Column>
-                <Column field="capacity" header={renderHeaderWithIcon('', 'Trọng tải (kg)')} body={capacity}></Column>
-                <Column field="registrationNumber" header={renderHeaderWithIcon('', 'Số đăng ký')} body={registrationNumber}></Column>
-                <Column field="yearBuilt" header={renderHeaderWithIcon('', 'Năm xây dựng')} body={yearBuilt}></Column>
-                <Column field="status" header={renderHeaderWithIcon('', 'Trạng Thái')} body={status}></Column>
+                <Column field="name" header={renderHeaderWithIcon( 'Tên')} body={name}></Column>
+                <Column field="company" header={renderHeaderWithIcon('Công ty')} body={company}></Column>
+                <Column field="capacity" header={renderHeaderWithIcon('Trọng tải (kg)')} body={capacity}></Column>
+                <Column field="registrationNumber" header={renderHeaderWithIcon('Số đăng ký')} body={registrationNumber}></Column>
+                <Column field="yearBuilt" header={renderHeaderWithIcon('Năm xây dựng')} body={yearBuilt}></Column>
+                <Column field="status" header={renderHeaderWithIcon('Trạng Thái')} body={status}></Column>
                 <Column header="Thao tác" body={ActionButtons}></Column>
             </DataTable>
         </div>

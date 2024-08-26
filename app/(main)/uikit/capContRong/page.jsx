@@ -1,20 +1,19 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
-import { Formik, Form, useField, FieldArray } from 'formik';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { Card } from 'primereact/card';
-import { Toast } from 'primereact/toast';
+import {FieldArray, Form, Formik, useField} from 'formik';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
+import {Button} from 'primereact/button';
+import {Dialog} from 'primereact/dialog';
+import {Card} from 'primereact/card';
+import {Toast} from 'primereact/toast';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { allocateContainersToShip } from 'app/api/container'; // replace with your actual import
-import jsPDF from 'jspdf';
+import {allocateContainersToShip} from 'app/api/container'; // replace with your actual import
 import 'app/components/AllocateEmptyContainersForm.css';
 
 const MyTextInput = ({ label, ...props }) => {

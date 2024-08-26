@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import {Formik, Form, useField, useFormikContext} from 'formik';
+import {Form, Formik, useField, useFormikContext} from 'formik';
 import * as Yup from 'yup';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
@@ -9,6 +9,7 @@ import 'primeflex/primeflex.css';
 import {Dropdown} from "primereact/dropdown";
 import {update} from "../../api/ship";
 import {InputNumber} from "primereact/inputnumber";
+import './custom_ship.css';
 
 const MyTextInput = ({label, ...props}) => {
     const [field, meta] = useField(props);

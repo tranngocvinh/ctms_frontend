@@ -1,13 +1,8 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
-import {getEmptyContainertoAddSI, getImageById} from "../../../api/si";
+import React, {useEffect, useState} from 'react';
+import {getEmptyContainertoAddSI} from "../../../api/si";
 import Table from "../../../components/SI/dataTable";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import {ProgressSpinner} from 'primereact/progressspinner';
 
 export default function TemplateDemo() {
     const [SI,setSI] = useState([])

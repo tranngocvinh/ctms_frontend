@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import {handlePayment} from "../../api/repair";
+import React, {useRef, useState} from 'react';
+import {ConfirmDialog} from 'primereact/confirmdialog';
+import {Toast} from 'primereact/toast';
+import {Button} from 'primereact/button';
 import axios from "axios";
 
 export default function Delete({ repair, fetchDropOrders }) {

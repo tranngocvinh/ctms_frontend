@@ -1,24 +1,11 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import {
-    DataTable,
-    Column,
-    Toast,
-    Button,
-    Toolbar,
-    Dialog,
-    Dropdown,
-    Calendar,
-    InputText,
-    Checkbox,
-
-} from "primereact";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, Calendar, Checkbox, Column, DataTable, Dialog, Dropdown, InputText, Toast, Toolbar,} from "primereact";
 import axios from "axios";
-import { FixedSizeList as List } from "react-window";
+import {FixedSizeList as List} from "react-window";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import {InputNumber} from "primereact/inputnumber";
 
 const DeliveryOrderTable = () => {
     const emptyDeliveryOrder = {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { InputNumber } from 'primereact/inputnumber';
-import { allocateContainersToShip, allocateContainersToPort } from 'app/api/container';
+import React, {useEffect, useState} from 'react';
+import {Button} from 'primereact/button';
+import {Dropdown} from 'primereact/dropdown';
+import {InputNumber} from 'primereact/inputnumber';
+import {allocateContainersToPort, allocateContainersToShip} from 'app/api/container';
 import axios from 'axios';
 
 const AllocateEmptyContainers = () => {

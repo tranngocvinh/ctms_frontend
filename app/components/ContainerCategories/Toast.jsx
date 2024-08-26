@@ -1,7 +1,6 @@
-
-import React, { useRef } from 'react';
-import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
+import React, {useRef} from 'react';
+import {Button} from 'primereact/button';
+import {Toast} from 'primereact/toast';
 
 export default function SeverityDemo() {
     const toast = useRef(null);

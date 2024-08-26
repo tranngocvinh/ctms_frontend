@@ -1,15 +1,14 @@
 "use client"
-import React, {useRef, useState} from 'react';
-import { Formik, Form, useField, useFormikContext } from 'formik';
+import React from 'react';
+import {Form, Formik, useField, useFormikContext} from 'formik';
 import * as Yup from 'yup';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { Message } from 'primereact/message';
-import { Dropdown } from 'primereact/dropdown';
-import { InputNumber } from 'primereact/inputnumber';
-import { update } from "../../api/container_size";
+import {Button} from 'primereact/button';
+import {Dropdown} from 'primereact/dropdown';
+import {InputNumber} from 'primereact/inputnumber';
+import {update} from "../../api/container_size";
 import ErrorGlobal from "../error_message_global";
 import './update_cont_form.css';
+
 const MyTextInput = ({ label, ...props }) => {
     const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);

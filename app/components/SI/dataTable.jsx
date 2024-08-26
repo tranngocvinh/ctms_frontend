@@ -1,11 +1,11 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { InputNumber } from 'primereact/inputnumber';
-import { Dropdown } from 'primereact/dropdown';
+import React, {useEffect, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Button} from 'primereact/button';
+import {Dialog} from 'primereact/dialog';
+import {InputNumber} from 'primereact/inputnumber';
+import {Dropdown} from 'primereact/dropdown';
 import axios from 'axios';
 
 import 'primeflex/primeflex.css';

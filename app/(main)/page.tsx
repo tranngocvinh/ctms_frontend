@@ -1,17 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { Button } from 'primereact/button';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'; // Import necessary components
-import { Line } from 'react-chartjs-2'; // Import Line from react-chartjs-2
-import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
-import { Menu } from 'primereact/menu';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { LayoutContext } from '@/layout/context/layoutcontext';
-import Link from 'next/link';
-import { isUpdateApproved, getEmptyContainers, getEmptyContainerById } from "@/app/api/container";
+import {Button} from 'primereact/button';
+import {
+    CategoryScale,
+    Chart as ChartJS,
+    ChartData,
+    ChartOptions,
+    Legend,
+    LinearScale,
+    LineElement,
+    PointElement,
+    Title,
+    Tooltip
+} from 'chart.js'; // Import necessary components
+import {Line} from 'react-chartjs-2'; // Import Line from react-chartjs-2
+import {Column} from 'primereact/column';
+import {DataTable} from 'primereact/datatable';
+import {Menu} from 'primereact/menu';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {LayoutContext} from '@/layout/context/layoutcontext';
+import {getEmptyContainerById, getEmptyContainers, isUpdateApproved} from "@/app/api/container";
 import EmptyContainerDetailModal from './EmptyContainerDetailModal';
-import { ChartData, ChartOptions } from 'chart.js';
 import Calendar from "@/app/(main)/uikit/Calendar";
 import axios from "axios";
 

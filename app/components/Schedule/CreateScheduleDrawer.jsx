@@ -1,9 +1,8 @@
 "use client"
 import React, {useState} from 'react';
-import { Sidebar } from 'primereact/sidebar';
-import { Button } from 'primereact/button';
+import {Sidebar} from 'primereact/sidebar';
+import {Button} from 'primereact/button';
 import CreateScheduleForm from "./CreateScheduleForm";
-
 
 
 export default function CreateScheduleDrawer({fetchShips}) {

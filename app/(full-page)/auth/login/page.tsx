@@ -1,16 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useRouter } from 'next/navigation';
-import React, { useContext, useState } from 'react';
-import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
-import { LayoutContext } from '@/layout/context/layoutcontext';
-import { InputText } from 'primereact/inputtext';
-import { classNames } from 'primereact/utils';
+import {useRouter} from 'next/navigation';
+import React, {useContext, useState} from 'react';
+import {Button} from 'primereact/button';
+import {Password} from 'primereact/password';
+import {LayoutContext} from '@/layout/context/layoutcontext';
+import {InputText} from 'primereact/inputtext';
+import {classNames} from 'primereact/utils';
 import axios from 'axios';
 import AppHeader from '../login/AppHeader'
-import Footer from './Footer/Footer'
-import { ProgressSpinner } from 'primereact/progressspinner';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Typography, Button, Link, InputBase, Select, MenuItem } from '@mui/material';
+import {Box, Button, InputBase, Link, MenuItem, Select, Typography} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/ExitToApp'; // Import Logout icon
-import { styled } from '@mui/system';
+import {styled} from '@mui/system';
 
 const AppHeader: React.FC = () => {
     const Search = styled('div')(({ theme }) => ({

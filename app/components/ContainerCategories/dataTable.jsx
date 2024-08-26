@@ -1,9 +1,8 @@
-import React, {useState, useMemo, useRef} from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
+import React, {useMemo, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
@@ -13,8 +12,6 @@ import Delete from "./DeleteContainer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
 import {IconField} from "primereact/iconfield";
 import {InputIcon} from "primereact/inputicon";
-import {StyleClass} from "primereact/styleclass";
-import {Message} from "primereact/message";
 import {Inplace, InplaceContent, InplaceDisplay} from "primereact/inplace";
 
 export default function Table({ containers, fetchContainers, showToast }) {
@@ -122,11 +119,10 @@ const leng = (rowData) => (
         </div>
     );
 
-    const renderHeaderWithIcon = (icon, title, filterKey, placeholder) => (
+    const renderHeaderWithIcon = (title) => (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {title}
-                <i className={`pi ${icon}`} style={{marginRight: '5px'}}></i>
             </div>
         </div>
     );
@@ -168,30 +164,30 @@ const leng = (rowData) => (
 
                 <DataTable value={filteredContainers} header={header} footer={footer} tableStyle={{minWidth: '60rem'}} showGridlines className="custom-datatable">
                     <Column field="containerTypeName"
-                            header="Loại"
+                            header={renderHeaderWithIcon('Loại')}
                             body={containerType_name}></Column>
                     <Column field="containerTypeType"
-                            header="Kích thước"
+                            header={renderHeaderWithIcon('Kích thước')}
                             body={containerType_type}></Column>
                     <Column field="length"
-                            header="Dài"
+                            header={renderHeaderWithIcon("Dài")}
                             body={leng}></Column>
                     <Column field="width"
-                            header="Rộng"
+                            header={renderHeaderWithIcon('Rộng')}
                             body={wid}></Column>
-                    <Column field="height" header="Cao"
+                    <Column field="height" header={renderHeaderWithIcon('Cao')}
                             body={hei}></Column>
                     <Column field="volume"
-                            header="Thể tích"
+                            header={renderHeaderWithIcon('Thể tích')}
                             body={vol}></Column>
                     <Column field="weight"
-                            header="Cân nặng"
+                            header={renderHeaderWithIcon('Cân nặng')}
                             body={wei}></Column>
                     <Column field="loadCapacity"
-                            header="Tải trọng chứa hàng"
+                            header={renderHeaderWithIcon('Tải trọng chứa hàng')}
                             body={loadCapacity}></Column>
                     <Column field="maxLoad"
-                            header="Tải trọng tối đa"
+                            header={renderHeaderWithIcon('Tải trọng tối đa')}
                             body={maxLoad}></Column>
                     <Column header="Thao tác" body={ActionButtons}></Column>
                 </DataTable>

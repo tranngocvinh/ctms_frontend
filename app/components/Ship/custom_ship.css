@@ -1,16 +1,33 @@
 tr {
     height: 25px;
+    text-align: center;
 }
 
 td {
-    padding: 5px;
+    padding: 10px;
     height: 25px;
 }
 
-.p-datatable-tbody td span{
+.tao-tau span{
     font-size: 12px;
     line-height: 10px !important;
 }
+.header-title {
+    display: flex;
+    align-items: center;
+}
+.sort-icon {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+}
 .custom-datatable .p-datatable-tbody > tr:nth-child(even) {
     background-color: #f0f0f0;
+}
+
+.p-datatable-thead th .p-column-header-content,
+.p-datatable-tbody td div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

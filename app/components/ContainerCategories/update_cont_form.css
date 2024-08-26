@@ -160,14 +160,6 @@
     z-index: 1000;
 }
 
-tr {
-    height: 25px;
-}
-
-td {
-    padding: 5px;
-    height: 25px;
-}
 
 .custom-datatable .p-datatable-tbody > tr:nth-child(even) {
     background-color: #f0f0f0;
