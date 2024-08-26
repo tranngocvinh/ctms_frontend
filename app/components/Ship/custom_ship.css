@@ -1,0 +1,16 @@
+tr {
+    height: 25px;
+}
+
+td {
+    padding: 5px;
+    height: 25px;
+}
+
+.p-datatable-tbody td span{
+    font-size: 12px;
+    line-height: 10px !important;
+}
+.custom-datatable .p-datatable-tbody > tr:nth-child(even) {
+    background-color: #f0f0f0;
+}

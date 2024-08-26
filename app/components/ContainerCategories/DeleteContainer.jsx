@@ -12,7 +12,7 @@ export default function Delete({ container, fetchContainers, showToast }) {
     const accept = () => {
         toast.current.show({ severity: 'info', summary: 'Xác nhận', detail: 'Bạn vừa chọn xóa kích thước container', life: 3000 });
 
-        dele(container.id)  // Ensure this is the correct ID field
+        dele(container.id)
             .then(res => {
                 showToast('success', 'Thành công', 'Xóa container thành công!');
                 setTimeout(() => {
@@ -30,7 +30,7 @@ export default function Delete({ container, fetchContainers, showToast }) {
 
     return (
         <>
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
             <ConfirmDialog
                 visible={visible}
                 onHide={() => setVisible(false)}
@@ -40,7 +40,7 @@ export default function Delete({ container, fetchContainers, showToast }) {
                 accept={accept}
                 reject={reject}
             />
-            <Button onClick={() => setVisible(true)} severity="danger" label="Xóa" />
+            <i className="pi pi-trash" style={{fontSize: '1rem'}} onClick={() => setVisible(true)}/>
         </>
     );
 }

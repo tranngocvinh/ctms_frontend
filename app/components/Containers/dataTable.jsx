@@ -23,7 +23,7 @@ export const getSchedules = async (id) => {
         const response = await axios.get(`https://auth.g42.biz/api/schedules/${id}`);
         return response.data;
     } catch (e) {
-        console.error('Error fetching schedule details:', e);
+        //console.error('Error fetching schedule details:', e);
         throw e;
     }
 };
@@ -45,7 +45,7 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
             const data = await Promise.all(promises);
             setScheduleDetails(data);
         } catch (error) {
-            console.error('Error fetching schedule details:', error);
+            //console.error('Error fetching schedule details:', error);
         }
     };
 

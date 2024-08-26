@@ -220,7 +220,7 @@ const App = () => {
                             })
                         ).min(2, 'Cần ít nhất 2 điểm dừng')
                     })}
-                    onSubmit={(values, { setSubmitting }) => {
+                    onSubmit={(values, { setSubmitting, resetForm }) => {
                         const dataToSend = {
                             ...values,
                             waypoints
@@ -233,6 +233,9 @@ const App = () => {
                                     detail: "Tuyến đường đã được thêm",
                                     life: 3000,
                                 });
+                                resetForm(); // Reset the form after success
+                                setWaypoints([{ portName: '', lat: null, lon: null }]); // Clear waypoints
+                                setRouteSegments([]); // Clear route segments
                             })
                             .catch(err => {
                                 alert(err);

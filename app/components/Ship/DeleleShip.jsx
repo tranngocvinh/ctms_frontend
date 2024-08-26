@@ -38,7 +38,7 @@ export default function Delete({ ships, fetchShips,showToast}) {
                 accept={accept}
                 reject={reject}
             />
-            <Button onClick={() => setVisible(true)} severity="danger" label="Xóa" />
+            <i className="pi pi-trash" style={{fontSize: '1rem' }} onClick={() => setVisible(true)}/>
         </>
     );
 }

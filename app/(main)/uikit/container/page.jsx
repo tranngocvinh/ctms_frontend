@@ -15,7 +15,7 @@ import { Toast } from 'primereact/toast';
 export default function TemplateDemo() {
     const [containers,setContainers] = useState([])
     const [loading, setLoading] = useState(false);
-    const toast = useRef(null);  // Create the toast reference here
+    const toast = useRef(null);
 
     const showToast = (severity, summary, detail) => {
         toast.current.show({ severity, summary, detail });
@@ -26,7 +26,7 @@ export default function TemplateDemo() {
         getContainers().then(res => {
             setContainers(res.data)
         }).catch(err => {
-            console.log(err);
+            //console.log(err);
         }).finally(() => {
             setLoading(false)
         })
