@@ -13,6 +13,7 @@ import CreateContainerDrawer from "./CreateContainerDrawer";
 import {IconField} from "primereact/iconfield";
 import {InputIcon} from "primereact/inputicon";
 import {Inplace, InplaceContent, InplaceDisplay} from "primereact/inplace";
+import './update_cont_form.css';
 
 export default function Table({ containers, fetchContainers, showToast }) {
     const [searchType, setSearchType] = useState('containerTypeType');
@@ -113,7 +114,7 @@ const leng = (rowData) => (
                 <InplaceContent>
                     <p className="m-0" style={{ fontSize: '0.8rem' }}>Thể tích: m³</p>
                     <p className="m-0" style={{ fontSize: '0.8rem' }}>Dài, Rộng, Cao: m</p>
-                    <p className="m-0" style={{ fontSize: '0.8rem' }}>Cân nặng, Tải trọng: kg</p>
+                    <p className="m-0" style={{ fontSize: '0.8rem' }}>Cân nặng, Tải trọng: tấn</p>
                 </InplaceContent>
             </Inplace>
         </div>

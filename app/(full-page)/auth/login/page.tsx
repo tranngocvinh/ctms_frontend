@@ -26,7 +26,7 @@ const LoginPage = () => {
     const handleLogin = async () => {
         setLoading(true); // Start loading
         try {
-            const response = await axios.post(`http://auth.g42.biz/api/v1/auth/login`, {
+            const response = await axios.post(`https://auth.g42.biz/api/v1/auth/login`, {
                 username: email,
                 password: password
             });
@@ -53,7 +53,7 @@ const LoginPage = () => {
 
     const handleForgotPassword = async () => {
         try {
-            await axios.post(`http://auth.g42.biz/api/v1/customers/forgot-password/${forgotPasswordEmail}`);
+            await axios.post(`https://auth.g42.biz/api/v1/customers/forgot-password/${forgotPasswordEmail}`);
             alert('Thông báo đặt lại mật khẩu đã được gửi tới email của bạn.');
             setForgotPasswordDialogVisible(false); // Close the dialog
         } catch (error) {

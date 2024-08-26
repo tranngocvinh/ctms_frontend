@@ -11,10 +11,13 @@ const UpdateContainerDrawer = ({ container,fetchContainers }) => {
 
     return (
         <>
-            <Button  style={{marginLeft:10}} severity="success" label="Báo hỏng" onClick={() => setVisible(true)} />
-
-            <Dialog header="Thông tin sửa chữa container" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
-                <UpdateContainerForm fetchContainers={fetchContainers} container={container}  />
+            <i className="pi pi-exclamation-triangle" style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}
+               onClick={() => setVisible(true)}/>
+            <Dialog header="Thông tin sửa chữa container" visible={visible} style={{width: '50vw'}} onHide={() => {
+                if (!visible) return;
+                setVisible(false);
+            }}>
+                <UpdateContainerForm fetchContainers={fetchContainers} container={container}/>
             </Dialog>
         </>
     );
