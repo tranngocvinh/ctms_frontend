@@ -1,11 +1,8 @@
 "use client"
-import React, {useRef, useState} from 'react';
-import { Sidebar } from 'primereact/sidebar';
-import { Button } from 'primereact/button';
+import React, {useState} from 'react';
+import {Button} from 'primereact/button';
 import CreateContainerForm from "./CreateContainerForm";
-import { Dialog } from 'primereact/dialog';
-import {Toast} from "primereact/toast";
-
+import {Dialog} from 'primereact/dialog';
 
 
 export default function CreateContainerDrawer({fetchContainers,showToast}) {

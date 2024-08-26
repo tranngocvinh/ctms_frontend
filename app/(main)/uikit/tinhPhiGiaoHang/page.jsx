@@ -1,13 +1,6 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
-import {getImageById} from "../../../api/container_supplier";
-import { ProgressSpinner } from 'primereact/progressspinner';
-import {getAllRepair} from "../../../api/repair";
+import React, {useEffect, useState} from 'react';
+import {ProgressSpinner} from 'primereact/progressspinner';
 import Table from "../../../components/Delivery/dataTable";
 import axios from "axios";
 
@@ -23,7 +16,7 @@ export default function TemplateDemo() {
         setLoading(true);
 
         axios
-            .get(`http://auth.g42.biz/api/delivery-orders`,getAuthConfig())
+            .get(`https://auth.g42.biz/api/delivery-orders`,getAuthConfig())
             .then(res => {
             setDelivery(res.data)
         }).catch(err => {

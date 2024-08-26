@@ -1,7 +1,6 @@
 import React from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
 
 import 'primeicons/primeicons.css';
 
@@ -10,7 +9,6 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 
 import {InputText} from "primereact/inputtext";
-import UpdateContainerDrawer from "../ContainerCategories/UpdateContainerDrawer";
 import Delete from "../Ship/DeleleShip";
 import UpdateScheduleDrawer from "./UpdateScheduleDrawer";
 import CreateScheduleDrawer from "./CreateScheduleDrawer";

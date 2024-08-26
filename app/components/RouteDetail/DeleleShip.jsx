@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
+import React, {useRef, useState} from 'react';
+import {ConfirmDialog} from 'primereact/confirmdialog';
+import {Toast} from 'primereact/toast';
+import {Button} from 'primereact/button';
 import {dele} from "../../api/ship";
 
 export default function Delete({ ships, fetchShips }) {

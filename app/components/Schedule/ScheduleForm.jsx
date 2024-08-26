@@ -1,8 +1,8 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { Button } from 'primereact/button';
+import React, {useEffect, useState} from 'react';
+import {Dropdown} from 'primereact/dropdown';
+import {Calendar} from 'primereact/calendar';
+import {Button} from 'primereact/button';
 import axios from 'axios';
 
 import 'primereact/resources/themes/saga-blue/theme.css';
@@ -29,11 +29,11 @@ const ScheduleForm = ({ onSave }) => {
 
     useEffect(() => {
         // Fetch routes and ships from the API
-        axios.get(`http://auth.g42.biz/api/routes`).then(response => {
+        axios.get(`https://auth.g42.biz/api/routes`).then(response => {
             setRoutes(response.data);
         });
 
-        axios.get(`http://auth.g42.biz/api/ships`).then(response => {
+        axios.get(`https://auth.g42.biz/api/ships`).then(response => {
             setShips(response.data);
         });
     }, []);
@@ -74,7 +74,7 @@ const ScheduleForm = ({ onSave }) => {
             }))
         };
 
-        axios.post(`http://auth.g42.biz/api/schedules`, dataToSubmit)
+        axios.post(`https://auth.g42.biz/api/schedules`, dataToSubmit)
             .then(response => {
                 console.log('Schedule added successfully', response.data);
                 // Reset form or show success message

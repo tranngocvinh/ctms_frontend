@@ -1,0 +1,12 @@
+.p-inputtext:enabled:focus {
+    border-color:#ced4da !important;
+    box-shadow:none !important;
+}
+input:hover {
+    outline: none !important;
+    border-color: #ced4da !important;
+}
+input:focus {
+    border-color:#ced4da !important;
+    box-shadow:none !important;
+}

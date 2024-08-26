@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import {handlePayment} from "../../api/repair";
+import React, {useRef, useState} from 'react';
+import {ConfirmDialog} from 'primereact/confirmdialog';
+import {Toast} from 'primereact/toast';
+import {Button} from 'primereact/button';
 import axios from "axios";
 
 export default function Delete({ repair, fetchDropOrders }) {
@@ -11,7 +10,7 @@ export default function Delete({ repair, fetchDropOrders }) {
 
     const accept = () => {
 
-        axios.put(`http://auth.g42.biz/api/drop-orders/isPay/${repair.id}`)  // Ensure this is the correct ID field
+        axios.put(`https://auth.g42.biz/api/drop-orders/isPay/${repair.id}`)  // Ensure this is the correct ID field
             .then(res => {
                 fetchDropOrders();
                 toast.current.show({ severity: 'success', summary: 'Thành công', detail: 'Xác nhận phí DET đã thanh toán thành công', life: 3000 });

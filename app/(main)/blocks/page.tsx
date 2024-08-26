@@ -1,10 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { InputText } from 'primereact/inputtext';
-import { Chip } from 'primereact/chip';
-import { Checkbox } from 'primereact/checkbox';
-import { Button } from 'primereact/button';
+import {InputText} from 'primereact/inputtext';
+import {Chip} from 'primereact/chip';
+import {Checkbox} from 'primereact/checkbox';
+import {Button} from 'primereact/button';
 import BlockViewer from '../../../demo/components/BlockViewer';
 
 const Free = () => {

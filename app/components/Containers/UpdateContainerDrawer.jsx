@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { Sidebar } from 'primereact/sidebar';
+import React, {useState} from 'react';
 import UpdateContainerForm from './UpdateContainerForm';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import CreateContainerForm from "./CreateContainerForm";
+import {Button} from 'primereact/button';
+import {Dialog} from 'primereact/dialog';
 
 const UpdateContainerDrawer = ({ container,fetchContainers }) => {
     const [visible, setVisible] = useState(false);

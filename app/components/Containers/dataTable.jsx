@@ -1,15 +1,14 @@
-import React, {useRef, useState, useEffect} from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
-import { Dialog } from 'primereact/dialog';
+import React, {useEffect, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Button} from 'primereact/button';
+import {Tag} from 'primereact/tag';
+import {Dialog} from 'primereact/dialog';
 import axios from 'axios';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import UpdateContainerDrawer from "./UpdateContainerDrawer";
-import DeleteContainer from "./DeleteContainer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
 
 const containerStatusMap = {
@@ -20,10 +19,10 @@ const containerStatusMap = {
 
 export const getSchedules = async (id) => {
     try {
-        const response = await axios.get(`http://auth.g42.biz/api/schedules/${id}`);
+        const response = await axios.get(`https://auth.g42.biz/api/schedules/${id}`);
         return response.data;
     } catch (e) {
-        console.error('Error fetching schedule details:', e);
+        //console.error('Error fetching schedule details:', e);
         throw e;
     }
 };
@@ -45,7 +44,7 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
             const data = await Promise.all(promises);
             setScheduleDetails(data);
         } catch (error) {
-            console.error('Error fetching schedule details:', error);
+            //console.error('Error fetching schedule details:', error);
         }
     };
 

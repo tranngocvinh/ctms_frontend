@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Sidebar } from 'primereact/sidebar';
+import React, {useState} from 'react';
+import {Sidebar} from 'primereact/sidebar';
 import UpdateShipForm from './UpdateShipForm';
-import { Button } from 'primereact/button';
+import 'primeicons/primeicons.css';
+import './custom_ship.css';
 
 const UpdateShipDrawer = ({ ships,fetchShips, showToast }) => {
     const [visible, setVisible] = useState(false);
@@ -11,10 +12,13 @@ const UpdateShipDrawer = ({ ships,fetchShips, showToast }) => {
 
     return (
         <>
-            <Button  severity="success" label="Sửa" onClick={() => setVisible(true)} />
-            <Sidebar visible={visible} onHide={() => setVisible(false)} >
+
+            {/*<Button icon="pi pi-pencil" style={{color: 'green'}} onClick={() => setVisible(true)} outlined/>*/}
+            <i className="pi pi-pencil" style={{fontSize: '1rem', marginRight: '10px', marginLeft:'10px'}} onClick={() => setVisible(true)}/>
+
+            <Sidebar visible={visible} onHide={() => setVisible(false)}>
                 <h2>Cập nhật tàu</h2>
-                <UpdateShipForm fetchShips={fetchShips} ships={ships} showToast={showToast}  />
+                <UpdateShipForm fetchShips={fetchShips} ships={ships} showToast={showToast}/>
             </Sidebar>
         </>
     );

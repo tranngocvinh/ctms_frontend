@@ -1,6 +1,6 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import React, {useEffect, useState} from 'react';
+import {ProgressSpinner} from 'primereact/progressspinner';
 import {getRoutes} from "/app/api/routes";
 import Table from "/app/components/RouteDetail/dataTable";
 

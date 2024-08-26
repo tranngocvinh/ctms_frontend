@@ -1,14 +1,10 @@
 "use client"
-import React, { useState, useEffect, useRef } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import React, {useEffect, useRef, useState} from 'react';
+import {ProgressSpinner} from 'primereact/progressspinner';
 import {getShip} from "../../../api/ship";
 import Table from "../../../components/ship/dataTable";
-import { Toast } from 'primereact/toast';
+import {Toast} from 'primereact/toast';
+
 
 export default function TemplateDemo() {
     const [ships,setShips] = useState([])

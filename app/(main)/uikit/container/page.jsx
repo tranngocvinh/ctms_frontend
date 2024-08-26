@@ -1,21 +1,15 @@
 "use client"
-import React, { useState, useEffect, useRef} from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
-import {getImageById} from "../../../api/container_supplier";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import React, {useEffect, useRef, useState} from 'react';
+import {ProgressSpinner} from 'primereact/progressspinner';
 import {getContainers} from "../../../api/container_size";
 import Table from "../../../components/ContainerCategories/dataTable";
-import { Toast } from 'primereact/toast';
+import {Toast} from 'primereact/toast';
 
 
 export default function TemplateDemo() {
     const [containers,setContainers] = useState([])
     const [loading, setLoading] = useState(false);
-    const toast = useRef(null);  // Create the toast reference here
+    const toast = useRef(null);
 
     const showToast = (severity, summary, detail) => {
         toast.current.show({ severity, summary, detail });
@@ -26,7 +20,7 @@ export default function TemplateDemo() {
         getContainers().then(res => {
             setContainers(res.data)
         }).catch(err => {
-            console.log(err);
+            //console.log(err);
         }).finally(() => {
             setLoading(false)
         })

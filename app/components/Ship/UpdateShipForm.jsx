@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import {Formik, Form, useField, useFormikContext} from 'formik';
+import {Form, Formik, useField, useFormikContext} from 'formik';
 import * as Yup from 'yup';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
@@ -9,12 +9,13 @@ import 'primeflex/primeflex.css';
 import {Dropdown} from "primereact/dropdown";
 import {update} from "../../api/ship";
 import {InputNumber} from "primereact/inputnumber";
+import './custom_ship.css';
 
 const MyTextInput = ({label, ...props}) => {
     const [field, meta] = useField(props);
 
     return (
-        <div className="p-field p-col-12 p-md-6">
+        <div className="p-field p-col-12 p-md-6 tao-tau-field">
             <label htmlFor={props.id || props.name}>{label}</label>
             <InputText id={props.id || props.name} {...field} {...props} />
 
@@ -121,6 +122,14 @@ const CreateShipForm = ({fetchShips, ships, showToast}) => {
                     }}
                 >
                     <Form className="p-fluid p-formgrid p-grid">
+                        <FormikDropdown
+                            name="status"
+                            options={status_ship}
+                            optionLabel="name"
+                            placeholder="Chọn trạng thái tàu"
+                            className="w-full md:w-14rem"
+                            label="Trạng Thái"
+                        />
                         <MyTextInput
                             label="Tên"
                             name="name"
@@ -146,14 +155,7 @@ const CreateShipForm = ({fetchShips, ships, showToast}) => {
                             name="yearBuilt"
                             type="text"
                         />
-                        <FormikDropdown
-                            name="status"
-                            options={status_ship}
-                            optionLabel="name"
-                            placeholder="Chọn trạng thái tàu"
-                            className="w-full md:w-14rem"
-                            label="Trạng Thái"
-                        />
+
                         <div className="p-col-12">
                             <Button type="submit" label="Submit" className="p-button-primary"/>
                         </div>

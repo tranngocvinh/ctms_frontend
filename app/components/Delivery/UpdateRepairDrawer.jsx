@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Sidebar } from 'primereact/sidebar';
-import UpdateShipForm from './UpdateRepairForm';
-import { Button } from 'primereact/button';
-import UpdateRepairForm from "./UpdateRepairForm";
+import React, {useState} from 'react';
+import {Sidebar} from 'primereact/sidebar';
+import UpdateRepairForm from './UpdateRepairForm';
+import {Button} from 'primereact/button';
 
 const UpdateRepairDrawer = ({ repair,fetchRepair }) => {
     const [visible, setVisible] = useState(false);

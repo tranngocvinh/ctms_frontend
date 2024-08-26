@@ -1,9 +1,9 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
+import React, {useEffect, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Button} from 'primereact/button';
+import {Dialog} from 'primereact/dialog';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
@@ -32,7 +32,7 @@ export default function DropOrdersTable() {
     })
     const fetchDropOrders = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/drop-orders`,getAuthConfig());
+            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`,getAuthConfig());
             const orders = response.data;
             setDropOrders(orders);
 
@@ -60,7 +60,7 @@ export default function DropOrdersTable() {
 
     const fetchSI = async (id) => {
         try {
-            return await axios.get(`http://auth.g42.biz/api/si/${id}`);
+            return await axios.get(`https://auth.g42.biz/api/si/${id}`);
         } catch (error) {
             console.error('Error fetching SI:', error);
         }
@@ -68,7 +68,7 @@ export default function DropOrdersTable() {
 
     const fetchEmptyContainer = async (id) => {
         try {
-            return await axios.get(`http://auth.g42.biz/api/containers/allocate/ship/${id}`);
+            return await axios.get(`https://auth.g42.biz/api/containers/allocate/ship/${id}`);
         } catch (error) {
             console.error('Error fetching empty container:', error);
         }

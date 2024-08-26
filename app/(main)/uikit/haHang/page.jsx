@@ -1,13 +1,8 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
+import React, {useEffect, useState} from 'react';
 import {getAllSIs} from "../../../api/drop_order";
 import Table from "../../../components/DropOrder/dataTable";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import {ProgressSpinner} from 'primereact/progressspinner';
 
 export default function TemplateDemo() {
     const [SI,setSI] = useState([])

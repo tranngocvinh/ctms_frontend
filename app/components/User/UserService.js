@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `http://auth.g42.biz/api/v1/customers`;
+const API_URL = `https://auth.g42.biz/api/v1/customers`;
 
 class UserService {
     getUsers() {
@@ -11,8 +11,14 @@ class UserService {
         return axios.get(`${API_URL}/${id}`);
     }
 
-    createUser(role, user) {
-        return axios.post(`${API_URL}/${role}`, user);  // Role determines the API endpoint (admin, customer, ship)
+    async createUser(role, user) {
+        try {
+            return await axios.post(`${API_URL}/${role}`, user);
+        } catch (error) {
+            const errorMessage = 'An unexpected error occurred';
+            console.error(errorMessage);
+            throw new Error(errorMessage);
+        }
     }
 
     updateUser(id, user) {

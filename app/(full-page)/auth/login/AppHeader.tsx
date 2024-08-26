@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import React, {useState} from 'react';
+import {Box, Typography} from '@mui/material';
 
 const AppHeader: React.FC = () => {
     const [language, setLanguage] = useState('en');

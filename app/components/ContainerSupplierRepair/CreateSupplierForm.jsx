@@ -1,17 +1,13 @@
 "use client"
-import React, {useRef, useState} from 'react';
-import ReactDOM from 'react-dom';
-import {Formik, Form, useField} from 'formik';
+import React, {useState} from 'react';
+import {Form, Formik, useField} from 'formik';
 import * as Yup from 'yup';
 import {InputText} from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
 import {Button} from 'primereact/button';
 import {Message} from 'primereact/message';
-import {FileUpload} from 'primereact/fileupload';
 import 'primeflex/primeflex.css';
-import {Toast} from 'primereact/toast';
 import {uploadImage} from "../../api/container_supplier";
-import SeverityDemo from "./Toast";
 
 const MyTextInput = ({label, ...props}) => {
     const [field, meta] = useField(props);

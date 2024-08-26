@@ -1,18 +1,17 @@
 "use client"
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
-import { Formik, Form, useField } from 'formik';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import { Button } from 'primereact/button';
+import {Form, Formik, useField} from 'formik';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
+import {Button} from 'primereact/button';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { add } from '/app/api/container';
+import {add} from '/app/api/container';
 import {MultiSelect} from "primereact/multiselect";
-import { Toast } from 'primereact/toast';
 
 
 const MyTextInput = ({ label, ...props }) => {
@@ -125,7 +124,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ships`);
+            const response = await axios.get(`https://auth.g42.biz/api/ships`);
             setShips(response.data);
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -134,7 +133,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/schedules`);
+            const response = await axios.get(`https://auth.g42.biz/api/schedules`);
             setSchedules(response.data);
         } catch (error) {
             console.error('Error fetching schedules:', error);
@@ -143,7 +142,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchContainerSizes = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/containers/sizes`);
+            const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`);
             setContainerSizes(response.data);
         } catch (error) {
             console.error('Error fetching container sizes:', error);
@@ -152,7 +151,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchPortLocations = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ports`);
+            const response = await axios.get(`https://auth.g42.biz/api/ports`);
             setPortLocations(response.data);
         } catch (error) {
             console.error('Error fetching port locations:', error);
@@ -161,7 +160,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchContainerSuppliers = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/v1/supplier`);
+            const response = await axios.get(`https://auth.g42.biz/api/v1/supplier`);
             setContainerSuppliers(response.data);
         } catch (error) {
             console.error('Error fetching container suppliers:', error);
@@ -170,7 +169,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
 
     const fetchShipSchedules = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/shipSchedules`);
+            const response = await axios.get(`https://auth.g42.biz/api/shipSchedules`);
             setShipSchedules(response.data);
         } catch (error) {
             console.error('Error fetching ship schedules:', error);

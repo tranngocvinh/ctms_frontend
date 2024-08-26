@@ -1,136 +1,113 @@
-import React, { useState } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-
+import React, {useMemo, useState} from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-
-import { InputText } from "primereact/inputtext";
-import UpdateContainerDrawer from "../ContainerCategories/UpdateContainerDrawer";
 import Delete from "../Ship/DeleleShip";
 import UpdateShipDrawer from "./UpdateShipDrawer";
 import CreateShipDrawer from "./CreateShipDrawer";
+import {Chip} from "primereact/chip";
+import './custom_ship.css';
+import {InputIcon} from "primereact/inputicon";
+import {IconField} from "primereact/iconfield";
 
-export default function Table({ ships, fetchShips, showToast}) {
-    const [filters, setFilters] = useState({
-        name: '',
-        company: '',
-        capacity: '',
-        registrationNumber: '',
-        yearBuilt: '',
-        status: ''
-    });
-
-    const onFilterChange = (e, field) => {
-        const value = e.target.value;
-        setFilters({ ...filters, [field]: value });
+export default function Table({ ships, fetchShips, showToast }) {
+    const [searchType, setSearchType] = useState('name');
+    const [searchQuery, setSearchQuery] = useState('');
+    const spanValueStyle = {
+        width: '90px',
+        textAlign: 'center'
     };
+    const searchTypes = [
+        { label: 'Tên', value: 'name' },
+        { label: 'Công ty', value: 'company' },
+        { label: 'Trọng tải', value: 'capacity' },
+        { label: 'Số đăng ký', value: 'registrationNumber' },
+        { label: 'Năm xây dựng', value: 'yearBuilt' },
+        { label: 'Trạng thái', value: 'status' }
+    ];
 
-    const filteredShips = ships.filter(ship => {
-        return (
-            ship.name.toLowerCase().includes(filters.name.toLowerCase()) &&
-            ship.company.toLowerCase().includes(filters.company.toLowerCase()) &&
-            ship.capacity.toString().includes(filters.capacity) &&
-            ship.registrationNumber.toString().includes(filters.registrationNumber) &&
-            ship.yearBuilt.toString().includes(filters.yearBuilt) &&
-            ship.status.toLowerCase().includes(filters.status.toLowerCase())
-        );
-    });
+    const filteredShips = useMemo(() => {
+        if (!searchQuery) return ships;
 
-    const name = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.name} readOnly
-                           style={{ width: '125px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-            </div>
-        );
-    };
+        return ships.filter(ship => {
+            let fieldValue = ship[searchType] || '';
+            return fieldValue.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [searchType, searchQuery, ships]);
 
-    const company = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.company} readOnly
-                           style={{ width: '150px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-            </div>
-        );
-    };
+    const name = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.name}</span>
+        </div>
+    );
 
-    const capacity = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.capacity} readOnly
-                           style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>kg</span>
-            </div>
-        );
-    };
+    const company = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.company}</span>
+        </div>
+    );
 
-    const registrationNumber = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.registrationNumber} readOnly
-                           style={{ width: '100px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-            </div>
-        );
-    };
+    const capacity = (rowData) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={spanValueStyle}>{rowData.capacity}</span>
+        </div>
+    );
 
-    const yearBuilt = (rowData) => {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.yearBuilt} readOnly
-                           style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-            </div>
-        );
-    };
+    const registrationNumber = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.registrationNumber}</span>
+        </div>
+    );
+
+    const yearBuilt = (rowData) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <span style={spanValueStyle}>{rowData.yearBuilt}</span>
+        </div>
+    );
 
     const status = (rowData) => {
         let status_name;
         if (rowData.status === "Đang hoạt động") {
             status_name = "Hoạt động";
-        }
-        if (rowData.status === "Đang bảo trì") {
+        } else if (rowData.status === "Đang bảo trì") {
             status_name = "Bảo trì";
         }
 
         return (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={status_name} readOnly
-                           style={{ width: '100px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-            </div>
-        );
-    };
-
-    // Custom header templates
-    const renderHeaderWithIcon = (icon, title, filterKey, placeholder) => {
-        return (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className={`pi ${icon}`} style={{ marginRight: '5px' }}></i>
-                    {title}
-                </div>
-                <InputText
-                    value={filters[filterKey]}
-                    onChange={(e) => onFilterChange(e, filterKey)}
-                    style={{ marginTop: '5px', width: '100%' }}
-                    placeholder={placeholder}
+                <Chip
+                    label={status_name}
+                    style={{ fontSize: '12px' }}
+                    icon={status_name === "Bảo trì" ? "pi pi-wrench" : "pi pi-truck"}
+                    severity="warning"
+                    className="tao-tau"
                 />
             </div>
         );
     };
 
-    const ActionButtons = (rowData) => {
-        return (
-            <div className="flex flex-wrap justify-content-center gap-1">
-                <UpdateShipDrawer
-                    ships={rowData} fetchShips={fetchShips}  showToast={showToast} label="Sửa" severity="info"
-                />
-                <Delete ships={rowData} fetchShips={fetchShips} showToast={showToast} />
+    const renderHeaderWithIcon = (title) => (
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                {title}
             </div>
-        );
-    };
+        </div>
+    );
+
+    const ActionButtons = (rowData) => (
+        <div className="flex flex-wrap justify-content-center gap-1">
+            <UpdateShipDrawer
+                ships={rowData} fetchShips={fetchShips} showToast={showToast} label="Sửa"
+            />
+            <Delete ships={rowData} fetchShips={fetchShips} showToast={showToast} />
+        </div>
+
+    );
 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
@@ -143,13 +120,35 @@ export default function Table({ ships, fetchShips, showToast}) {
 
     return (
         <div className="card">
-            <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }}>
-                <Column field="name" header={renderHeaderWithIcon('pi pi-box', 'Tên', 'name', 'Tìm kiếm tên')} body={name}></Column>
-                <Column field="company" header={renderHeaderWithIcon('pi pi-arrows-alt', 'Công ty', 'company', 'Tìm kiếm công ty')} body={company}></Column>
-                <Column field="capacity" header={renderHeaderWithIcon('pi pi-arrow-right', 'Trọng tải', 'capacity', 'Tìm kiếm trọng tải')} body={capacity}></Column>
-                <Column field="registrationNumber" header={renderHeaderWithIcon('pi pi-arrow-right', 'Số đăng ký', 'registrationNumber', 'Tìm kiếm số đăng ký')} body={registrationNumber}></Column>
-                <Column field="yearBuilt" header={renderHeaderWithIcon('pi pi-arrow-up', 'Năm xây dựng', 'yearBuilt', 'Tìm kiếm năm xây dựng')} body={yearBuilt}></Column>
-                <Column field="status" header={renderHeaderWithIcon('pi pi-chart-bar', 'Trạng Thái', 'status', 'Tìm kiếm trạng thái')} body={status}></Column>
+            <div className="p-d-flex p-ai-center p-jc-between p-mb-2">
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <Dropdown
+                        value={searchType}
+                        options={searchTypes}
+                        onChange={(e) => setSearchType(e.value)}
+                        optionLabel="label"
+                        placeholder="Chọn loại tìm kiếm"
+                        style={{width: '200px', marginRight: '10px'}}
+                    />
+                    <IconField iconPosition="right">
+                        <InputIcon className="pi pi-search"> </InputIcon>
+                    <InputText
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Tìm kiếm"
+                        style={{width: '300px'}}
+                    />
+                    </IconField>
+                </div>
+            </div>
+
+            <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} paginator rows={20} showGridlines className="custom-datatable" >
+                <Column field="name" header={renderHeaderWithIcon( 'Tên')} body={name}></Column>
+                <Column field="company" header={renderHeaderWithIcon('Công ty')} body={company}></Column>
+                <Column field="capacity" header={renderHeaderWithIcon('Trọng tải (kg)')} body={capacity}></Column>
+                <Column field="registrationNumber" header={renderHeaderWithIcon('Số đăng ký')} body={registrationNumber}></Column>
+                <Column field="yearBuilt" header={renderHeaderWithIcon('Năm xây dựng')} body={yearBuilt}></Column>
+                <Column field="status" header={renderHeaderWithIcon('Trạng Thái')} body={status}></Column>
                 <Column header="Thao tác" body={ActionButtons}></Column>
             </DataTable>
         </div>

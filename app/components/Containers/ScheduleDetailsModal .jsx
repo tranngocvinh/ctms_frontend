@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog } from 'primereact/dialog';
+import {Dialog} from 'primereact/dialog';
 
 const ScheduleDetailsModal = ({ visible, onHide, schedule }) => {
     return (

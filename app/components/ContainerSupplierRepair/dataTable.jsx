@@ -1,15 +1,13 @@
 import React from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Tag} from 'primereact/tag';
 import UpdateSupplierDrawer from "./UpdateSupplierDrawer";
 import CreateSupplierDrawer from "./CreateSupplierDrawer";
 
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-import ConfirmDelete from "./DeleteSupplier";
 import Delete from "./DeleteSupplier";
 
 export default function Table({ containers, fetchContainers }) {
@@ -32,7 +30,7 @@ export default function Table({ containers, fetchContainers }) {
     };
 
     const imageBodyTemplate = (rowData) => {
-        return <img src={`http://auth.g42.biz/api/v1/suplier/${rowData.supplierId}`} className="w-6rem shadow-2 border-round" alt="supplier" />;
+        return <img src={`https://auth.g42.biz/api/v1/suplier/${rowData.supplierId}`} className="w-6rem shadow-2 border-round" alt="supplier" />;
     };
 
     const linkTemplate = (rowData) => {

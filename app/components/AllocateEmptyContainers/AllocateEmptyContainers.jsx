@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { InputNumber } from 'primereact/inputnumber';
-import { allocateContainersToShip, allocateContainersToPort } from 'app/api/container';
+import React, {useEffect, useState} from 'react';
+import {Button} from 'primereact/button';
+import {Dropdown} from 'primereact/dropdown';
+import {InputNumber} from 'primereact/inputnumber';
+import {allocateContainersToPort, allocateContainersToShip} from 'app/api/container';
 import axios from 'axios';
 
 const AllocateEmptyContainers = () => {
@@ -20,7 +20,7 @@ const AllocateEmptyContainers = () => {
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ships`);
+            const response = await axios.get(`https://auth.g42.biz/api/ships`);
             setShips(response.data.map(ship => ({ label: ship.name, value: ship.id })));
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -29,7 +29,7 @@ const AllocateEmptyContainers = () => {
 
     const fetchPorts = async () => {
         try {
-            const response = await axios.get(`http://auth.g42.biz/api/ports`);
+            const response = await axios.get(`https://auth.g42.biz/api/ports`);
             setPorts(response.data.map(port => ({ label: port.portName, value: port.portName })));
         } catch (error) {
             console.error('Error fetching ports:', error);

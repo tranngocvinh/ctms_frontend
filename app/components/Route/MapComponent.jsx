@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import React, {useEffect, useState} from 'react';
+import {MapContainer, Marker, Polyline, TileLayer} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { PrimeIcons } from 'primereact/api';
+import {PrimeIcons} from 'primereact/api';
 
 const createCustomIcon = (iconClass) => {
     return new L.DivIcon({
