@@ -65,26 +65,33 @@ const DeliveryOrderTable = () => {
 
     const fetchData = () => {
         axios
-            .get(`http://auth.g42.biz/api/delivery-orders`,getAuthConfig())
+            .get(`http://localhost:8080/api/delivery-orders`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, deliveryOrders: response.data })));
         axios
-            .get(`http://auth.g42.biz/api/v1/customers`)
+            .get(`http://localhost:8080/api/v1/customers`)
             .then((response) => setState((prev) => ({ ...prev, customers: response.data })));
         axios
-            .get(`http://auth.g42.biz/api/schedules`)
+            .get(`http://localhost:8080/api/schedules`)
             .then((response) => setState((prev) => ({ ...prev, schedules: response.data })));
         fetchContainers(); // Initial fetch for containers
     };
 
-    const fetchContainers = (page = 0, size = 10) => {
+    const fetchContainers = () => {
         axios
-            .get(`http://auth.g42.biz/api/containers?page=${page}&size=${size}`, getAuthConfig())
-            .then((response) => setState((prev) => ({ ...prev, containers: [...prev.containers, ...response.data] })));
+            .get(`http://localhost:8080/api/containers`, getAuthConfig())
+            .then((response) => {
+                setState((prev) => ({
+                    ...prev,
+                    containers: response.data, // Load all containers at once
+                }));
+            });
     };
+
+
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
         axios
-            .get(`http://auth.g42.biz/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
+            .get(`http://localhost:8080/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
             .then((response) => {
                 const newShipScheduleContainerMap = response.data.reduce(
                     (map, shipSchedule) => ({ ...map, [shipSchedule.id]: [] }),
@@ -103,8 +110,8 @@ const DeliveryOrderTable = () => {
     const saveDeliveryOrder = () => {
         if (state.deliveryOrder.customerId && state.deliveryOrder.scheduleId) {
             const saveRequest = state.deliveryOrder.id
-                ? axios.put(`http://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
-                : axios.post(`http://auth.g42.biz/api/delivery-orders`, state.deliveryOrder);
+                ? axios.put(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
+                : axios.post(`http://localhost:8080/api/delivery-orders`, state.deliveryOrder);
 
             saveRequest.then((response) => {
                 fetchData();
@@ -120,7 +127,7 @@ const DeliveryOrderTable = () => {
     };
 
     const deleteDeliveryOrder = () => {
-        axios.delete(`http://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
+        axios.delete(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
             updateState({
                 deliveryOrders: state.deliveryOrders.filter((val) => val.id !== state.deliveryOrder.id),
                 deleteDeliveryOrderDialog: false,
@@ -152,21 +159,12 @@ const DeliveryOrderTable = () => {
     };
 
     const onContainerCheckboxChange = (e, shipScheduleId, containerCode) => {
-        if (!e.checked || !Object.values(state.deliveryOrder.shipScheduleContainerMap).flat().includes(containerCode)) {
-            const newMap = { ...state.deliveryOrder.shipScheduleContainerMap };
-            newMap[shipScheduleId] = e.checked
-                ? [...newMap[shipScheduleId], containerCode]
-                : newMap[shipScheduleId].filter((code) => code !== containerCode);
+        const newMap = { ...state.deliveryOrder.shipScheduleContainerMap };
+        newMap[shipScheduleId] = e.checked
+            ? [...newMap[shipScheduleId], containerCode]
+            : newMap[shipScheduleId].filter((code) => code !== containerCode);
 
-            updateState({ deliveryOrder: { ...state.deliveryOrder, shipScheduleContainerMap: newMap } });
-        } else {
-            toast.current.show({
-                severity: "warn",
-                summary: "Duplicate Container",
-                detail: "Container is already selected for another ShipSchedule",
-                life: 3000,
-            });
-        }
+        updateState({ deliveryOrder: { ...state.deliveryOrder, shipScheduleContainerMap: newMap } });
     };
 
     const renderContainerAssignment = () => {
@@ -194,10 +192,6 @@ const DeliveryOrderTable = () => {
         ));
     };
 
-    const loadMoreContainers = () => {
-        fetchContainers(state.page + 1); // Load more containers when needed
-        setState((prev) => ({ ...prev, page: prev.page + 1 }));
-    };
 
     const renderContainers = (rowData) => {
         // Extract containers from shipScheduleContainerMap
@@ -313,7 +307,6 @@ const DeliveryOrderTable = () => {
                     <InputText id="notes" value={state.deliveryOrder.notes} onChange={(e) => onInputChange(e, "notes")} />
                 </div>
                 {renderContainerAssignment()}
-                <Button label="Load More Containers" onClick={loadMoreContainers} />
             </Dialog>
 
             <Dialog visible={state.deleteDeliveryOrderDialog} style={{ width: "450px" }} header="Xác nhận" modal footer={<><Button label="No" icon="pi pi-times" outlined onClick={() => updateState({ deleteDeliveryOrderDialog: false })} /><Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteDeliveryOrder} /></>} onHide={() => updateState({ deleteDeliveryOrderDialog: false })}>
