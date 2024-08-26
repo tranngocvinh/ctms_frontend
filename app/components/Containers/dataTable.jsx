@@ -1,10 +1,9 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
+import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
 import axios from 'axios';
-import {Dropdown} from 'primereact/dropdown';
-import {InputText} from 'primereact/inputtext';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
@@ -12,6 +11,8 @@ import UpdateContainerDrawer from "./UpdateContainerDrawer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
 import {Chip} from "primereact/chip";
 import './container.css';
+import {InputText} from "primereact/inputtext";
+import {Dropdown} from "primereact/dropdown";
 
 const containerStatusMap = {
     'In Transit': 'Đang di chuyển',
@@ -30,8 +31,9 @@ export const getSchedules = async (id) => {
 
 export default function ContainerTable({ containers, fetchContainers, showToast }) {
     const [selectedContainer, setSelectedContainer] = useState(null);
+    const [scheduleDetails, setScheduleDetails] = useState([]);
     const [displayDialog, setDisplayDialog] = useState(false);
-    const [userRole, setUserRole] = useState();
+    const [userRole,setUserRole] = useState() ;
     const [searchType, setSearchType] = useState('containerCode');
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -42,9 +44,8 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
 
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
-        setUserRole(userRole);
-    }, []);
-
+        setUserRole(userRole)
+    },[])
     const fetchScheduleDetails = async (scheduleIds) => {
         try {
             const promises = scheduleIds.map(id => getSchedules(id));
@@ -68,7 +69,6 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
         setScheduleDetails([]);
         setDisplayDialog(false);
     };
-
     const filteredContainers = useMemo(() => {
         if (!searchQuery) return containers;
 
@@ -87,27 +87,31 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
         });
     }, [searchType, searchQuery, containers]);
 
-    const ActionButtons = (rowData) => (
-        <div className="">
-            <i className="pi pi-eye" style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}
-               onClick={() => showDetailDialog(rowData)}/>
-            {rowData.isRepair === 1 ? (
-                ''
-            ) : (
-                <>
-                    {(userRole === 'STAFF' || userRole === 'MANAGER') ? (
-                            <UpdateContainerDrawer
-                                container={rowData}
-                                fetchContainers={fetchContainers}
-                                label="Sửa"
-                                severity="info"
-                            />)
-                        : null
-                    }
-                </>
-            )}
-        </div>
-    );
+    const ActionButtons = (rowData) => {
+        return (
+            <div className="">
+                <i className="pi pi-eye" style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}
+                   onClick={() => showDetailDialog(rowData)}/>
+                {rowData.isRepair === 1 ? (
+                    ''
+                ) : (
+                    <>
+                        {(userRole === 'STAFF' || userRole === 'MANAGER') ? (
+                                <UpdateContainerDrawer
+                                    container={rowData}
+                                    fetchContainers={fetchContainers}
+                                    label="Sửa"
+                                    severity="info"
+                                />)
+                            : null
+                        }
+                    </>
+
+                )}
+            </div>
+        );
+    };
+
 
     const statusBodyTemplate = (rowData) => {
         if (rowData.status === 'In Transit') {
@@ -117,6 +121,7 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
         } else if (rowData.status === 'In Port') {
             return <Chip label={containerStatusMap[rowData.status]} icon="pi pi-box" style={{ fontSize: '12px'}}/>;
         }
+
     };
 
     const hasGoodsBodyTemplate = (rowData) => {
@@ -138,21 +143,28 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
         return null;
     };
 
-    const shipScheduleBodyTemplate = (rowData) => (
-        <div>
-            {rowData.customer?.name} {rowData.customer?.username}
-        </div>
-    );
+    const shipScheduleBodyTemplate = (rowData) => {
+
+        return (
+            <div >
+                {rowData.customer?.name} {rowData.customer?.username}
+            </div>
+        )
+
+    };
+
+    const formatDate = (dateString) => {
+        return dateString.substring(0, 10); // chỉ lấy 10 ký tự đầu cho ngày tháng năm
+    };
 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Trạng thái chi tiết container</span>
+
             {userRole === 'MANAGER' && <CreateContainerDrawer showToast={showToast} fetchContainers={fetchContainers} />}
+
         </div>
     );
-
-    const footer = `Có ${filteredContainers ? filteredContainers.length : 0} container.`;
-
     const containerDetails = selectedContainer ? [
         { label: "Mã Container", value: selectedContainer.containerCode },
         { label: "Loại Container", value: selectedContainer.containerSize?.containerType?.name },
@@ -168,6 +180,7 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
 
     const renderLabel = (label) => <strong>{label}</strong>;
     const renderValue = (value) => <span>{value}</span>;
+    const footer = `Có ${filteredContainers ? filteredContainers.length : 0} container.`;
 
     return (
         <>
@@ -190,28 +203,27 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
                         />
                     </div>
                 </div>
-
-                <DataTable paginator rows={20} value={filteredContainers} header={header} footer={footer} tableStyle={{ minWidth: '50rem' }} showGridlines className="custom-datatable">
-                    <Column field="containerCode" header="Mã Container"></Column>
-                    <Column header="Loại Container" body={(rowData) => rowData.containerSize?.containerType?.name}></Column>
-                    <Column header="Kích thước (m)" body={(rowData) => `${rowData.containerSize?.length} x ${rowData.containerSize?.width} x ${rowData.containerSize?.height}`}></Column>
-                    <Column header="Trạng thái" body={statusBodyTemplate}></Column>
-                    <Column header="Vị trí hiện tại" body={locationBodyTemplate}></Column>
+                <DataTable paginator rows={20} value={filteredContainers} header={header} footer={footer}
+                           tableStyle={{minWidth: '60rem'}} className="custom-datatable">
+                    <Column field="containerCode" header="Mã định danh"></Column>
                     <Column header="Khách hàng" body={shipScheduleBodyTemplate}></Column>
-                    <Column header="Hành động" body={ActionButtons}></Column>
+                    <Column field="containerSize.containerType.name" header="Loại container"></Column>
+                    <Column field="status" header="Trạng thái" body={statusBodyTemplate}></Column>
+                    <Column field="hasGoods" header="Có hàng" body={hasGoodsBodyTemplate}></Column>
+                    <Column header="Thao tác" body={ActionButtons}></Column>
                 </DataTable>
-            </div>
 
-            <Dialog header="Chi tiết Container" visible={displayDialog} style={{ width: '50vw' }} onHide={hideDetailDialog} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                <div className="dialog-content">
-                    {containerDetails.map(({ label, value }) => (
-                        <div className="dialog-row" key={label}>
-                            <p>{renderLabel(label)}</p>
-                            <span>{renderValue(value)}</span>
-                        </div>
-                    ))}
-                </div>
-            </Dialog>
+                <Dialog header="Chi tiết Lịch trình" visible={displayDialog} style={{width: '30vw'}}
+                        onHide={hideDetailDialog}>
+
+                    <DataTable value={containerDetails} paginator={false} rows={containerDetails.length}
+                              showGridlines>
+                        <Column field="label" header="Thông tin" body={(rowData) => renderLabel(rowData.label)}
+                                style={{width: '30%'}}></Column>
+                        <Column field="value" header="Chi tiết" body={(rowData) => renderValue(rowData.value)}></Column>
+                    </DataTable>
+                </Dialog>
+            </div>
         </>
     );
 }

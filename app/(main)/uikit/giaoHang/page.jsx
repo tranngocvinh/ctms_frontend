@@ -1,11 +1,24 @@
 "use client";
-import React, {useEffect, useRef, useState} from "react";
-import {Button, Calendar, Checkbox, Column, DataTable, Dialog, Dropdown, InputText, Toast, Toolbar,} from "primereact";
+import React, { useState, useEffect, useRef } from "react";
+import {
+    DataTable,
+    Column,
+    Toast,
+    Button,
+    Toolbar,
+    Dialog,
+    Dropdown,
+    Calendar,
+    InputText,
+    Checkbox,
+
+} from "primereact";
 import axios from "axios";
-import {FixedSizeList as List} from "react-window";
+import { FixedSizeList as List } from "react-window";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import {InputNumber} from "primereact/inputnumber";
 
 const DeliveryOrderTable = () => {
     const emptyDeliveryOrder = {
@@ -63,11 +76,18 @@ const DeliveryOrderTable = () => {
         fetchContainers(); // Initial fetch for containers
     };
 
-    const fetchContainers = (page = 0, size = 10) => {
+    const fetchContainers = () => {
         axios
-            .get(`https://auth.g42.biz/api/containers?page=${page}&size=${size}`, getAuthConfig())
-            .then((response) => setState((prev) => ({ ...prev, containers: [...prev.containers, ...response.data] })));
+            .get(`https://auth.g42.biz/api/containers`, getAuthConfig())
+            .then((response) => {
+                setState((prev) => ({
+                    ...prev,
+                    containers: response.data, // Load all containers at once
+                }));
+            });
     };
+
+
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
         axios
@@ -149,8 +169,8 @@ const DeliveryOrderTable = () => {
         } else {
             toast.current.show({
                 severity: "warn",
-                summary: "Duplicate Container",
-                detail: "Container is already selected for another ShipSchedule",
+                summary: "Trùng container",
+                detail: "Container đã ở trong một lịch tàu khác",
                 life: 3000,
             });
         }
@@ -181,10 +201,6 @@ const DeliveryOrderTable = () => {
         ));
     };
 
-    const loadMoreContainers = () => {
-        fetchContainers(state.page + 1); // Load more containers when needed
-        setState((prev) => ({ ...prev, page: prev.page + 1 }));
-    };
 
     const renderContainers = (rowData) => {
         // Extract containers from shipScheduleContainerMap
@@ -300,7 +316,6 @@ const DeliveryOrderTable = () => {
                     <InputText id="notes" value={state.deliveryOrder.notes} onChange={(e) => onInputChange(e, "notes")} />
                 </div>
                 {renderContainerAssignment()}
-                <Button label="Load More Containers" onClick={loadMoreContainers} />
             </Dialog>
 
             <Dialog visible={state.deleteDeliveryOrderDialog} style={{ width: "450px" }} header="Xác nhận" modal footer={<><Button label="No" icon="pi pi-times" outlined onClick={() => updateState({ deleteDeliveryOrderDialog: false })} /><Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteDeliveryOrder} /></>} onHide={() => updateState({ deleteDeliveryOrderDialog: false })}>
