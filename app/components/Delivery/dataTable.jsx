@@ -102,7 +102,6 @@ export default function Table({ delivery, fetchDelivery }) {
         );
     };
     const handlePaymentClick = (rowData) => {
-        // Populate payment info with relevant data
         const paymentInfo = {
             accountNumber: "0326260456",
             accountName: "TRAN NGOC VINH",
@@ -121,7 +120,6 @@ export default function Table({ delivery, fetchDelivery }) {
                 {rowData.isPay === 1  ? (
 
                 <p>Đã Thanh toán</p>
-
             ) : (
                 <>
 

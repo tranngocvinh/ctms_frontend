@@ -10,9 +10,9 @@ import axios from 'axios';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-import {InputText} from "primereact/inputtext";
+import './droporder.css';
 
-export default function Table({ SI, fetchSI }) {
+export default function Table({ SI, fetchSI, showToast }) {
     const [selectedSI, setSelectedSI] = useState(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [dropDate, setDropDate] = useState(null);
@@ -20,12 +20,13 @@ export default function Table({ SI, fetchSI }) {
     const [status] = useState('PENDING');
     const [detFee, setDetFee] = useState(0);
     const [ports, setPorts] = useState([]);
-    const [cargoTypes, setCargoTypes] = useState([]); // Add state for cargo types
+    const [cargoTypes, setCargoTypes] = useState([]);
     const [dialogTitle, setDialogTitle] = useState('Phát hành lệnh hạ hàng');
     const [dropOrderId, setDropOrderId] = useState(null);
     const [buttonLabel, setButtonLabel] = useState('Phát hành');
     const [dropOrder, setDropOrder] = useState({});
     const [emptyContainer, setEmptyContainer] = useState({});
+
 
 
     useEffect(() => {
@@ -127,7 +128,7 @@ export default function Table({ SI, fetchSI }) {
                 setButtonLabel('Phát hành');
             }
         } catch (error) {
-            console.error('Error fetching drop orders:', error);
+
         }
 
         setIsDialogVisible(true);
@@ -149,16 +150,17 @@ export default function Table({ SI, fetchSI }) {
         try {
             if (dialogTitle === 'Chỉnh sửa lệnh hạ hàng') {
                 await axios.put(`https://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload);
-                alert('Cập nhật lệnh hạ hàng thành công');
+                showToast("success","Thành công", "Chỉnh sửa lệnh hạ hàng thành công")
             } else {
                 await axios.post(`https://auth.g42.biz/api/drop-orders`, payload);
-                alert('Phát hành lệnh hạ hàng thành công');
+                showToast("success","Thành công", "Thêm lệnh hạ hàng thành công")
             }
             hideFormDialog();
-            fetchSI(); // Refresh SI data after submitting
-        } catch (error) {
+            setTimeout(() => {
+                fetchSI();
+            }, 1000);        } catch (error) {
             console.error('Error submitting drop order:', error);
-            alert('Lệnh hạ hàng thất bại');
+            showToast("error","Thất bại", "Thêm lệnh hạ hàng thất bại")
         }
     };
 
@@ -189,18 +191,14 @@ export default function Table({ SI, fetchSI }) {
 
     const cargoWeight = (rowData) => {
         return (<div style={{ display: 'flex', alignItems: 'center' }}>
-            <InputText type="text" value={rowData.cargoWeight.toLocaleString('en-US')} readOnly
-                       style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-            <span style={{ color: 'coral' }}>kg</span>
+           <p>{rowData.cargoWeight.toLocaleString('en-US')}</p>
         </div>)
     }
 
     const cargoVolume = (rowData) =>{
         return(
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <InputText type="text" value={rowData.cargoVolume.toLocaleString('en-US')} readOnly
-                           style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-                <span style={{ color: 'coral' }}>m³</span>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <p>{rowData.cargoVolume.toLocaleString('en-US')}</p>
             </div>
         );
     }
@@ -209,8 +207,7 @@ export default function Table({ SI, fetchSI }) {
 
     return (
         <div className="card">
-            <DataTable value={SI} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }}>
-                <Column field="id" header="ID SI"></Column>
+            <DataTable value={SI} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable">
                 <Column header="Loaị hàng" body={cargoType}></Column>
                 <Column field="cargoWeight" header="Trọng lượng hàng" body={cargoWeight}></Column>
                 <Column field="cargoVolume" header="Thể tích hàng" body={cargoVolume}></Column>
@@ -221,20 +218,39 @@ export default function Table({ SI, fetchSI }) {
                 {selectedSI && (
                     <div>
                         <h5>Thông tin chi tiết Container:</h5>
-                        <p>ID SI: {selectedSI.id}</p>
-                        <p>Loại hàng: {getCargoTypeName(selectedSI.cargoTypeId)}</p>
-                        <p>Trọng lượng hàng: {selectedSI.cargoWeight.toLocaleString('en-US')} kg</p>
-                        <p>Thể tích hàng: {selectedSI.cargoVolume.toLocaleString('en-US')} m³</p>
-                        <p>Phí DET: {detFee} VND</p>
+                        <p><b>Loại hàng:</b> {getCargoTypeName(selectedSI.cargoTypeId)}</p>
+                        <p><b>Trọng lượng hàng:</b> {selectedSI.cargoWeight.toLocaleString('en-US')} kg</p>
+                        <p><b>Thể tích hàng:</b> {selectedSI.cargoVolume.toLocaleString('en-US')} m³</p>
+                        <p><b>Phí DET:</b> {detFee} VND</p>
 
-                        <h5>Thông tin lệnh hạ hàng:</h5>
-                        <div className="p-field">
-                            <label htmlFor="dropDate">Ngày hạ hàng</label>
-                            <Calendar id="dropDate" value={dropDate} onChange={(e) => setDropDate(e.value)} showTime showSeconds />
-                        </div>
-                        <div className="p-field">
-                            <label htmlFor="dropLocation">Địa điểm hạ hàng</label>
-                            <Dropdown id="dropLocation" value={dropLocation} options={ports} onChange={(e) => setDropLocation(e.value)} optionLabel="portName" filter showClear filterBy="portName" placeholder="Chọn địa điểm hạ hàng" />
+                        <div>
+                            <h5>Thông tin lệnh hạ hàng:</h5>
+                            <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
+                                <label htmlFor="dropDate" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Ngày hạ
+                                    hàng</label>
+                                <Calendar
+                                    id="dropDate" value={dropDate} onChange={(e) => setDropDate(e.value)} showTime showSeconds
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '300px'
+                                    }} />
+                            </div>
+                            <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
+                                <label htmlFor="dropLocation" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Địa
+                                    điểm hạ hàng</label>
+                                <Dropdown
+                                    id="dropLocation"
+                                    value={dropLocation}
+                                    options={ports}
+                                    onChange={(e) => setDropLocation(e.value)}
+                                    optionLabel="portName"
+                                    filter
+                                    showClear
+                                    filterBy="portName"
+                                    placeholder="Chọn địa điểm hạ hàng"
+                                    style={{width: '100%', maxWidth: '300px'}}
+                                />
+                            </div>
                         </div>
                     </div>
                 )}

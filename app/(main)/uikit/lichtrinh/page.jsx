@@ -10,10 +10,10 @@ import {Dropdown} from 'primereact/dropdown';
 import {Calendar} from 'primereact/calendar';
 import {InputText} from 'primereact/inputtext';
 import axios from 'axios';
-
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import './lichtrinh.css';
 
 const ScheduleTable = () => {
     const emptySchedule = {
@@ -141,12 +141,6 @@ const ScheduleTable = () => {
         setSchedule(_schedule);
     };
 
-    const onDateChange = (e, name) => {
-        let _schedule = { ...schedule };
-        _schedule[`${name}`] = e.value;
-        setSchedule(_schedule);
-    };
-
     const handleSegmentTimeChange = (index, field, value) => {
         const updatedSegments = [...schedule.scheduleSegments];
         updatedSegments[index][field] = value;
@@ -162,28 +156,18 @@ const ScheduleTable = () => {
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="New" icon="pi pi-plus" className="mr-2" onClick={openNew} />
-                <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedSchedules || !selectedSchedules.length} />
+                <Button label="New" icon="pi pi-plus" className="text-white bg-gray-800
+            hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium
+            rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onClick={openNew} />
             </React.Fragment>
         )
     };
 
-    const confirmDeleteSelected = () => {
-        setDeleteScheduleDialog(true);
-    };
-
-    const deleteSelectedSchedules = () => {
-        let _schedules = schedules.filter(val => !selectedSchedules.includes(val));
-        setSchedules(_schedules);
-        setDeleteScheduleDialog(false);
-        setSelectedSchedules(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Xóa lịch trình thành công', life: 3000 });
-    };
 
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
+                <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} outlined/>
             </React.Fragment>
         )
     };
@@ -195,15 +179,16 @@ const ScheduleTable = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editSchedule(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteSchedule(rowData)} />
+                <i className="pi pi-pencil" style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
+                   onClick={() => editSchedule(rowData)}/>
+                <i className="pi pi-trash" style={{fontSize: '1rem'}} onClick={() => confirmDeleteSchedule(rowData)}/>
             </React.Fragment>
         );
     };
 
     const header = (
         <div className="flex flex-wrap gap-2 align-items-center justify-content-between">
-            <h4 className="m-0">Manage Schedules</h4>
+            <h4 className="m-0">Quản lý lịch trình</h4>
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
@@ -248,20 +233,19 @@ const ScheduleTable = () => {
                     onSelectionChange={(e) => setSelectedSchedules(e.value)}
                     dataKey="id"
                     paginator
-                    rows={10}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    showGridlines
+                    rows={20}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} schedules"
                     globalFilter={globalFilter}
                     header={header}
-                    responsiveLayout="scroll"
+                    className="custom-datatable"
                 >
-                    <Column selectionMode="multiple" exportable={false}></Column>
-                    <Column field="codeSchedule" header="Mã chuyến" sortable></Column>
-                    <Column field="routeName" header="Tên chuyến" sortable></Column>
-                    <Column field="departureTime" header="Thời gian khởi hành" sortable></Column>
-                    <Column field="estimatedArrivalTime" header="Thời gian đến" sortable></Column>
-                    <Column body={actionBodyTemplate} exportable={false}></Column>
+                    <Column field="codeSchedule" header="Mã chuyến"></Column>
+                    <Column field="routeName" header="Tên chuyến"></Column>
+                    <Column field="departureTime" header="Thời gian khởi hành"></Column>
+                    <Column field="estimatedArrivalTime" header="Thời gian đến"></Column>
+                    <Column header="Thao tác" body={actionBodyTemplate} exportable={false}></Column>
                 </DataTable>
             </div>
 

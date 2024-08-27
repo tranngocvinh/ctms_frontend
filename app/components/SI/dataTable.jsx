@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
@@ -7,10 +7,11 @@ import {Dialog} from 'primereact/dialog';
 import {InputNumber} from 'primereact/inputnumber';
 import {Dropdown} from 'primereact/dropdown';
 import axios from 'axios';
-
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
+import 'app/(main)/uikit/khaiBaoSI/khaibao.css';
+import {Toast} from 'primereact/toast';
 
 export default function Table({ SIs }) {
     const [selectedSI, setSelectedSI] = useState(null);
@@ -22,12 +23,13 @@ export default function Table({ SIs }) {
     const [cargoTypes, setCargoTypes] = useState([]);
     const [siData, setSiData] = useState({});
     const [dialogTitle, setDialogTitle] = useState(''); // New state for dialog title
-    const [containerDetails, setContainerDetails] = useState([]); // New state for container details
 
     useEffect(() => {
         fetchCargoTypes();
         fetchSIData();
     }, []);
+
+    const toast = useRef(null);
 
     const fetchCargoTypes = async () => {
         try {
@@ -109,21 +111,21 @@ export default function Table({ SIs }) {
         try {
             if (dialogTitle === 'Khai báo SI') {
                 await axios.post(`https://auth.g42.biz/api/si`, payload);
-                alert('Khai báo SI thành công');
+                toast.current.show({severity:'success', summary: 'Thành công', detail:'Khai báo SI thành công', life: 3000});
             } else if (dialogTitle === 'Chỉnh sửa SI') {
                 await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload);
-                alert('Cập nhật SI thành công');
+                toast.current.show({severity:'success', summary: 'Thành công', detail:'Cập nhật SI thành công', life: 3000});
             }
             hideFormDialog();
             fetchSIData(); // Refresh SI data after submitting
         } catch (error) {
             console.error('Error submitting SI:', error);
-            alert('Khai báo/Cập nhật SI thất bại');
+            toast.current.show({severity:'warn', summary: 'Thất bại', detail:'Khai báo SI thất bại', life: 3000});
         }
     };
 
     const emptyDetail = (rowData) => {
-        return <Button text onClick={() => showDetails(rowData)}>👁️Xem chi tiết</Button>;
+        return <i className="pi pi-eye" onClick={() => showDetails(rowData)} style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}/>;
     };
 
     const si = (rowData) => {
@@ -133,7 +135,7 @@ export default function Table({ SIs }) {
                 text
                 onClick={() => showFormDialog(rowData) }
             >
-                {existingSI ? '🔄️Chỉnh sửa' : 'ℹ️Khai báo'}
+                {existingSI ? '🔄️ Chỉnh sửa' : 'ℹ️ Khai báo'}
             </Button>
         );
     };
@@ -162,15 +164,15 @@ export default function Table({ SIs }) {
             <ul>
                 {details.map((detail, index) => (
                     detail.containerSize ? (
-                        <li key={index}>
-                            <p>Mã container: {detail.containerCode}kg</p>
-                            <p>Loại container: {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p>
-                            <p>Kích thước: {detail.containerSize.length}m x {detail.containerSize.width}m x {detail.containerSize.height}m</p>
-                            <p>Thể tích: {detail.containerSize.volume}m³</p>
-                            <p>Cân nặng: {detail.containerSize.weight}kg</p>
-                            <p>Tải trọng: {detail.containerSize.loadCapacity}kg</p>
-                            <p>Tải trọng tối đa: {detail.containerSize.maxLoad}kg</p>
-                        </li>
+                        <React.Fragment key={index}>
+                            <li><p>Mã container:     {detail.containerCode}</p></li>
+                            <li><p>Loại container:   {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p></li>
+                            <li><p>Kích thước:       {detail.containerSize.length} m x {detail.containerSize.width} m x {detail.containerSize.height} m</p></li>
+                            <li><p>Thể tích:         {detail.containerSize.volume} m³</p></li>
+                            <li><p>Cân nặng:         {detail.containerSize.weight} tấn</p></li>
+                            <li><p>Tải trọng:        {detail.containerSize.loadCapacity} tấn</p></li>
+                            <li><p>Tải trọng tối đa: {detail.containerSize.maxLoad} tấn</p></li>
+                        </React.Fragment>
                     ) : (
                         <li key={index}>Loading container size for {detail.containerCode}...</li>
                     )
@@ -179,9 +181,11 @@ export default function Table({ SIs }) {
         );
     };
 
+
     return (
         <div className="card">
-            <DataTable value={SIs} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }}>
+            <Toast ref={toast} />
+            <DataTable value={SIs} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} className="custom-datatable" showGridlines paginator rows={20}>
                 <Column field="customer.username" header="Tài khoản cấp rỗng"></Column>
                 <Column field="portLocation.portName" header="Tên cảng"></Column>
                 <Column field="ship.registrationNumber" header="Tên tàu"></Column>
@@ -198,20 +202,42 @@ export default function Table({ SIs }) {
                 )}
             </Dialog>
 
-            <Dialog header={dialogTitle} visible={isFormDialogVisible} style={{ width: '50vw' }} footer={formDialogFooter} onHide={hideFormDialog}>
+            <Dialog header={dialogTitle} visible={isFormDialogVisible} style={{width: '16vw'}} footer={formDialogFooter}
+                    onHide={hideFormDialog}>
                 <div>
                     <h5>Thông tin SI</h5>
-                    <div className="p-field">
-                        <label htmlFor="cargoType">Loại hàng hóa</label>
-                        <Dropdown id="cargoType" value={selectedCargoType} options={cargoTypes} onChange={(e) => setSelectedCargoType(e.value)} optionLabel="name" placeholder="Chọn loại hàng hóa" />
+                    <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
+                        <label htmlFor="cargoType" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Loại hàng
+                            hóa</label>
+                        <Dropdown
+                            id="cargoType"
+                            value={selectedCargoType}
+                            options={cargoTypes}
+                            onChange={(e) => setSelectedCargoType(e.value)}
+                            optionLabel="name"
+                            placeholder="Chọn loại hàng hóa"
+                            style={{width: '100%', maxWidth: '300px'}}
+                        />
                     </div>
-                    <div className="p-field">
-                        <label htmlFor="cargoWeight">Trọng lượng hàng hóa (kg)</label>
-                        <InputNumber id="cargoWeight" value={cargoWeight} onValueChange={(e) => setCargoWeight(e.value)} />
+                    <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
+                        <label htmlFor="cargoWeight" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Trọng lượng
+                            hàng hóa (tấn)</label>
+                        <InputNumber
+                            id="cargoWeight"
+                            value={cargoWeight}
+                            onValueChange={(e) => setCargoWeight(e.value)}
+                            style={{width: '100%', maxWidth: '300px'}}
+                        />
                     </div>
-                    <div className="p-field">
-                        <label htmlFor="cargoVolume">Thể tích hàng hóa (m³)</label>
-                        <InputNumber id="cargoVolume" value={cargoVolume} onValueChange={(e) => setCargoVolume(e.value)} />
+                    <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
+                        <label htmlFor="cargoVolume" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Thể tích hàng
+                            hóa (m³)</label>
+                        <InputNumber
+                            id="cargoVolume"
+                            value={cargoVolume}
+                            onValueChange={(e) => setCargoVolume(e.value)}
+                            style={{width: '100%', maxWidth: '300px'}} // Ensures the input number is the same width
+                        />
                     </div>
                 </div>
             </Dialog>

@@ -20,24 +20,30 @@ const MyTextInput = ({ label, ...props }) => {
         <div className="field grid">
             <label className="col-12 mb-2 md:col-4" htmlFor={props.id || props.name}>{label}</label>
             <div className="col-12 md:col-8">
-                <InputText id={props.id || props.name} {...field} {...props} />
-                {meta.touched && meta.error ? (
-                    <small className="p-error">{meta.error}</small>
-                ) : null}
+                <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">VIMC</span>
+                    <InputText id={props.id || props.name} {...field} {...props} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                    {meta.touched && meta.error ? (
+                        <small className="p-error">{meta.error}</small>
+                    ) : null}
+                </div>
             </div>
         </div>
     );
 };
 
 
-const MyDropdown = ({ label, options, onChange, ...props }) => {
+const MyDropdown = ({label, options, onChange, ...props}) => {
     const [field, meta, helpers] = useField(props);
 
     return (
         <div className="field grid">
-            <label className="col-12 mb-2 md:col-4 md:mb-0" htmlFor={props.id || props.name}>{label}</label>
+        <label className="col-12 mb-2 md:col-4 md:mb-0" htmlFor={props.id || props.name}>{label}</label>
             <div className="col-12 md:col-8">
                 <Dropdown
+                    filter
                     id={props.id || props.name}
                     {...field}
                     options={options}
@@ -47,7 +53,7 @@ const MyDropdown = ({ label, options, onChange, ...props }) => {
                     }}
                     placeholder="Chọn..."
                     style={{ width: "100%" }}
-                    disabled={props.disabled} // Add the disabled prop here
+                    disabled={props.disabled}
                 />
                 {meta.touched && meta.error ? (
                     <small className="p-error">{meta.error}</small>
@@ -212,6 +218,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
                     onSubmit={(values, { setSubmitting }) => {
                         const cleanedValues = {
                             ...values,
+                            containerCode: 'VIMC'+ values.containerCode,
                             shipSchedules: values.shipSchedules.filter(ss => ss.schedule.id && ss.ship.id)
                         };
 
@@ -231,13 +238,16 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
                     {({ isSubmitting, setFieldValue, values, setFieldTouched }) => {
                         return (
                             <Form className="">
-                                <ResetFieldValues status={values.status} setFieldValue={setFieldValue} setFieldTouched={setFieldTouched} />
+                                <ResetFieldValues status={values.status} setFieldValue={setFieldValue}
+                                                  setFieldTouched={setFieldTouched}/>
+
                                 <MyTextInput
                                     label="Nhập mã định danh container"
                                     name="containerCode"
                                     type="text"
                                     placeholder="Mã định danh"
                                 />
+
                                 <MyDropdown
                                     label="Kích thước Container"
                                     name="containerSize.id"
@@ -252,14 +262,15 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
                                 <MyDropdown
                                     label="Cảng"
                                     name="portLocation.id"
-                                    options={portLocations.map(port => ({ label: port.portName, value: port.id }))}
+                                    options={portLocations.map(port => ({label: port.portName, value: port.id}))}
                                     onChange={(e) => setFieldValue('portLocation.id', e.value)}
                                     disabled={values.status !== 'In Port' && values.status !== 'Under Maintenance'}
                                 />
 
 
                                 <div className="p-col-12">
-                                    <Button type="submit" label="Submit" className="p-button-primary" disabled={isSubmitting} />
+                                    <Button type="submit" label="Submit" className="p-button-primary"
+                                            disabled={isSubmitting}/>
 
                                 </div>
                             </Form>

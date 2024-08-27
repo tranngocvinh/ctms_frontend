@@ -6,6 +6,7 @@ import {FixedSizeList as List} from "react-window";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import './giaohang.css';
 
 const DeliveryOrderTable = () => {
     const emptyDeliveryOrder = {
@@ -63,10 +64,13 @@ const DeliveryOrderTable = () => {
         fetchContainers(); // Initial fetch for containers
     };
 
-    const fetchContainers = (page = 0, size = 10) => {
+    const fetchContainers = () => {
         axios
-            .get(`https://auth.g42.biz/api/containers?page=${page}&size=${size}`, getAuthConfig())
-            .then((response) => setState((prev) => ({ ...prev, containers: [...prev.containers, ...response.data] })));
+            .get(`https://auth.g42.biz/api/containers`, getAuthConfig())
+            .then((response) => setState((prev) => ({
+                ...prev,
+                containers: [...prev.containers, ...response.data] // This should set the containers correctly
+            })));
     };
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
@@ -161,9 +165,9 @@ const DeliveryOrderTable = () => {
             <div className="field" key={shipSchedule.id}>
                 <label htmlFor={`container_${shipSchedule.id}`}>Containers for ShipSchedule {shipSchedule.id}</label>
                 <List
-                    height={150} // Adjust the height as necessary
+                    height={150}
                     itemCount={state.containers.length}
-                    itemSize={35} // Adjust the size of each item as necessary
+                    itemSize={35}
                     width={"100%"}
                 >
                     {({ index, style }) => (
@@ -173,7 +177,7 @@ const DeliveryOrderTable = () => {
                                 checked={state.deliveryOrder.shipScheduleContainerMap[shipSchedule.id]?.includes(state.containers[index].containerCode)}
                                 onChange={(e) => onContainerCheckboxChange(e, shipSchedule.id, state.containers[index].containerCode)}
                             />
-                            <label htmlFor={`container_${state.containers[index].containerCode}`}>{state.containers[index].containerCode}</label>
+                            <label htmlFor={`container_${state.containers[index].containerCode}`}> {state.containers[index].containerCode}</label>
                         </div>
                     )}
                 </List>
@@ -181,16 +185,19 @@ const DeliveryOrderTable = () => {
         ));
     };
 
-    const loadMoreContainers = () => {
-        fetchContainers(state.page + 1); // Load more containers when needed
-        setState((prev) => ({ ...prev, page: prev.page + 1 }));
+    const openDeliveryOrderDialog = () => {
+        updateState({
+            deliveryOrderDialog: true,
+            deliveryOrder: emptyDeliveryOrder,
+            shipSchedules: [],
+            containers: [],
+        });
+        fetchContainers();
     };
 
     const renderContainers = (rowData) => {
-        // Extract containers from shipScheduleContainerMap
         const containers = Object.values(rowData.shipScheduleContainerMap).flat();
 
-        // Join all container codes into a single string or format them as you prefer
         return containers.join(', ');
     };
 
@@ -204,15 +211,13 @@ const DeliveryOrderTable = () => {
                         <Button
                             label="Thêm"
                             icon="pi pi-plus"
-                            onClick={() => updateState({
-                                deliveryOrderDialog: true,
-                                deliveryOrder: emptyDeliveryOrder, // Reset to empty form
-                                shipSchedules: [], // Reset shipSchedules
-                                containers: [] // Reset containers
-                            })}
+                            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+                                                                font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
+                                                                dark:focus:ring-gray-700 dark:border-gray-700"
+                            onClick={openDeliveryOrderDialog}
                         />
                     )}
-                    right={() => <Button label="Xuất Excel" icon="pi pi-upload" onClick={() => dt.current.exportCSV()} />}
+                    right={() => <Button label="Xuất" icon="pi pi-upload" onClick={() => dt.current.exportCSV()} outlined/>}
                 />
                 <DataTable
                     ref={dt}
@@ -221,44 +226,40 @@ const DeliveryOrderTable = () => {
                     onSelectionChange={(e) => updateState({ selectedDeliveryOrders: e.value })}
                     dataKey="id"
                     paginator
+                    showGridlines
+                    className="custom-datatable"
                     rows={10}
                     globalFilter={state.globalFilter}
                     header={<div className="flex align-items-center justify-content-between"><h4 className="m-0">Quản lý lệnh giao hàng</h4><InputText type="search" onInput={(e) => updateState({ globalFilter: e.target.value })} placeholder="Tìm kiếm..." /></div>}
                 >
-                    <Column selectionMode="multiple" exportable={false}></Column>
-                    <Column field="orderNumber" header="Mã đơn hàng" sortable></Column>
-                    <Column field="customerId" header="Tên khách hàng" body={(rowData) => state.customers.find((c) => c.id === rowData.customerId)?.username || "unknown"} sortable></Column>
-                    <Column field="scheduleId" header="Mã lịch trình" body={(rowData) => state.schedules.find((s) => s.id === rowData.scheduleId)?.codeSchedule || "unknown"} sortable></Column>
-                    <Column header="Ngày đặt hàng" body={(rowData) => new Date(rowData.orderDate).toLocaleString()} sortable></Column>
-                    <Column header="Ngày giao hàng" body={(rowData) => new Date(rowData.deliveryDate).toLocaleString()} sortable></Column>
-                    <Column field="totalAmount" header="Tổng tiền" sortable></Column>
-                    <Column field="status" header="Trạng thái" sortable></Column>
+                    <Column field="orderNumber" header="Mã đơn hàng"></Column>
+                    <Column field="customerId" header="Tên khách hàng" body={(rowData) => state.customers.find((c) => c.id === rowData.customerId)?.username || "unknown"}></Column>
+                    <Column field="scheduleId" header="Mã lịch trình" body={(rowData) => state.schedules.find((s) => s.id === rowData.scheduleId)?.codeSchedule || "unknown"}></Column>
+                    <Column header="Ngày đặt hàng" body={(rowData) => new Date(rowData.orderDate).toLocaleString()}></Column>
+                    <Column header="Ngày giao hàng" body={(rowData) => new Date(rowData.deliveryDate).toLocaleString()}></Column>
+                    <Column field="totalAmount" header="Tổng tiền" ></Column>
+                    <Column field="status" header="Trạng thái" ></Column>
                     <Column header="Containers" body={renderContainers} />
                     <Column body={(rowData) =>
                         <>
-                            <Button
-                                icon="pi pi-pencil"
-                                className="p-button-rounded p-button-success mr-2"
-                                onClick={() => {
-                                    // Set the selected order data, including containers, to the state
-                                    updateState({
-                                        deliveryOrder: { ...rowData }, // Copy all fields from the selected row
-                                        deliveryOrderDialog: true, // Open the dialog
-                                        shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
-                                            id: parseInt(id),
-                                            containers: rowData.shipScheduleContainerMap[id],
-                                        })), // Set the ship schedules for rendering containers
-                                    });
-                                }}
-                            />
-                            <Button
-                                icon="pi pi-trash"
-                                className="p-button-rounded p-button-warning"
-                                onClick={() => updateState({
-                                    deliveryOrder: rowData,
-                                    deleteDeliveryOrderDialog: true,
-                                })}
-                            />
+                            <i className="pi pi-pencil"
+                               style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
+                               onClick={() => {
+                                   updateState({
+                                       deliveryOrder: {...rowData},
+                                       deliveryOrderDialog: true,
+                                       shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
+                                           id: parseInt(id),
+                                           containers: rowData.shipScheduleContainerMap[id],
+                                       })),
+                                   });
+                               }}/>
+                            <i className="pi pi-trash"
+                               style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
+                               onClick={() => updateState({
+                                   deliveryOrder: rowData,
+                                   deleteDeliveryOrderDialog: true,
+                               })}/>
                         </>
                     } exportable={false}>
                     </Column>
@@ -266,7 +267,14 @@ const DeliveryOrderTable = () => {
                 </DataTable>
             </div>
 
-            <Dialog visible={state.deliveryOrderDialog} style={{ width: "450px" }} header="Chi tiết lệnh giao hàng" modal className="p-fluid" footer={<><Button label="Cancel" icon="pi pi-times" outlined onClick={() => updateState({ deliveryOrderDialog: false, submitted: false })} /><Button label="Save" icon="pi pi-check" onClick={saveDeliveryOrder} /></>} onHide={() => updateState({ deliveryOrderDialog: false, submitted: false })}>
+            <Dialog visible={state.deliveryOrderDialog} style={{maxWidth: "450px", maxHeight:'600px'}} header="Chi tiết lệnh giao hàng" modal
+                    className="p-fluid" footer={<><Button label="Cancel" icon="pi pi-times" outlined
+                                                          onClick={() => updateState({
+                                                              deliveryOrderDialog: false,
+                                                              submitted: false
+                                                          })}/><Button label="Save" icon="pi pi-check"
+                                                                       onClick={saveDeliveryOrder}/></>}
+                    onHide={() => updateState({deliveryOrderDialog: false, submitted: false})}>
                 <div className="field">
                     <label htmlFor="orderNumber">Mã lệnh giao hàng</label>
                     <InputText id="orderNumber" value={state.deliveryOrder.orderNumber} onChange={(e) => onInputChange(e, "orderNumber")} />
@@ -292,15 +300,14 @@ const DeliveryOrderTable = () => {
                     <InputText id="totalAmount" value={state.deliveryOrder.totalAmount} onChange={(e) => onInputChange(e, "totalAmount")} />
                 </div>
                 <div className="field">
-                    <label htmlFor="status">Trạng thái</label>
+                    <label htmlFor="status">Ghi chú 1</label>
                     <InputText id="status" value={state.deliveryOrder.status} onChange={(e) => onInputChange(e, "status")} />
                 </div>
                 <div className="field">
-                    <label htmlFor="notes">Ghi chú</label>
+                    <label htmlFor="notes">Ghi chú 2</label>
                     <InputText id="notes" value={state.deliveryOrder.notes} onChange={(e) => onInputChange(e, "notes")} />
                 </div>
                 {renderContainerAssignment()}
-                <Button label="Load More Containers" onClick={loadMoreContainers} />
             </Dialog>
 
             <Dialog visible={state.deleteDeliveryOrderDialog} style={{ width: "450px" }} header="Xác nhận" modal footer={<><Button label="No" icon="pi pi-times" outlined onClick={() => updateState({ deleteDeliveryOrderDialog: false })} /><Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteDeliveryOrder} /></>} onHide={() => updateState({ deleteDeliveryOrderDialog: false })}>

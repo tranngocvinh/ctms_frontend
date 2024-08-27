@@ -70,7 +70,7 @@ const FormikDropdown = ({label, ...props}) => {
                 optionLabel="name"
             />
             {meta.touched && meta.error ? (
-                <div className="error">{meta.error}</div>
+                <small className="p-error">{meta.error}</small>
             ) : null}
         </div>
     );
@@ -97,9 +97,11 @@ const CreateShipForm = ({ fetchShips,showToast }) => {
                     validationSchema={Yup.object({
                         name: Yup.string().required('Không được để trống'),
                         company: Yup.string().required('Không được để trống'),
-                        capacity: Yup.string().required('Không được để trống'),
+                        capacity: Yup.number().required('Không được để trống').positive('Trọng tải phải là số dương'),
                         registrationNumber: Yup.string().required('Không được để trống'),
                         yearBuilt: Yup.number().required('Không được để trống').max(new Date().getFullYear(), 'Năm phải nhỏ hơn hoặc bằng năm hiện tại'),
+                        status: Yup.string().required('Trạng thái không được để trống'), // Added validation for status
+
                     })}
                     onSubmit={(values, {setSubmitting}) => {
                         add(values).then(res => {

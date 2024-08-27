@@ -12,11 +12,11 @@ const Dashboard = () => {
             <div className="h2">Our Company</div>
             <br/>
             <div className="left-column">
-                Established in 1995 under the Prime Minister's Decision No. 250 / TTg with the mission of being
-                the core and key enterprise of Vietnam's maritime industry. Over 29 years of establishment and
+                Established in 1995 under the Prime Minister Decision No. 250 / TTg with the mission of being
+                the core and key enterprise of Vietnam maritime industry. Over 29 years of establishment and
                 development, VIMC is one of leading businesses in opening up cooperation, international integration,
                 providing maritime services on a global scale, making an important contribution to the development
-                of Vietnam's marine economy. VIMC changed to operate as a joint stock company from August 18,
+                of Vietnam marine economy. VIMC changed to operate as a joint stock company from August 18,
                 2020<br/><br/>
                 Vietnamese name: Vietnam Maritime Corporation - Joint Stock Company<br/><br/>
                 English name: Vietnam Maritime Corporation<br/><br/>

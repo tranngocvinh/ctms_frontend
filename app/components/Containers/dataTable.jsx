@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import {Button} from 'primereact/button';
-import {Tag} from 'primereact/tag';
 import {Dialog} from 'primereact/dialog';
 import axios from 'axios';
 import 'primeflex/primeflex.css';
@@ -10,6 +8,10 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import UpdateContainerDrawer from "./UpdateContainerDrawer";
 import CreateContainerDrawer from "./CreateContainerDrawer";
+import {Chip} from "primereact/chip";
+import './container.css';
+import {InputText} from "primereact/inputtext";
+import {Dropdown} from "primereact/dropdown";
 
 const containerStatusMap = {
     'In Transit': 'Đang di chuyển',
@@ -22,7 +24,6 @@ export const getSchedules = async (id) => {
         const response = await axios.get(`https://auth.g42.biz/api/schedules/${id}`);
         return response.data;
     } catch (e) {
-        //console.error('Error fetching schedule details:', e);
         throw e;
     }
 };
@@ -32,7 +33,13 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
     const [scheduleDetails, setScheduleDetails] = useState([]);
     const [displayDialog, setDisplayDialog] = useState(false);
     const [userRole,setUserRole] = useState() ;
+    const [searchType, setSearchType] = useState('containerCode');
+    const [searchQuery, setSearchQuery] = useState('');
 
+    const searchTypes = [
+        { label: 'Mã định danh', value: 'containerCode' },
+        { label: 'Khách hàng', value: 'customer.name' },
+    ];
 
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
@@ -44,7 +51,6 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
             const data = await Promise.all(promises);
             setScheduleDetails(data);
         } catch (error) {
-            //console.error('Error fetching schedule details:', error);
         }
     };
 
@@ -62,24 +68,42 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
         setScheduleDetails([]);
         setDisplayDialog(false);
     };
+    const filteredContainers = useMemo(() => {
+        if (!searchQuery) return containers;
+
+        return containers.filter(container => {
+            let fieldValue = '';
+            if (searchType === 'containerCode') {
+                fieldValue = container.containerCode || '';
+            } else if (searchType === 'containerSize.containerType.name') {
+                fieldValue = container.containerSize?.containerType?.name || '';
+            } else if (searchType === 'status') {
+                fieldValue = container.status || '';
+            } else if (searchType === 'customer.name') {
+                fieldValue = container.customer?.name || '';
+            }
+            return fieldValue.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [searchType, searchQuery, containers]);
 
     const ActionButtons = (rowData) => {
         return (
             <div className="">
-                <Button label="Chi tiết" onClick={() => showDetailDialog(rowData)} />
+                <i className="pi pi-eye" style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}
+                   onClick={() => showDetailDialog(rowData)}/>
                 {rowData.isRepair === 1 ? (
-                    <Button label="đang sửa chữa" disabled style={{marginLeft:10}} />
+                    ''
                 ) : (
                     <>
-                    {(userRole === 'STAFF' || userRole === 'MANAGER') ? (
-                    <UpdateContainerDrawer
-                        container={rowData}
-                        fetchContainers={fetchContainers}
-                        label="Sửa"
-                        severity="info"
-                    />)
-                     : null
-                    }
+                        {(userRole === 'STAFF' || userRole === 'MANAGER') ? (
+                                <UpdateContainerDrawer
+                                    container={rowData}
+                                    fetchContainers={fetchContainers}
+                                    label="Sửa"
+                                    severity="info"
+                                />)
+                            : null
+                        }
                     </>
 
                 )}
@@ -89,19 +113,18 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
 
 
     const statusBodyTemplate = (rowData) => {
-        let severity = "info";
         if (rowData.status === 'In Transit') {
-            severity = "warning";
+            return <Chip label={containerStatusMap[rowData.status]} icon="pi pi-truck" style={{ fontSize: '12px'}}/>;
         } else if (rowData.status === 'Under Maintenance') {
-            severity = "info";
+            return <Chip label={containerStatusMap[rowData.status]} icon="pi pi-wrench" style={{ fontSize: '12px'}}/>;
         } else if (rowData.status === 'In Port') {
-            severity = "success";
+            return <Chip label={containerStatusMap[rowData.status]} icon="pi pi-box" style={{ fontSize: '12px'}}/>;
         }
-        return <Tag value={containerStatusMap[rowData.status]} severity={severity}></Tag>;
+
     };
 
     const hasGoodsBodyTemplate = (rowData) => {
-        return <Tag value={rowData.hasGoods ? 'Có hàng' : 'Không có hàng'} severity={rowData.hasGoods ? 'success' : 'warning'}></Tag>;
+        return <i className={rowData.hasGoods ? "pi pi-check-circle" : "pi pi-times-circle"} style={rowData.hasGoods ? { color: 'green' } : { color: 'red' }}></i>;
     };
 
     const locationBodyTemplate = (rowData) => {
@@ -121,11 +144,11 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
 
     const shipScheduleBodyTemplate = (rowData) => {
 
-            return (
-                <div >
-                    {rowData.customer?.name} ({rowData.customer?.username})
-                </div>
-            )
+        return (
+            <div >
+                {rowData.customer?.name} {rowData.customer?.username}
+            </div>
+        )
 
     };
 
@@ -141,47 +164,65 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
 
         </div>
     );
+    const containerDetails = selectedContainer ? [
+        { label: "Mã Container", value: selectedContainer.containerCode },
+        { label: "Loại Container", value: selectedContainer.containerSize?.containerType?.name },
+        { label: "Kích thước", value: `${selectedContainer.containerSize?.length} x ${selectedContainer.containerSize?.width} x ${selectedContainer.containerSize?.height} (m)` },
+        { label: "Trạng thái", value: selectedContainer.status },
+        { label: "Vị trí cảng", value: selectedContainer.portLocation?.portName },
+        { label: "Tàu vận chuyển", value: selectedContainer.shipSchedule?.ship?.name },
+        { label: "Công ty vận chuyển", value: selectedContainer.shipSchedule?.ship?.company },
+        { label: "Thời gian khởi hành", value: new Date(selectedContainer.shipSchedule?.schedule?.departureTime).toLocaleString() },
+        { label: "Thời gian ước tính đến", value: new Date(selectedContainer.shipSchedule?.schedule?.estimatedArrivalTime).toLocaleString() },
+        { label: "Khách hàng", value: selectedContainer.customer?.name }
+    ] : [];
 
-    const footer = `Có ${containers ? containers.length : 0} container.`;
+    const renderLabel = (label) => <strong>{label}</strong>;
+    const renderValue = (value) => <span>{value}</span>;
+    const footer = `Có ${filteredContainers ? filteredContainers.length : 0} container.`;
 
     return (
         <>
-
-    <div className="card">
-
-            <DataTable value={containers} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }}>
-                <Column field="containerCode" header="Mã định danh"></Column>
-                <Column header="Khách hàng" body={shipScheduleBodyTemplate}></Column>
-                <Column field="containerSize.containerType.name" header="Loại container"></Column>
-                <Column field="status" header="Trạng thái" body={statusBodyTemplate}></Column>
-                <Column field="hasGoods" header="Có hàng" body={hasGoodsBodyTemplate}></Column>
-                <Column header="Thao tác" body={ActionButtons}></Column>
-            </DataTable>
-
-            <Dialog header="Chi tiết Lịch trình" visible={displayDialog} style={{ width: '50vw' }} onHide={hideDetailDialog}>
-                <Dialog header="Chi tiết Lịch trình" visible={displayDialog} style={{ width: '50vw' }} onHide={hideDetailDialog}>
-                    <div>
-                        <div>
-                            <div><strong>Mã Container:</strong> {selectedContainer?.containerCode}</div>
-                            <div><strong>Loại Container:</strong> {selectedContainer?.containerSize?.containerType?.name}</div>
-                            <div><strong>Kích thước:</strong>
-                                {selectedContainer?.containerSize?.length}m x
-                                {selectedContainer?.containerSize?.width}m x
-                                {selectedContainer?.containerSize?.height}m
-                            </div>
-                            <div><strong>Trạng thái:</strong> {selectedContainer?.status}</div>
-                            <div><strong>Vị trí cảng:</strong> {selectedContainer?.portLocation?.portName}</div>
-                            <div><strong>Tàu vận chuyển:</strong> {selectedContainer?.shipSchedule?.ship?.name}</div>
-                            <div><strong>Công ty vận chuyển:</strong> {selectedContainer?.shipSchedule?.ship?.company}</div>
-                            <div><strong>Thời gian khởi hành:</strong> {new Date(selectedContainer?.shipSchedule?.schedule?.departureTime).toLocaleString()}</div>
-                            <div><strong>Thời gian ước tính đến:</strong> {new Date(selectedContainer?.shipSchedule?.schedule?.estimatedArrivalTime).toLocaleString()}</div>
-                            <div><strong>Khách hàng:</strong> {selectedContainer?.customer?.name}</div>
-                            <hr />
-                        </div>
+            <div className="card">
+                <div className="p-d-flex p-ai-center p-jc-between p-mb-2">
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <Dropdown
+                            value={searchType}
+                            options={searchTypes}
+                            onChange={(e) => setSearchType(e.value)}
+                            optionLabel="label"
+                            placeholder="Chọn loại tìm kiếm"
+                            style={{width: '200px', marginRight: '10px'}}
+                        />
+                        <InputText
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Tìm kiếm"
+                            style={{width: '300px'}}
+                        />
                     </div>
+                </div>
+                <DataTable paginator rows={20} value={filteredContainers} header={header} footer={footer}
+                           tableStyle={{minWidth: '60rem'}} className="custom-datatable">
+                    <Column field="containerCode" header="Mã định danh"></Column>
+                    <Column header="Khách hàng" body={shipScheduleBodyTemplate}></Column>
+                    <Column field="containerSize.containerType.name" header="Loại container"></Column>
+                    <Column field="status" header="Trạng thái" body={statusBodyTemplate}></Column>
+                    <Column field="hasGoods" header="Có hàng" body={hasGoodsBodyTemplate}></Column>
+                    <Column header="Thao tác" body={ActionButtons}></Column>
+                </DataTable>
+
+                <Dialog header="Chi tiết Lịch trình" visible={displayDialog} style={{width: '30vw'}}
+                        onHide={hideDetailDialog}>
+
+                    <DataTable value={containerDetails} paginator={false} rows={containerDetails.length}
+                              showGridlines>
+                        <Column field="label" header="Thông tin" body={(rowData) => renderLabel(rowData.label)}
+                                style={{width: '30%'}}></Column>
+                        <Column field="value" header="Chi tiết" body={(rowData) => renderValue(rowData.value)}></Column>
+                    </DataTable>
                 </Dialog>
-            </Dialog>
-        </div>
-            </>
+            </div>
+        </>
     );
 }

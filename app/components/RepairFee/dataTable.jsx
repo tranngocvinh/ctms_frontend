@@ -11,6 +11,7 @@ import Delete from "/app/components/RepairFee/DeleleRepair";
 import {getContainers} from "../../api/container_supplier";
 import {Dialog} from "primereact/dialog";
 import {handlePayment} from "../../api/repair";
+import './repair.css';
 
 export default function Table({ repair, fetchRepair }) {
     const [suppliers, setSuppliers] = useState([]);
@@ -26,73 +27,6 @@ export default function Table({ repair, fetchRepair }) {
 
 
 
-
-
-
-    // const name = (rowData) => {
-    //     return (
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //             <InputText type="text" value={rowData.name} readOnly
-    //                        style={{ width: '125px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-    //         </div>
-    //     );
-    // };
-    //
-    // const company = (rowData) => {
-    //     return (
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //             <InputText type="text" value={rowData.company} readOnly
-    //                        style={{ width: '150px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-    //         </div>
-    //     );
-    // };
-    //
-    // const capacity = (rowData) => {
-    //     return (
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //             <InputText type="text" value={rowData.capacity} readOnly
-    //                        style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-    //             <span style={{ color: 'coral' }}>kg</span>
-    //         </div>
-    //     );
-    // };
-    //
-    // const registrationNumber = (rowData) => {
-    //     return (
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //             <InputText type="text" value={rowData.registrationNumber} readOnly
-    //                        style={{ width: '100px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-    //         </div>
-    //     );
-    // };
-    //
-    // const yearBuilt = (rowData) => {
-    //     return (
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //             <InputText type="text" value={rowData.yearBuilt} readOnly
-    //                        style={{ width: '70px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-    //         </div>
-    //     );
-    // };
-    //
-    // const status = (rowData) => {
-    //     let status_name;
-    //     if (rowData.status === "Đang hoạt động") {
-    //         status_name = "Hoạt động";
-    //     }
-    //     if (rowData.status === "Đang bảo trì") {
-    //         status_name = "Bảo trì";
-    //     }
-    //
-    //     return (
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //             <InputText type="text" value={status_name} readOnly
-    //                        style={{ width: '100px', height: '30px', borderRadius: '15px', marginRight: '5px' }} />
-    //         </div>
-    //     );
-    // };
-    //
-    // // Custom header templates
     const renderHeaderWithIcon = (icon, title ) => {
         return (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -122,7 +56,6 @@ export default function Table({ repair, fetchRepair }) {
         return supplierName ? supplierName.name : null
     }
     const handlePaymentClick = (rowData) => {
-        // Populate payment info with relevant data
         const paymentInfo = {
             accountNumber: "0326260456",
             accountName: "TRAN NGOC VINH",
@@ -143,13 +76,12 @@ export default function Table({ repair, fetchRepair }) {
         return (
             <div className="flex flex-wrap justify-content-center gap-1">
                 {rowData.isPayment === 1  ? (
-
                 <p>Đã thanh toán</p>
 
             ) : (
                 <>
                     {userRole === 'CUSTOMER' ? (
-                        <Button label="Thanh Toán" onClick={() => handlePaymentClick(rowData)} className="p-button-success" />
+                        <i className="pi pi-money-bill" onClick={() => handlePaymentClick(rowData)} style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px', color:'green'}}/>
                     ) : (
 
                         <Delete repair={rowData} fetchRepair={fetchRepair} />
@@ -176,12 +108,12 @@ export default function Table({ repair, fetchRepair }) {
 
     return (
         <div className="card">
-            <DataTable value={repair} header={header}  tableStyle={{ minWidth: '60rem' }}>
-                <Column field="containerCode" header={renderHeaderWithIcon('pi pi-box', 'Mã container')} body={name}></Column>
-                <Column field="containerSupplierId" body={supplier} header={renderHeaderWithIcon('pi pi-arrows-alt', 'Đơn vị sửa chữa')} ></Column>
-                <Column field="repairCode" header={renderHeaderWithIcon('pi pi-arrow-right', 'Giá sửa chữa')} body={repairCost} ></Column>
-                <Column field="repairDate" header={renderHeaderWithIcon('pi pi-arrow-right', 'Ngày sửa chữa')} ></Column>
-                <Column field="description" header={renderHeaderWithIcon('pi pi-arrow-up', 'Ghi chú')} ></Column>
+            <DataTable value={repair} header={header}  tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable">
+                <Column field="containerCode" header={renderHeaderWithIcon('', 'Mã container')} body={name}></Column>
+                <Column field="containerSupplierId" body={supplier} header={renderHeaderWithIcon('', 'Đơn vị sửa chữa')} ></Column>
+                <Column field="repairCode" header={renderHeaderWithIcon('', 'Giá sửa chữa')} body={repairCost} ></Column>
+                <Column field="repairDate" header={renderHeaderWithIcon('', 'Ngày sửa chữa')} ></Column>
+                <Column field="description" header={renderHeaderWithIcon('', 'Ghi chú')} ></Column>
                 <Column header="Thao tác" body={ActionButtons}></Column>
             </DataTable>
 

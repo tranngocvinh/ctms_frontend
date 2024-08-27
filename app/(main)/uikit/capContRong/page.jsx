@@ -49,9 +49,9 @@ const MyDropdown = ({ label, options, onChange, ...props }) => {
                     }}
                     placeholder="Chọn..."
                     style={{ width: "100%" }}
-                    filter // Enable filtering (real-time search)
-                    showClear // Optional: Show clear button to reset the selection
-                    filterBy="label" // Optional: Define which property to filter by
+                    filter
+                    showClear
+                    filterBy="label"
                 />
                 {meta.touched && meta.error ? (
                     <small className="p-error">{meta.error}</small>
@@ -324,31 +324,36 @@ const AllocateEmptyContainersForm = () => {
                                                                 onChange={(e) => setFieldValue(`details.${index}.containerCode`, e.value)}
                                                                 value={allocation.containerCode}
                                                             />
-
-                                                            <div className="p-col-12 md:col-4 text-left ">
-                                                                <Button
-                                                                    type="button"
-                                                                    label="Xóa"
-                                                                    className="p-button-danger custom-delete-button"
-                                                                    onClick={() => remove(index)}
-                                                                />
-                                                            </div>
+                                                            <i className="pi pi-trash"
+                                                               style={{
+                                                                   fontSize: '1rem',
+                                                                   marginRight: '10px',
+                                                                   marginLeft: '10px',
+                                                                   color: 'green'
+                                                               }}
+                                                               onClick={() => values.details.length > 1 && remove(index)}/>
+                                                            <i className="pi pi-plus"
+                                                               style={{
+                                                                   fontSize: '1rem',
+                                                                   marginRight: '10px',
+                                                                   marginLeft: '10px',
+                                                                   color: 'red'
+                                                               }}
+                                                               onClick={() => push({
+                                                                   containerCode: ''
+                                                               })}/>
                                                         </div>
+
                                                     ))}
                                                     <div className="p-col-12 text-left">
                                                         <Button
                                                             type="submit"
-                                                            label="Submit"
-                                                            className="p-button-primary mr-2"
+                                                            label="Xác nhận"
+                                                            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+                                                                font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
+                                                                dark:focus:ring-gray-700 dark:border-gray-700"
                                                             disabled={isSubmitting}
-                                                        />
-                                                        <Button
-                                                            type="button"
-                                                            label="Add"
-                                                            className="p-button-secondary"
-                                                            onClick={() => push({
-                                                                containerCode: ''
-                                                            })}
+                                                            style={{marginTop:'20px'}}
                                                         />
                                                     </div>
                                                 </div>

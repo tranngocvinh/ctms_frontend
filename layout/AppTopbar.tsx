@@ -1,12 +1,17 @@
-import {classNames} from 'primereact/utils';
-import React, {forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import {AppTopbarRef} from '@/types';
-import {LayoutContext} from './context/layoutcontext';
+import { classNames } from 'primereact/utils';
+import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { AppTopbarRef } from '@/types';
+import { LayoutContext } from './context/layoutcontext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading spinner
-import {useRouter} from 'next/navigation';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useRouter } from 'next/navigation';
+
+interface User {
+    name: string;
+    roles: string;
+}
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
@@ -14,8 +19,8 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const topbarmenuRef = useRef<HTMLDivElement>(null);
     const topbarmenubuttonRef = useRef<HTMLButtonElement>(null);
     const [showMenu, setShowMenu] = useState(false);
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false); // Loading state
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -122,19 +127,19 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                             <CircularProgress color="inherit" size={24} />
                         ) : user ? (
                             <div>
-                                <span>{user.name} ({user.roles})</span>
-                                <Button variant="contained" color="warning" onClick={handleLogout} sx={{boxShadow: 'none', borderRadius: 2, ml: 2 }}>
-                                    Log Out
-                                </Button>
+                                <span>{user.name} ({user.roles})
+                                <Button variant="contained" color="warning" onClick={handleLogout}
+                                        sx={{ boxShadow: 'none', borderRadius: 2, ml: 2 }}>
+                                    <i className="pi pi-sign-out"></i>
+                                </Button></span>
                             </div>
                         ) : (
-                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} onClick={handleLogin} sx={{boxShadow: 'none', borderRadius: 2 }}>
+                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} onClick={handleLogin}>
                                 Log In
                             </Button>
                         )}
                     </Box>
                 </div>
-
             </div>
         </div>
     );

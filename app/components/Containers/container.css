@@ -1,0 +1,34 @@
+.container-details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
+
+    strong {
+        display: inline-block;
+        min-width: 200px;
+    }
+
+    span {
+        display: inline-block;
+    }
+
+    hr {
+        grid-column: span 2;
+        margin-top: 20px;
+    }
+}
+.p-datatable-tbody > tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+.p-datatable-thead th,
+.p-datatable-tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.p-datatable-thead th .p-column-header-content,
+.p-datatable-tbody td div {
+    justify-content: center;
+    align-items: center;
+}

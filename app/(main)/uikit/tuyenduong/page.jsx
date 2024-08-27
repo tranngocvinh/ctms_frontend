@@ -5,10 +5,10 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
 import 'leaflet/dist/leaflet.css';
-import {add} from "app/api/route";
-import MapComponent from "../../../components/Route/MapComponent";
+import {add} from "app/api/routes";
 import axios from "axios";
 import 'app/custom-autocomplete.css'
+import dynamic from 'next/dynamic';
 import {AutoComplete} from "primereact/autocomplete";
 import {FieldArray, Form, Formik, useField} from 'formik';
 import * as Yup from "yup";
@@ -17,7 +17,7 @@ import {Toast} from "primereact";
 import {Dropdown} from "primereact/dropdown";
 import ErrorGlobal from "../../../components/error_message_global";
 import "./tuyenduong.css";
-
+const MapComponent = dynamic(() => import("../../../components/Route/MapComponent"), { ssr: false });
 const {
     blankError,
     chooseStatusError,
@@ -155,6 +155,7 @@ const App = () => {
     const [routeSegments, setRouteSegments] = useState([]);
     const toast = useRef(null);
     useEffect(() => {
+        console.log("Route Segments Updated:", routeSegments);
     }, [routeSegments]);
 
     const handlePortSelected = async (index, port) => {
@@ -265,7 +266,9 @@ const App = () => {
                                                     <div className="p-field p-col-12 md:col-12">
                                                         <Button type="button" icon="pi pi-plus" label="Thêm điểm dừng"
                                                                 onClick={() => handleAddWaypoint(push)}
-                                                                className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"/>
+                                                                className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+                                                                font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
+                                                                dark:focus:ring-gray-700 dark:border-gray-700"/>
                                                     </div>
                                                     {values.waypoints.map((waypoint, index) => (
                                                         <div key={index} className="p-field p-col-12">
@@ -288,13 +291,13 @@ const App = () => {
                                         <MyTextInputArea
                                             label="Mô tả"
                                             name="description"
-                                            placeholder="Chuyên cung cấp...."
+                                            placeholder="Tuyến đường đi qua các điểm dừng....."
                                         />
                                          <InputText
                                              label="Tên tuyến"
                                                 name="name"
                                                 type="text"
-                                                placeholder="Hà Đông - Hà Nội"
+                                                placeholder="Hải Phòng-Quy Nhơn"
                                             />
                                         <ChooseStatus
                                             label="Trạng thái"
