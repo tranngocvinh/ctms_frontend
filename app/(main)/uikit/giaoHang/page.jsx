@@ -1,24 +1,11 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import {
-    DataTable,
-    Column,
-    Toast,
-    Button,
-    Toolbar,
-    Dialog,
-    Dropdown,
-    Calendar,
-    InputText,
-    Checkbox,
-
-} from "primereact";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, Calendar, Checkbox, Column, DataTable, Dialog, Dropdown, InputText, Toast, Toolbar,} from "primereact";
 import axios from "axios";
-import { FixedSizeList as List } from "react-window";
+import {FixedSizeList as List} from "react-window";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import {InputNumber} from "primereact/inputnumber";
 
 const DeliveryOrderTable = () => {
     const emptyDeliveryOrder = {
@@ -79,15 +66,11 @@ const DeliveryOrderTable = () => {
     const fetchContainers = () => {
         axios
             .get(`https://auth.g42.biz/api/containers`, getAuthConfig())
-            .then((response) => {
-                setState((prev) => ({
-                    ...prev,
-                    containers: response.data, // Load all containers at once
-                }));
-            });
+            .then((response) => setState((prev) => ({
+                ...prev,
+                containers: [...prev.containers, ...response.data] // This should set the containers correctly
+            })));
     };
-
-
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
         axios
@@ -169,8 +152,8 @@ const DeliveryOrderTable = () => {
         } else {
             toast.current.show({
                 severity: "warn",
-                summary: "Trùng container",
-                detail: "Container đã ở trong một lịch tàu khác",
+                summary: "Duplicate Container",
+                detail: "Container is already selected for another ShipSchedule",
                 life: 3000,
             });
         }
@@ -181,9 +164,9 @@ const DeliveryOrderTable = () => {
             <div className="field" key={shipSchedule.id}>
                 <label htmlFor={`container_${shipSchedule.id}`}>Containers for ShipSchedule {shipSchedule.id}</label>
                 <List
-                    height={150} // Adjust the height as necessary
+                    height={150}
                     itemCount={state.containers.length}
-                    itemSize={35} // Adjust the size of each item as necessary
+                    itemSize={35}
                     width={"100%"}
                 >
                     {({ index, style }) => (
@@ -201,6 +184,15 @@ const DeliveryOrderTable = () => {
         ));
     };
 
+    const openDeliveryOrderDialog = () => {
+        updateState({
+            deliveryOrderDialog: true,
+            deliveryOrder: emptyDeliveryOrder,
+            shipSchedules: [],
+            containers: [],
+        });
+        fetchContainers(); // Fetch containers when opening the dialog
+    };
 
     const renderContainers = (rowData) => {
         // Extract containers from shipScheduleContainerMap
@@ -220,12 +212,7 @@ const DeliveryOrderTable = () => {
                         <Button
                             label="Thêm"
                             icon="pi pi-plus"
-                            onClick={() => updateState({
-                                deliveryOrderDialog: true,
-                                deliveryOrder: emptyDeliveryOrder, // Reset to empty form
-                                shipSchedules: [], // Reset shipSchedules
-                                containers: [] // Reset containers
-                            })}
+                            onClick={openDeliveryOrderDialog}
                         />
                     )}
                     right={() => <Button label="Xuất Excel" icon="pi pi-upload" onClick={() => dt.current.exportCSV()} />}
