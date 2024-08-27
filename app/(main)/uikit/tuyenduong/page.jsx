@@ -5,10 +5,10 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
 import 'leaflet/dist/leaflet.css';
-import {add} from "app/api/route";
-import MapComponent from "../../../components/Route/MapComponent";
+import {add} from "app/api/routes";
 import axios from "axios";
 import 'app/custom-autocomplete.css'
+import dynamic from 'next/dynamic';
 import {AutoComplete} from "primereact/autocomplete";
 import {FieldArray, Form, Formik, useField} from 'formik';
 import * as Yup from "yup";
@@ -17,7 +17,7 @@ import {Toast} from "primereact";
 import {Dropdown} from "primereact/dropdown";
 import ErrorGlobal from "../../../components/error_message_global";
 import "./tuyenduong.css";
-
+const MapComponent = dynamic(() => import("../../../components/Route/MapComponent"), { ssr: false });
 const {
     blankError,
     chooseStatusError,
@@ -155,6 +155,7 @@ const App = () => {
     const [routeSegments, setRouteSegments] = useState([]);
     const toast = useRef(null);
     useEffect(() => {
+        console.log("Route Segments Updated:", routeSegments);
     }, [routeSegments]);
 
     const handlePortSelected = async (index, port) => {

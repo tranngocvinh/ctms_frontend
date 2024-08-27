@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, {useState} from 'react';
-import {useRouter} from 'next/navigation';
-import {Password} from 'primereact/password';
-import {Button} from 'primereact/button';
-import {classNames} from 'primereact/utils';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Password } from 'primereact/password';
+import { Button } from 'primereact/button';
+import { classNames } from 'primereact/utils';
 import AppHeader from '../login/AppHeader';
 import axios from 'axios';
 
@@ -13,11 +13,20 @@ const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [token, setToken] = useState(null); // State to store the token
     const router = useRouter();
 
-    // Lấy token từ URL
-    const queryParams = new URLSearchParams(window.location.search);
-    const token = queryParams.get('token'); // token sẽ được lấy từ URL
+    useEffect(() => {
+        // Only access the window object on the client side
+        if (typeof window !== "undefined") {
+            const queryParams = new URLSearchParams(window.location.search);
+        }
+        const urlToken = queryParams.get('token'); // Get the token from the URL
+
+        if (urlToken) {
+            setToken(urlToken); // Set the token to state if available
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,11 +38,11 @@ const ResetPassword = () => {
 
         try {
             await axios.post('http://localhost:8080/api/v1/customers/reset-password', {
-                token: token,        // Gửi token lên backend
+                token: token,        // Send token to the backend
                 newPassword: newPassword
             });
             alert('Password has been reset successfully');
-            router.push('/auth/login'); // Chuyển hướng đến trang đăng nhập sau khi đặt lại mật khẩu thành công
+            router.push('/auth/login'); // Redirect to login page after successful reset
         } catch (error) {
             setError('Failed to reset password. Please try again.');
         }
@@ -62,7 +71,7 @@ const ResetPassword = () => {
                             borderRadius: '56px',
                             padding: '0.3rem',
                             background: 'linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)',
-                            width:'41.25rem'
+                            width: '41.25rem'
                         }}
                     >
                         <div className="w-full surface-card py-8 px-5 sm:px-8 flex items-center justify-center"
@@ -103,8 +112,6 @@ const ResetPassword = () => {
                     </div>
                 </div>
             </div>
-
-
         </>
     );
 };

@@ -113,6 +113,7 @@ const CreateSupplierForm = ({ fetchContainers, container, showToast }) => {
                 >
                     {({ values, setFieldValue }) => {
 
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             if (values.length && values.width && values.height) {
                                 const volume = values.length * values.width * values.height;
