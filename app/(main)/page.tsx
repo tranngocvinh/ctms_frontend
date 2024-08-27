@@ -319,8 +319,7 @@ const Dashboard = () => {
                             <i className="pi pi-comment text-purple-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">85 </span>
-                    <span className="text-500">responded</span>
+
                 </div>
             </div>
 
@@ -358,21 +357,7 @@ const Dashboard = () => {
                     }}
                 />
             </div>
-            <div className="col-12 xl:col-6">
-                <LineChart
-                    apiUrls={{
-                        deliveryUrl: `https://auth.g42.biz/api/delivery-orders/total-amounts-by-month`,
-                        detFeeUrl: `https://auth.g42.biz/api/drop-orders/detfee-count`,
-                        repairCostUrl: `https://auth.g42.biz/api/v1/repair/repaircost-count`
-                    }}
-                    labels={['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']}
-                    colors={{
-                        deliveryColor: '#2f4860',
-                        detFeeColor: '#00bb7e',
-                        repairCostColor: '#ffb400'
-                    }}
-                />
-            </div>
+
             <EmptyContainerDetailModal
                 visible={isModalVisible}
                 onHide={() => setIsModalVisible(false)}

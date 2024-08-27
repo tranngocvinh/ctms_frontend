@@ -265,7 +265,9 @@ const App = () => {
                                                     <div className="p-field p-col-12 md:col-12">
                                                         <Button type="button" icon="pi pi-plus" label="Thêm điểm dừng"
                                                                 onClick={() => handleAddWaypoint(push)}
-                                                                className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"/>
+                                                                className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+                                                                font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
+                                                                dark:focus:ring-gray-700 dark:border-gray-700"/>
                                                     </div>
                                                     {values.waypoints.map((waypoint, index) => (
                                                         <div key={index} className="p-field p-col-12">
@@ -288,13 +290,13 @@ const App = () => {
                                         <MyTextInputArea
                                             label="Mô tả"
                                             name="description"
-                                            placeholder="Chuyên cung cấp...."
+                                            placeholder="Tuyến đường đi qua các điểm dừng....."
                                         />
                                          <InputText
                                              label="Tên tuyến"
                                                 name="name"
                                                 type="text"
-                                                placeholder="Hà Đông - Hà Nội"
+                                                placeholder="Hải Phòng-Quy Nhơn"
                                             />
                                         <ChooseStatus
                                             label="Trạng thái"

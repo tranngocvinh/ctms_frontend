@@ -1,12 +1,18 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {getAllSIs} from "../../../api/drop_order";
 import Table from "../../../components/DropOrder/dataTable";
 import {ProgressSpinner} from 'primereact/progressspinner';
+import {Toast} from 'primereact/toast';
 
 export default function TemplateDemo() {
     const [SI,setSI] = useState([])
     const [loading, setLoading] = useState(false);
+    const toast = useRef(null);
+
+    const showToast = (severity,summary,detail) => {
+        toast.current.show({severity:severity, summary: summary, detail:detail, life: 3000});
+    }
 
     const fetchSI = () =>{
         setLoading(true);
@@ -32,7 +38,8 @@ export default function TemplateDemo() {
     }
     return(
         <>
-            <Table  SI={SI} fetchSI={fetchSI}/>
+            <Toast ref={toast} />
+            <Table  SI={SI} fetchSI={fetchSI} showToast={showToast}/>
         </>
     )
 }

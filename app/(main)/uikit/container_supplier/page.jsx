@@ -20,6 +20,7 @@ import './supplier.css'
 
 import ErrorGlobal from "../../../components/error_message_global";
 import {ButtonGroup} from "@mui/material";
+
 const {
     blankError,
 } = ErrorGlobal;
@@ -84,7 +85,7 @@ const ContainerRepairSupplierTable = () => {
                     setSupplierDialog(false);
                     setSupplier(emptySupplier);
                     fetchSuppliers()
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Supplier Updated', life: 3000 });
+                    toast.current.show({ severity: 'success', summary: 'Thành công', detail: 'Đơn vị đã được cập nhật', life: 3000 });
                 });
             } else {
                 uploadImage(_supplier).then((response) => {
@@ -93,7 +94,7 @@ const ContainerRepairSupplierTable = () => {
                     setSupplierDialog(false);
                     setSupplier(emptySupplier);
                     fetchSuppliers()
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Supplier Created', life: 3000 });
+                    toast.current.show({ severity: 'success', summary: 'Thành công', detail: 'Đơn vị mới đã được thêm', life: 3000 });
                 });
             }
         }
@@ -116,7 +117,7 @@ const ContainerRepairSupplierTable = () => {
             setSuppliers(_suppliers);
             setDeleteSupplierDialog(false);
             setSupplier(emptySupplier);
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Supplier Deleted', life: 3000 });
+            toast.current.show({ severity: 'success', summary: 'Thành công', detail: 'Đơn vị đã được xóa', life: 3000 });
         });
     };
 
@@ -227,7 +228,7 @@ const ContainerRepairSupplierTable = () => {
                     rows={10}
                     rowsPerPageOptions={[5, 10, 25]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} suppliers"
+                    currentPageReportTemplate="Danh sách từ {first} tới {last} trên tổng số {totalRecords} nhà cung cấp"
                     globalFilter={globalFilter}
                     header={header}
                     responsiveLayout="scroll"
@@ -288,12 +289,12 @@ const ContainerRepairSupplierTable = () => {
                 </div>
             </Dialog>
 
-            <Dialog visible={deleteSupplierDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteSupplierDialogFooter} onHide={hideDeleteSupplierDialog}>
+            <Dialog visible={deleteSupplierDialog} style={{ width: '450px' }} header="Xác nhận" modal footer={deleteSupplierDialogFooter} onHide={hideDeleteSupplierDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     {supplier && (
                         <span>
-                            Are you sure you want to delete <b>{supplier.name}</b>?
+                            Bạn có chắc chắn muốn xóa <b>{supplier.name}</b>?
                         </span>
                     )}
                 </div>

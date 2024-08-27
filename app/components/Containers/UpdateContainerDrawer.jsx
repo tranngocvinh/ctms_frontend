@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import UpdateContainerForm from './UpdateContainerForm';
-import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
 
 const UpdateContainerDrawer = ({ container,fetchContainers }) => {

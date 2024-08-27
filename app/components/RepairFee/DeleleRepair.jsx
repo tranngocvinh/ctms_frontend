@@ -1,7 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {ConfirmDialog} from 'primereact/confirmdialog';
 import {Toast} from 'primereact/toast';
-import {Button} from 'primereact/button';
 import {handlePayment} from "../../api/repair";
 
 export default function Delete({ repair, fetchRepair }) {
@@ -26,7 +25,7 @@ export default function Delete({ repair, fetchRepair }) {
 
     return (
         <>
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
             <ConfirmDialog
                 visible={visible}
                 onHide={() => setVisible(false)}
@@ -36,7 +35,9 @@ export default function Delete({ repair, fetchRepair }) {
                 accept={accept}
                 reject={reject}
             />
-            <Button onClick={() => setVisible(true)} severity="danger" label="Xác nhận thanh toán" />
+
+            <i className="pi pi-check-circle" onClick={() => setVisible(true)}
+               style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px', color: 'red'}}/>
         </>
     );
 }

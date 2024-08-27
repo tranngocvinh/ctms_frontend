@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
 import {AppConfigProps} from '@/types';
 
 const AppConfig = (props: AppConfigProps) => {
 
     return (
-        0
+<div></div>
     );
 };
 

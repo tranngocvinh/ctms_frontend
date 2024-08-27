@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
+import React, {useEffect, useState} from 'react';
+import {InputText} from 'primereact/inputtext';
+import {Password} from 'primereact/password';
+import {Button} from 'primereact/button';
+import {Dropdown} from 'primereact/dropdown';
 
 export default function UserForm({ user, onSave, onCancel }) {
     const [name, setName] = useState('');
@@ -49,7 +49,7 @@ export default function UserForm({ user, onSave, onCancel }) {
         <div>
             {error && <div style={{color: 'red'}}>{error}</div>} {}
             <div className="p-field them-user">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Tên</label>
                 <InputText id="name" value={name} onChange={(e) => setName(e.target.value)} required autoFocus/>
             </div>
             <div className="p-field them-user">
@@ -57,19 +57,19 @@ export default function UserForm({ user, onSave, onCancel }) {
                 <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
             </div>
             <div className="p-field them-user">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Mật khẩu</label>
                 <Password
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter a password"
+                    placeholder="Nhập mật khẩu"
                 />
             </div>
             {!user?.id && (
                 <>
 
                     <div className="p-field them-user">
-                        <label htmlFor="role">Role</label>
+                        <label htmlFor="role">Vai trò</label>
                         <Dropdown
                             id="role"
                             value={role}

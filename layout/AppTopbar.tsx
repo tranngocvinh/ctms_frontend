@@ -64,6 +64,10 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         topbarmenubutton: topbarmenubuttonRef.current,
     }));
 
+// @ts-ignore
+// @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div className={"layout-topbar-main"}>
             <div className="layout-topbar">
@@ -122,13 +126,14 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                             <CircularProgress color="inherit" size={24} />
                         ) : user ? (
                             <div>
-                                <span>{user.name} ({user.roles})</span>
-                                <Button variant="contained" color="warning" onClick={handleLogout} sx={{boxShadow: 'none', borderRadius: 2, ml: 2 }}>
-                                    Log Out
-                                </Button>
+                                <span>{user.name} ({user.roles})
+                                <Button variant="contained" color="warning" onClick={handleLogout}
+                                        sx={{boxShadow: 'none', borderRadius: 2, ml: 2}}>
+                                    <i className="pi pi-sign-out"></i>
+                                </Button></span>
                             </div>
                         ) : (
-                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} onClick={handleLogin} sx={{boxShadow: 'none', borderRadius: 2 }}>
+                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} onClick={handleLogin}>
                                 Log In
                             </Button>
                         )}

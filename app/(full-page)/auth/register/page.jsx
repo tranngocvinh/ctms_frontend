@@ -1,16 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Password } from 'primereact/password';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { classNames } from 'primereact/utils';
+import React, {useState} from 'react';
+import {useRouter} from 'next/navigation';
+import {Password} from 'primereact/password';
+import {Button} from 'primereact/button';
+import {classNames} from 'primereact/utils';
 import AppHeader from '../login/AppHeader';
-import Footer from '../login/Footer/Footer';
 import axios from 'axios';
-import {preventDefault} from "@fullcalendar/core/internal";
 
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');

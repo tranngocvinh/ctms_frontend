@@ -40,7 +40,7 @@ export default function UserList() {
         if (method === "POST") {
             const role = user.role || 'customer';
             UserService.createUser(role, user).then(() => {
-                toast.current.show({severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000});
+                toast.current.show({severity: 'success', summary: 'Thành công', detail: 'Người dùng mới được tạo', life: 3000});
                 loadUsers();
                 setUserDialog(false);
             }).catch(() => {
@@ -48,7 +48,7 @@ export default function UserList() {
             });
         } else if (method === "PUT") {
             UserService.updateUser(selectedUser.id, user).then(() => {
-                toast.current.show({severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000});
+                toast.current.show({severity: 'success', summary: 'Thành công', detail: 'Người dùng được cập nhật', life: 3000});
                 loadUsers();
                 setUserDialog(false);
             });
@@ -67,7 +67,7 @@ export default function UserList() {
 
     const deleteUser = () => {
         UserService.deleteUser(selectedUser.id).then(() => {
-            toast.current.show({severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000});
+            toast.current.show({severity: 'success', summary: 'Thành công', detail: 'Người dùng đã được xóa', life: 3000});
             loadUsers();
             setDeleteUserDialog(false);
             setSelectedUser(null);
@@ -102,26 +102,26 @@ export default function UserList() {
         <div className="datatable-crud-demo">
             <Toast ref={toast}/>
             <div className="card">
-                <Button label="New User" icon="pi pi-plus" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg
+                <Button label="Thêm người dùng" icon="pi pi-plus" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg
                     text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onClick={openNew}/>
                 <DataTable value={users} paginator rows={10} showGridlines className="custom-datatable">
-                    <Column field="name" header="Name"/>
+                    <Column field="name" header="Tên"/>
                     <Column field="email" header="Email"/>
-                    <Column field="roles" header="Roles" body={roles}/>
+                    <Column field="roles" header="Vai trò" body={roles}/>
                     <Column body={actionBodyTemplate}/>
                 </DataTable>
             </div>
 
-            <Dialog visible={userDialog} style={{width: '450px'}} header="User Details" modal className="p-fluid"
+            <Dialog visible={userDialog} style={{width: '450px'}} header="Thông tin người dùng" modal className="p-fluid"
                     footer={null} onHide={hideDialog}>
                 <UserForm user={selectedUser} onSave={saveUser} onCancel={hideDialog}/>
             </Dialog>
 
-            <Dialog visible={deleteUserDialog} style={{width: '450px'}} header="Confirm" modal footer={null}
+            <Dialog visible={deleteUserDialog} style={{width: '450px'}} header="Xác nhận" modal footer={null}
                     onHide={() => setDeleteUserDialog(false)}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
-                    {selectedUser && <span>Are you sure you want to delete <b>{selectedUser.name}</b>?</span>}
+                    {selectedUser && <span>Bạn có chắc muốn xóa người dùng <b>{selectedUser.name}</b>?</span>}
                 </div>
                 <div className="p-grid p-justify-end" style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button arial-label="Yes" icon="pi pi-check" onClick={deleteUser} severity="success" style={{marginRight: '2px'}} text/>

@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useRouter } from 'next/navigation';
-import React, { useContext, useState } from 'react';
-import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { classNames } from 'primereact/utils';
+import {useRouter} from 'next/navigation';
+import React, {useContext, useState} from 'react';
+import {Button} from 'primereact/button';
+import {Password} from 'primereact/password';
+import {Dialog} from 'primereact/dialog';
+import {InputText} from 'primereact/inputtext';
+import {classNames} from 'primereact/utils';
 import axios from 'axios';
 import AppHeader from '../login/AppHeader';
-import Footer from './Footer/Footer';
 import {LayoutContext} from "@/layout/context/layoutcontext";
 
 const LoginPage = () => {
@@ -35,13 +34,11 @@ const LoginPage = () => {
             const user = response.data.customerDTO;
             const userRole = response.data.customerDTO.roles;
 
-            // Store token and user information in Local Storage
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('userRole', userRole);
             const role = localStorage.getItem('userRole');
             {(role === 'ADMIN' || role === 'CUSTOMER') ? (router.push('/pages/landing')) : router.push('/') }
-            // Navigate to the main page
 
         } catch (error) {
             console.error('Login failed:', error);
@@ -67,13 +64,12 @@ const LoginPage = () => {
             <AppHeader />
             <div className={containerClassName}
                  style={{
-                     backgroundImage: 'url("/demo/images/login/R12.jpg")', // Background image path
-                     backgroundSize: 'cover', // Cover the entire area
-                     backgroundPosition: 'center', // Center the image
-                     backgroundRepeat: 'no-repeat' // Don't repeat the image
+                     backgroundImage: 'url("/demo/images/login/R12.jpg")',
+                     backgroundSize: 'cover',
+                     backgroundPosition: 'center',
+                     backgroundRepeat: 'no-repeat'
                  }}
             >
-
                 <div className="flex flex-column align-items-center justify-content-center">
                     <img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`}
                          alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0"/>
@@ -93,26 +89,20 @@ const LoginPage = () => {
                                      style={{ height: "250px" }} />
                             </div>
                             <div>
-                                <div className="ml-10 text-center flex-grow ">
+                                <div className="ml-10 text-center flex-grow " style={{paddingBottom:'20px'}}>
                                     <div className="text-1200 text-3xl font-medium mb-3">Đăng nhập</div>
                                     <span className="text-600 font-medium">Chào mừng bạn đến với VIMC, vui lòng đăng nhập để tiếp tục</span>
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
-                                        Email
-                                    </label>
                                     <InputText id="email1" type="text" placeholder="Địa chỉ email"
                                                value={email} onChange={(e) => setEmail(e.target.value)}
                                                className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
 
-                                    <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
-                                        Mật khẩu
-                                    </label>
                                     <Password inputId="password1" value={password}
                                               onChange={(e) => setPassword(e.target.value)}
-                                              placeholder="Mật khẩu" toggleMask className="w-full mb-5"
-                                              inputClassName="w-full p-3 md:w-30rem"></Password>
+                                              placeholder="Mật khẩu" className="w-full mb-5"
+                                              inputClassName="w-full p-3 md:w-30rem" feedback={false}></Password>
 
                                     <Button
                                         label= "Đăng nhập"
@@ -144,7 +134,6 @@ const LoginPage = () => {
                 </div>
             </Dialog>
 
-            <Footer />
         </>
     );
 };

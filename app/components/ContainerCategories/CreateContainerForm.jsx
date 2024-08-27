@@ -66,7 +66,7 @@ const containertype = [
 ];
 
 const CreateSupplierForm = ({ fetchContainers, showToast }) => {
-    const blankError = Yup.number().required(ErrorGlobal.blankError);
+    const blankError = Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0");
     return (
         <div className="p-grid p-justify-center p-align-center them-container-form">
             <div className="p-col-12 p-md-8 them-container-form-md">

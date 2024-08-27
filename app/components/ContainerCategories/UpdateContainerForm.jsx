@@ -89,13 +89,13 @@ const CreateSupplierForm = ({ fetchContainers, container, showToast }) => {
                         containerType: Yup.object().shape({
                             id: Yup.string().required('Vui lòng chọn loại container')
                         }),
-                        length: Yup.number().required(ErrorGlobal.blankError),
-                        width: Yup.number().required(ErrorGlobal.blankError),
-                        height: Yup.number().required(ErrorGlobal.blankError),
+                        length: Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0"),
+                        width: Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0"),
+                        height: Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0"),
                         volume: Yup.number().required(ErrorGlobal.blankError),
-                        weight: Yup.number().required(ErrorGlobal.blankError),
-                        loadCapacity: Yup.number().required(ErrorGlobal.blankError),
-                        maxLoad: Yup.number().required(ErrorGlobal.blankError),
+                        weight: Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0"),
+                        loadCapacity: Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0"),
+                        maxLoad: Yup.number().required(ErrorGlobal.blankError).positive("Giá trị phải lớn hơn 0"),
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                         update(values.id, values).then(res => {
