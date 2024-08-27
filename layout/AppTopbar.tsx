@@ -1,12 +1,13 @@
-import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { AppTopbarRef } from '@/types';
-import { LayoutContext } from './context/layoutcontext';
+import {classNames} from 'primereact/utils';
+import React, {forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import {AppTopbarRef} from '@/types';
+import {LayoutContext} from './context/layoutcontext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
+import {isAdmin, isCustomer, isManager, isStaff} from "app/verifyRole";
 
 interface User {
     name: string;
@@ -14,7 +15,9 @@ interface User {
 }
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
-    const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
+    const authToken = localStorage.getItem('authToken') ?? 'null';
+    const jwtToken = localStorage.getItem('jwtToken') ?? 'null';
+    const {layoutConfig, layoutState, onMenuToggle, showProfileSidebar} = useContext(LayoutContext);
     const menubuttonRef = useRef<HTMLButtonElement>(null);
     const topbarmenuRef = useRef<HTMLDivElement>(null);
     const topbarmenubuttonRef = useRef<HTMLButtonElement>(null);
@@ -25,10 +28,10 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
-
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
+
     }, []);
 
     const toggleMenu = () => {
@@ -43,12 +46,12 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         setLoading(true); // Show loading spinner
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('user');
+        localStorage.removeItem('authToken');
         setUser(null);
 
-        // Simulate a small delay for better UX
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        setLoading(false); // Hide loading spinner
+        setLoading(false);
         router.push('/auth/login');
         closeMenu();
     };
@@ -68,6 +71,17 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         topbarmenu: topbarmenuRef.current,
         topbarmenubutton: topbarmenubuttonRef.current,
     }));
+    let role = (() => {
+        if (isAdmin(jwtToken, authToken)) return 'ADMIN';
+        if (isStaff(jwtToken, authToken)) return 'STAFF';
+        if (isCustomer(jwtToken, authToken)) return 'CUSTOMER';
+        if (isManager(jwtToken, authToken)) return 'MANAGER';
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('authToken');
+        window.location.reload();
+        return '';
+    })();
 
     return (
         <div className={"layout-topbar-main"}>
@@ -88,7 +102,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                     onClick={onMenuToggle}
                     aria-label="Toggle Menu"
                 >
-                    <i className="pi pi-bars" />
+                    <i className="pi pi-bars"/>
                 </button>
 
                 <button
@@ -98,7 +112,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                     onClick={showProfileSidebar}
                     aria-label="Show Profile Sidebar"
                 >
-                    <i className="pi pi-ellipsis-v" />
+                    <i className="pi pi-ellipsis-v"/>
                 </button>
 
                 <div
@@ -107,8 +121,9 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible,
                     })}
                 >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Link href="/dashboard" underline="none" sx={{ color: '#ed6c02;', mx: 2, fontWeight: 'bold', fontSize: 'medium' }}>
+                    <Box sx={{display: 'flex', alignItems: 'center'}}>
+                        <Link href="/dashboard" underline="none"
+                              sx={{color: '#ed6c02;', mx: 2, fontWeight: 'bold', fontSize: 'medium'}}>
                             Xin chào
                         </Link>
                     </Box>
@@ -122,19 +137,20 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                             marginLeft: 0
                         }}
                     />
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{display: 'flex', alignItems: 'center'}}>
                         {loading ? (
-                            <CircularProgress color="inherit" size={24} />
+                            <CircularProgress color="inherit" size={24}/>
                         ) : user ? (
                             <div>
-                                <span>{user.name} ({user.roles})
+                                <span>{user.name} ({role})
                                 <Button variant="contained" color="warning" onClick={handleLogout}
-                                        sx={{ boxShadow: 'none', borderRadius: 2, ml: 2 }}>
+                                        sx={{boxShadow: 'none', borderRadius: 2, ml: 2}}>
                                     <i className="pi pi-sign-out"></i>
                                 </Button></span>
                             </div>
                         ) : (
-                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>} onClick={handleLogin}>
+                            <Button variant="contained" color="warning" startIcon={<i className="pi pi-user"></i>}
+                                    onClick={handleLogin}>
                                 Log In
                             </Button>
                         )}
