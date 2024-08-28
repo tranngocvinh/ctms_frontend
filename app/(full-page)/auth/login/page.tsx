@@ -10,6 +10,7 @@ import {classNames} from 'primereact/utils';
 import axios from 'axios';
 import AppHeader from '../login/AppHeader';
 import {LayoutContext} from "@/layout/context/layoutcontext";
+import {encodeUserRole} from "app/verifyRole";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -22,8 +23,9 @@ const LoginPage = () => {
 
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', {'p-input-filled': layoutConfig.inputStyle === 'filled'});
 
+
     const handleLogin = async () => {
-        setLoading(true); // Start loading
+        setLoading(true);
         try {
             const response = await axios.post(`https://auth.g42.biz/api/v1/auth/login`, {
                 username: email,
@@ -33,18 +35,17 @@ const LoginPage = () => {
             const token = response.data.token;
             const user = response.data.customerDTO;
             const userRole = response.data.customerDTO.roles;
-
+            const authToken = encodeUserRole(userRole, token);
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('userRole', userRole);
-            const role = localStorage.getItem('userRole');
-            {(role === 'ADMIN' || role === 'CUSTOMER') ? (router.push('/pages/landing')) : router.push('/') }
+            localStorage.setItem('authToken', authToken);
+            const role = localStorage.getItem('authToken');
+            {(authToken === encodeUserRole('ADMIN', token) || role === encodeUserRole('CUSTOMER', token)) ? (router.push('/pages/landing')) : router.push('/') }
 
         } catch (error) {
-            console.error('Login failed:', error);
             alert("Vui lòng kiểm tra lại thông tin đăng nhập của bạn.");
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     };
 

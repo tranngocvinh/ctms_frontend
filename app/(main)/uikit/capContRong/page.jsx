@@ -5,7 +5,6 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
 import {FieldArray, Form, Formik, useField} from 'formik';
-import {InputText} from 'primereact/inputtext';
 import {Dropdown} from 'primereact/dropdown';
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
@@ -15,22 +14,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import {allocateContainersToShip} from 'app/api/container'; // replace with your actual import
 import 'app/components/AllocateEmptyContainersForm.css';
-
-const MyTextInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
-
-    return (
-        <div className="field grid">
-            <label className="col-12 mb-2 md:col-4" htmlFor={props.id || props.name}>{label}</label>
-            <div className="col-12 md:col-8">
-                <InputText id={props.id || props.name} {...field} {...props} />
-                {meta.touched && meta.error ? (
-                    <small className="p-error">{meta.error}</small>
-                ) : null}
-            </div>
-        </div>
-    );
-};
+import {isAdmin, isCustomer, isManager, isStaff} from "../../../verifyRole";
 
 const MyDropdown = ({ label, options, onChange, ...props }) => {
     const [field, meta, helpers] = useField(props);
@@ -62,19 +46,36 @@ const MyDropdown = ({ label, options, onChange, ...props }) => {
 };
 
 const AllocateEmptyContainersForm = () => {
+    const role = localStorage.getItem('userRole');
+    if (!isCustomer(role)) {
+        //window.location.href = 'http://localhost:3000';
+        return <p>404 Error</p>;
+    }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [containerSizes, setContainerSizes] = useState([]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [ships, setShips] = useState([]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [ports, setPorts] = useState([]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isModalVisible, setIsModalVisible] = useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [allocationDetails, setAllocationDetails] = useState(null);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [containerCodes, setContainerCodes] = useState([]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [containerDetails, setContainerDetails] = useState([]);
-    const toast = useRef(null); // Reference for the Toast component
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const toast = useRef(null);
 
+    if (!isCustomer(role)) {
+        window.location.href = 'http://localhost:3000';
+        return null;
+    }
     useEffect(() => {
-        fetchShips();
-        fetchPorts();
-        fetchContainerSizes();
+            fetchShips();
+            fetchPorts();
+            fetchContainerSizes();
     }, []);
 
     const getAuthConfig = () => ({

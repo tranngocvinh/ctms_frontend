@@ -9,14 +9,25 @@ import UserService from '/app/components/User/UserService';
 import UserForm from '/app/components/User/UserForm';
 import '/app/components/User/custom_user.css';
 import {Tag} from "primereact/tag";
+import {isAdmin} from "../../../verifyRole";
 
 export default function UserList() {
+    const role = localStorage.getItem('userRole');
+    if (!isAdmin) {
+        return <p style={{textAlign:'center'}}>404 Error</p>;
+    }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [users, setUsers] = useState([]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [selectedUser, setSelectedUser] = useState(null);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [userDialog, setUserDialog] = useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [deleteUserDialog, setDeleteUserDialog] = useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const toast = React.useRef(null);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         loadUsers();
     }, []);
