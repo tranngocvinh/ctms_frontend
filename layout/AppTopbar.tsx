@@ -7,7 +7,8 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useRouter} from 'next/navigation';
-import {isAdmin, isCustomer, isManager, isStaff} from "app/verifyRole";
+// @ts-ignore
+import {isAdmin, isCustomer, isManager, isStaff} from '/app/verifyRole';
 
 interface User {
     name: string;
