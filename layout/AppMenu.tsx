@@ -178,7 +178,7 @@ const AppMenu = () => {
         }
 
         setModel(menuItems);
-    }, []);
+    }, [authToken, jwtToken]);
 
     return (
         <MenuProvider>
