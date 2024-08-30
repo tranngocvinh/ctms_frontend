@@ -1,11 +1,18 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client"
 import React, {useEffect, useRef, useState} from 'react';
 import {getAllSIs} from "../../../api/drop_order";
-import Table from "../../../components/DropOrder/dataTable";
+import DropOrderTable from "../../../components/DropOrder/dataTable";
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {Toast} from 'primereact/toast';
+import {isCustomer, isManager} from "../../../verifyRole";
 
-export default function TemplateDemo() {
+export default function DropOrder() {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
+    }
     const [SI,setSI] = useState([])
     const [loading, setLoading] = useState(false);
     const toast = useRef(null);
@@ -39,7 +46,7 @@ export default function TemplateDemo() {
     return(
         <>
             <Toast ref={toast} />
-            <Table  SI={SI} fetchSI={fetchSI} showToast={showToast}/>
+            <DropOrderTable SI={SI} fetchSI={fetchSI} showToast={showToast}/>
         </>
     )
 }

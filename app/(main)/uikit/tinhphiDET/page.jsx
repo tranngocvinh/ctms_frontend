@@ -1,3 +1,4 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client"
 import React, {useEffect, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
@@ -9,17 +10,23 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import axios from 'axios';
 import Delete from "../../../components/phiDET/DeleleRepair";
+import {isCustomer, isManager, isStaff} from "../../../verifyRole";
 
 export default function DropOrdersTable() {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken) && !isStaff(jwtToken, authToken)){
+        return <p>Trang này không tồn tại</p>;
+    }
     const [dropOrders, setDropOrders] = useState([]);
     const [dialogVisible, setDialogVisible] = useState(false);
-    const [paymentInfo, setPaymentInfo] = useState({}); // State to hold payment info
-    const [customerNames, setCustomerNames] = useState({}); // Store customer names
+    const [paymentInfo, setPaymentInfo] = useState({});
+    const [customerNames, setCustomerNames] = useState({});
     const [userRole,setUserRole] = useState() ;
 
 
     useEffect(() => {
-        const userRole = localStorage.getItem('userRole');
+        const userRole = isCustomer(jwtToken, authToken) ? 'CUSTOMER' : '';
         setUserRole(userRole)
     },[])
     useEffect(() => {

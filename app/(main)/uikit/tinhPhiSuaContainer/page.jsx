@@ -1,10 +1,17 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
+
 "use client"
 import React, {useEffect, useState} from 'react';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {getAllRepair} from "../../../api/repair";
 import Table from "../../../components/RepairFee/dataTable";
-
-export default function TemplateDemo() {
+import {isCustomer, isManager, isStaff} from "../../../verifyRole";
+export default function RepairFee() {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken) && !isStaff(jwtToken, authToken)){
+        return <p>Trang này không tồn tại</p>;
+    }
     const [repair,setRepair] = useState([])
     const [loading, setLoading] = useState(false);
 

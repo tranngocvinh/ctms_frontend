@@ -1,5 +1,5 @@
 import React from 'react';
-import './calendar.css'; // Adjust the path according to your file structure
+import './calendar.css';
 const Calendar: React.FC = () => {
     const today = new Date();
     const currentDay = today.getDate();

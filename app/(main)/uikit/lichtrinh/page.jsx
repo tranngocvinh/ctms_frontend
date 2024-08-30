@@ -1,3 +1,5 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
+
 "use client"
 import React, {useEffect, useRef, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
@@ -14,8 +16,14 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import './lichtrinh.css';
+import {isManager} from "../../../verifyRole";
 
 const ScheduleTable = () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isManager(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
+    }
     const emptySchedule = {
         id: null,
         routeId: null,

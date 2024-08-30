@@ -10,12 +10,11 @@ import UserService from '/app/components/User/UserService';
 import UserForm from '/app/components/User/UserForm';
 import '/app/components/User/custom_user.css';
 import {Tag} from "primereact/tag";
-import {isAdmin, isCustomer} from "../../../verifyRole";
-
+import {isAdmin} from "../../../verifyRole";
 export default function UserList() {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isCustomer(jwtToken, authToken)) {
+    if(!isAdmin(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
     const [users, setUsers] = useState([]);

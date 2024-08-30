@@ -1,3 +1,4 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client";
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Calendar, Checkbox, Column, DataTable, Dialog, Dropdown, InputText, Toast, Toolbar,} from "primereact";
@@ -7,8 +8,14 @@ import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import './giaohang.css';
+import {isManager} from "../../../verifyRole";
 
 const DeliveryOrderTable = () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(isManager(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
+    }
     const emptyDeliveryOrder = {
         id: null,
         orderNumber: "",

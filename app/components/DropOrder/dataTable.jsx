@@ -12,7 +12,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import './droporder.css';
 
-export default function Table({ SI, fetchSI, showToast }) {
+export default function DropOrderTable({ SI, fetchSI, showToast }) {
     const [selectedSI, setSelectedSI] = useState(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [dropDate, setDropDate] = useState(null);

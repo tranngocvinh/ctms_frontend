@@ -1,7 +1,5 @@
 import CryptoJS from "crypto-js";
 
-
-
 export const isAdmin = (jwtToken, authToken) => {
     return encodeUserRole('ADMIN', jwtToken) === authToken;
 }
