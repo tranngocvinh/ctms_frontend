@@ -19,7 +19,6 @@ import {isCustomer} from "../../../verifyRole";
 
 const MyDropdown = ({label, options, onChange, ...props}) => {
     const [field, meta, helpers] = useField(props);
-
     return (
         <div className="field grid">
             <label className="col-12 mb-2 md:col-4 md:mb-0" htmlFor={props.id || props.name}>{label}</label>
@@ -46,10 +45,10 @@ const MyDropdown = ({label, options, onChange, ...props}) => {
     );
 };
 
-const AllocateEmptyContainersForm = () => {
+const AllocateEmptyContainers = () => {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isCustomer(jwtToken, authToken)) {
+    if (!isCustomer(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
     const [containerSizes, setContainerSizes] = useState([]);
@@ -143,7 +142,7 @@ const AllocateEmptyContainersForm = () => {
             };
 
             setAllocationDetails(requestData);
-            setContainerDetails(fetchedContainerDetails); // Save the fetched details for rendering
+            setContainerDetails(fetchedContainerDetails);
             setIsModalVisible(true);
         } catch (error) {
             console.error('Error allocating containers:', error);
@@ -384,4 +383,4 @@ const AllocateEmptyContainersForm = () => {
     );
 };
 
-export default AllocateEmptyContainersForm;
+export default AllocateEmptyContainers;

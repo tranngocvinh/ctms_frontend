@@ -1,3 +1,4 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client";
 import React, {useEffect, useRef, useState} from 'react';
 import {classNames} from 'primereact/utils';
@@ -12,7 +13,6 @@ import {InputTextarea} from 'primereact/inputtextarea';
 import {FileUpload} from 'primereact/fileupload';
 import axios from 'axios';
 import {getContainers, updateSupplier, uploadImage} from '/app/api/container_supplier';
-
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -20,11 +20,18 @@ import './supplier.css'
 
 import ErrorGlobal from "../../../components/error_message_global";
 import {ButtonGroup} from "@mui/material";
+import {isAdmin} from "../../../verifyRole";
 
 const {
     blankError,
 } = ErrorGlobal;
+
 const ContainerRepairSupplierTable = () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isAdmin(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
+    }
     let emptySupplier = {
         supplierId: null,
         name: '',

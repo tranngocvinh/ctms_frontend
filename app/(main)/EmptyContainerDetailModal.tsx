@@ -17,7 +17,7 @@ interface ContainerSize {
 
 interface Detail {
     containerCode: string;
-    containerSize?: ContainerSize; // Optional since it will be fetched
+    containerSize?: ContainerSize;
 }
 
 interface EmptyContainerDetailModalProps {

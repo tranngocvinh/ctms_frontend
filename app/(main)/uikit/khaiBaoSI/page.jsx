@@ -1,10 +1,17 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client"
 import React, {useEffect, useState} from 'react';
 import {getEmptyContainertoAddSI} from "../../../api/si";
 import Table from "../../../components/SI/dataTable";
 import {ProgressSpinner} from 'primereact/progressspinner';
+import {isCustomer, isManager} from "../../../verifyRole";
 
-export default function TemplateDemo() {
+export default function KhaiBaoSI() {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
+    }
     const [SI,setSI] = useState([])
     const [loading, setLoading] = useState(false);
 

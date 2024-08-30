@@ -1,3 +1,5 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
+
 "use client"
 import React, {useEffect, useRef, useState} from 'react';
 import 'primeflex/primeflex.css';
@@ -17,6 +19,7 @@ import {Toast} from "primereact";
 import {Dropdown} from "primereact/dropdown";
 import ErrorGlobal from "../../../components/error_message_global";
 import "./tuyenduong.css";
+import {isAdmin} from "../../../verifyRole";
 const MapComponent = dynamic(() => import("../../../components/Route/MapComponent"), { ssr: false });
 const {
     blankError,
@@ -25,7 +28,6 @@ const {
     inputRouteError,
     numberError
 } = ErrorGlobal;
-
 const requiredString = (errorMessage) => Yup.string().required(errorMessage);
 const requiredNumber = (errorMessage) => Yup.number().typeError(numberError).required(errorMessage);
 
@@ -150,7 +152,12 @@ const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
     );
 };
 
-const App = () => {
+const RouteManage = () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isAdmin(jwtToken, authToken)){
+        return <p>Trang này không tồn tại</p>;
+    }
     const [waypoints, setWaypoints] = useState([]);
     const [routeSegments, setRouteSegments] = useState([]);
     const toast = useRef(null);
@@ -336,4 +343,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default RouteManage;

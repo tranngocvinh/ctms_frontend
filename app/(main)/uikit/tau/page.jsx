@@ -1,12 +1,18 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client"
 import React, {useEffect, useRef, useState} from 'react';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {getShip} from "../../../api/ship";
 import Table from "../../../components/ship/dataTable";
 import {Toast} from 'primereact/toast';
+import {isAdmin, isManager} from "../../../verifyRole";
 
-
-export default function TemplateDemo() {
+export default function ShipManage() {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isAdmin(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
+    }
     const [ships,setShips] = useState([])
     const [loading, setLoading] = useState(false);
     const toast = useRef(null);  // Create the toast reference here

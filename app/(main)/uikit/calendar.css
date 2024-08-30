@@ -1,8 +1,8 @@
 .calendar {
-    width: 100%; /* Make sure the calendar takes full width of its container */
-    max-width: 100%; /* Ensure it doesn't exceed the container's width */
-    margin: 0 auto; /* Center the calendar */
-    padding: 20px; /* Provide padding inside the calendar */
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
     border-radius: 8px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -20,7 +20,7 @@
 
 .weekdays {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* Ensure weekdays are spread evenly */
+    grid-template-columns: repeat(7, 1fr);
     text-align: center;
     font-weight: bold;
     margin-bottom: 10px;
@@ -28,9 +28,9 @@
 
 .days {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* Ensure days are spread evenly */
+    grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    gap: 5px; /* Space between days */
+    gap: 5px;
 }
 
 .day {
