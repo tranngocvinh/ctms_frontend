@@ -1,3 +1,4 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 import React, {useEffect, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
@@ -12,20 +13,28 @@ import {getContainers} from "../../api/container_supplier";
 import {Dialog} from "primereact/dialog";
 import {handlePayment} from "../../api/repair";
 import './repair.css';
+import {isCustomer, isManager, isStaff} from "../../verifyRole";
 
 export default function Table({ repair, fetchRepair }) {
     const [suppliers, setSuppliers] = useState([]);
     const [paymentInfo, setPaymentInfo] = useState({}); // State to hold payment info
     const [dialogVisible, setDialogVisible] = useState(false);
-    const [userRole,setUserRole] = useState() ;
+    const [userRole, setUserRole] = useState('');
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
 
     useEffect(() => {
-        const userRole = localStorage.getItem('userRole');
-        setUserRole(userRole)
-        fetchAllSuppliers()
-    },[])
-
-
+        let userRole = '';
+        if (isManager(jwtToken, authToken)) {
+            userRole = 'MANAGER';
+        } else if (isCustomer(jwtToken, authToken)) {
+            userRole = 'CUSTOMER';
+        } else if (isStaff(jwtToken, authToken)) {
+            userRole = 'STAFF';
+        }
+        setUserRole(userRole);
+        fetchAllSuppliers();
+    }, [jwtToken, authToken]);
 
     const renderHeaderWithIcon = (icon, title ) => {
         return (
@@ -57,8 +66,8 @@ export default function Table({ repair, fetchRepair }) {
     }
     const handlePaymentClick = (rowData) => {
         const paymentInfo = {
-            accountNumber: "0326260456",
-            accountName: "TRAN NGOC VINH",
+            accountNumber: "0123456789",
+            accountName: "CONG TY VIMC",
             bankName: "Vietcombank",
             detFee: rowData.detFee,
             description: `Thanh toán phí sửa chữa container số #${rowData.id} ngày ${rowData.repairDate}`
@@ -83,7 +92,6 @@ export default function Table({ repair, fetchRepair }) {
                     {userRole === 'CUSTOMER' ? (
                         <i className="pi pi-money-bill" onClick={() => handlePaymentClick(rowData)} style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px', color:'green'}}/>
                     ) : (
-
                         <Delete repair={rowData} fetchRepair={fetchRepair} />
                         )
                     }

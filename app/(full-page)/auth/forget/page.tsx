@@ -17,9 +17,7 @@ const ForgetPasswordPage = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Thêm logic xử lý gửi yêu cầu đặt lại mật khẩu ở đây
         console.log('Email for password reset:', email);
-        // Sau khi xử lý, có thể chuyển hướng người dùng hoặc hiển thị thông báo thành công
     };
 
     return (
