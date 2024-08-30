@@ -13,7 +13,7 @@ import {isManager} from "../../../verifyRole";
 const DeliveryOrderTable = () => {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(isManager(jwtToken, authToken)) {
+    if(!isManager(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
     const emptyDeliveryOrder = {
@@ -42,7 +42,7 @@ const DeliveryOrderTable = () => {
         selectedDeliveryOrders: [],
         submitted: false,
         globalFilter: null,
-        page: 0, // Added for pagination
+        page: 0,
     });
 
     const toast = useRef(null);
