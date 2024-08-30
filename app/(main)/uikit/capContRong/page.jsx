@@ -1,9 +1,10 @@
+/* eslint react-hooks/rules-of-hooks: 0 */
 "use client";
 import React, {useEffect, useRef, useState} from 'react';
 import 'primeflex/primeflex.css';
-import 'primereact/resources/themes/saga-blue/theme.css'; // theme
-import 'primereact/resources/primereact.min.css'; // core css
-import 'primeicons/primeicons.css'; // icons
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 import {FieldArray, Form, Formik, useField} from 'formik';
 import {Dropdown} from 'primereact/dropdown';
 import {Button} from 'primereact/button';
@@ -12,11 +13,11 @@ import {Card} from 'primereact/card';
 import {Toast} from 'primereact/toast';
 import * as Yup from 'yup';
 import axios from 'axios';
-import {allocateContainersToShip} from 'app/api/container'; // replace with your actual import
+import {allocateContainersToShip} from 'app/api/container';
 import 'app/components/AllocateEmptyContainersForm.css';
-import {isAdmin, isCustomer, isManager, isStaff} from "../../../verifyRole";
+import {isCustomer} from "../../../verifyRole";
 
-const MyDropdown = ({ label, options, onChange, ...props }) => {
+const MyDropdown = ({label, options, onChange, ...props}) => {
     const [field, meta, helpers] = useField(props);
 
     return (
@@ -32,7 +33,7 @@ const MyDropdown = ({ label, options, onChange, ...props }) => {
                         if (onChange) onChange(e);
                     }}
                     placeholder="Chọn..."
-                    style={{ width: "100%" }}
+                    style={{width: "100%"}}
                     filter
                     showClear
                     filterBy="label"
@@ -46,36 +47,25 @@ const MyDropdown = ({ label, options, onChange, ...props }) => {
 };
 
 const AllocateEmptyContainersForm = () => {
-    const role = localStorage.getItem('userRole');
-    if (!isCustomer(role)) {
-        //window.location.href = 'http://localhost:3000';
-        return <p>404 Error</p>;
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    if(!isCustomer(jwtToken, authToken)) {
+        return <p>Trang này không tồn tại</p>;
     }
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [containerSizes, setContainerSizes] = useState([]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [ships, setShips] = useState([]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [ports, setPorts] = useState([]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isModalVisible, setIsModalVisible] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [allocationDetails, setAllocationDetails] = useState(null);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [containerCodes, setContainerCodes] = useState([]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [containerDetails, setContainerDetails] = useState([]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const toast = useRef(null);
 
-    if (!isCustomer(role)) {
-        window.location.href = 'http://localhost:3000';
-        return null;
-    }
+
     useEffect(() => {
-            fetchShips();
-            fetchPorts();
-            fetchContainerSizes();
+        fetchShips();
+        fetchPorts();
+        fetchContainerSizes();
     }, []);
 
     const getAuthConfig = () => ({
@@ -96,7 +86,7 @@ const AllocateEmptyContainersForm = () => {
     const fetchContainerCodesByPort = async (portId) => {
         try {
             const response = await axios.get(`https://auth.g42.biz/api/containers/getByPort`, {
-                params: { portId }, // Filter by selected port
+                params: {portId},
                 ...getAuthConfig()
             });
             setContainerCodes(response.data);
@@ -129,7 +119,7 @@ const AllocateEmptyContainersForm = () => {
         fetchContainerCodesByPort(portId);
     };
 
-    const handleSubmit = async (values, { setSubmitting }) => {
+    const handleSubmit = async (values, {setSubmitting}) => {
         try {
             const containerDetailsPromises = values.details.map(allocation =>
                 axios.get(`https://auth.g42.biz/api/containers/${allocation.containerCode}`, getAuthConfig())
@@ -166,10 +156,20 @@ const AllocateEmptyContainersForm = () => {
     const handleConfirm = async () => {
         try {
             await allocateContainersToShip(allocationDetails);
-            toast.current.show({ severity: 'success', summary: 'Success', detail: 'Containers allocated successfully', life: 3000 });
+            toast.current.show({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Containers allocated successfully',
+                life: 3000
+            });
         } catch (error) {
             console.error('Error confirming allocation:', error);
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error occurred during allocation', life: 3000 });
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'An error occurred during allocation',
+                life: 3000
+            });
         } finally {
             setIsModalVisible(false);
         }
@@ -198,7 +198,7 @@ const AllocateEmptyContainersForm = () => {
                 </header>
 
                 <main>
-                    <table style={{ textAlignLast: "center" }}>
+                    <table style={{textAlignLast: "center"}}>
                         <thead>
                         <tr>
                             <th>Loại container</th>
@@ -225,8 +225,8 @@ const AllocateEmptyContainersForm = () => {
                         })}
                         </tbody>
                     </table>
-                    <div style={{ textAlign: "-webkit-center" }}>
-                        <table style={{ maxWidth: "fit-content" }}>
+                    <div style={{textAlign: "-webkit-center"}}>
+                        <table style={{maxWidth: "fit-content"}}>
                             <tbody>
                             <tr>
                                 <th>Tổng trọng tải: {allocationDetails.totalCapacity} </th>
@@ -236,7 +236,7 @@ const AllocateEmptyContainersForm = () => {
                     </div>
                 </main>
                 <aside>
-                    <hr />
+                    <hr/>
                     <div>
                         <div>
                             <b>Điều kiện &amp; Điều khoản</b>
@@ -259,14 +259,14 @@ const AllocateEmptyContainersForm = () => {
 
     return (
         <div className="p-grid p-justify-center p-align-center">
-            <Toast ref={toast} /> {/* Add the Toast component */}
+            <Toast ref={toast}/> {/* Add the Toast component */}
             <div className="p-col-12 p-md-10">
                 <Formik
                     initialValues={{
                         shipId: '',
                         portId: '',
                         details: [
-                            { containerCode: '' }
+                            {containerCode: ''}
                         ]
                     }}
                     validationSchema={Yup.object().shape({
@@ -280,7 +280,7 @@ const AllocateEmptyContainersForm = () => {
                     })}
                     onSubmit={handleSubmit}
                 >
-                    {({ values, isSubmitting, setFieldValue }) => (
+                    {({values, isSubmitting, setFieldValue}) => (
                         <div>
                             <div className="card-header">
                                 <h2>Bảng cấp rỗng</h2>
@@ -309,9 +309,8 @@ const AllocateEmptyContainersForm = () => {
                                             onChange={(e) => handlePortChange(e.value, setFieldValue)}
                                             value={values.portId}
                                         />
-
                                         <FieldArray name="details">
-                                            {({ remove, push }) => (
+                                            {({remove, push}) => (
                                                 <div>
                                                     {values.details.length > 0 && values.details.map((allocation, index) => (
                                                         <div className="container-allocation" key={index}>
@@ -354,7 +353,7 @@ const AllocateEmptyContainersForm = () => {
                                                                 font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
                                                                 dark:focus:ring-gray-700 dark:border-gray-700"
                                                             disabled={isSubmitting}
-                                                            style={{marginTop:'20px'}}
+                                                            style={{marginTop: '20px'}}
                                                         />
                                                     </div>
                                                 </div>
@@ -373,9 +372,9 @@ const AllocateEmptyContainersForm = () => {
                 onHide={() => setIsModalVisible(false)}
                 footer={
                     <div>
-                        <Button label="OK" icon="pi pi-check" onClick={handleConfirm} />
+                        <Button label="OK" icon="pi pi-check" onClick={handleConfirm}/>
                         <Button label="Cancel" icon="pi pi-times" onClick={() => setIsModalVisible(false)}
-                                className="p-button-secondary" />
+                                className="p-button-secondary"/>
                     </div>
                 }
             >

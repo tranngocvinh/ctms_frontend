@@ -10,7 +10,8 @@ import {classNames} from 'primereact/utils';
 import axios from 'axios';
 import AppHeader from '../login/AppHeader';
 import {LayoutContext} from "@/layout/context/layoutcontext";
-import {encodeUserRole} from "app/verifyRole";
+// @ts-ignore
+import {encodeUserRole} from "/app/verifyRole";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
