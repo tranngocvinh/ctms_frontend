@@ -9,13 +9,15 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import Delete from "app/components/Delivery/DeleleRepair";
 import {Dialog} from "primereact/dialog";
+import {isCustomer} from "../../verifyRole";
 
 export default function Table({ delivery, fetchDelivery }) {
     const [suppliers, setSuppliers] = useState([]);
     const [userRole,setUserRole] = useState() ;
     const [paymentInfo, setPaymentInfo] = useState({}); // State to hold payment info
     const [dialogVisible, setDialogVisible] = useState(false);
-
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
         setUserRole(userRole)
@@ -123,7 +125,7 @@ export default function Table({ delivery, fetchDelivery }) {
             ) : (
                 <>
 
-                    {userRole === 'CUSTOMER' ? (
+                    {isCustomer(jwtToken, authToken) ? (
                         <Button label="Thanh Toán" onClick={() => handlePaymentClick(rowData)} className="p-button-success" />
                     ) : (
 

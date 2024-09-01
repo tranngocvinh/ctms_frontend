@@ -237,7 +237,7 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
                             </div>
                             <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
                                 <label htmlFor="dropLocation" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Địa
-                                    điểm hạ hàng</label>
+                                    điểm giao hàng</label>
                                 <Dropdown
                                     id="dropLocation"
                                     value={dropLocation}
@@ -247,7 +247,7 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
                                     filter
                                     showClear
                                     filterBy="portName"
-                                    placeholder="Chọn địa điểm hạ hàng"
+                                    placeholder="Chọn địa điểm giao hàng"
                                     style={{width: '100%', maxWidth: '300px'}}
                                 />
                             </div>
