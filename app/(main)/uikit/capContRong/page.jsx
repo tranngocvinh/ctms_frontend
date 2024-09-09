@@ -88,6 +88,7 @@ const AllocateEmptyContainers = () => {
                 params: {portId},
                 ...getAuthConfig()
             });
+            console.log(response.data);
             setContainerCodes(response.data);
         } catch (error) {
             console.error('Error fetching container codes:', error);
@@ -128,7 +129,7 @@ const AllocateEmptyContainers = () => {
             const fetchedContainerDetails = containerDetailsResponses.map(response => response.data);
 
             const totalCapacity = fetchedContainerDetails.reduce((sum, detail) => {
-                return sum + (detail.containerSize.weight);
+                return sum + (detail.containerSize.loadCapacity);
             }, 0);
 
             const requestData = {
@@ -158,15 +159,14 @@ const AllocateEmptyContainers = () => {
             toast.current.show({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'Containers allocated successfully',
+                detail: 'Thêm container thành công',
                 life: 3000
             });
         } catch (error) {
-            console.error('Error confirming allocation:', error);
             toast.current.show({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'An error occurred during allocation',
+                detail: 'Tàu đã hết chỗ cho container này',
                 life: 3000
             });
         } finally {

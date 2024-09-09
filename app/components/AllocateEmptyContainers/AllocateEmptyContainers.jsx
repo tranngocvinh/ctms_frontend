@@ -11,7 +11,7 @@ const AllocateEmptyContainers = () => {
     const [ports, setPorts] = useState([]);
     const [selectedShip, setSelectedShip] = useState(null);
     const [selectedPort, setSelectedPort] = useState(null);
-    const [mode, setMode] = useState('ship'); // 'ship' or 'port'
+    const [mode, setMode] = useState('ship');
 
     useEffect(() => {
         fetchShips();

@@ -12,6 +12,7 @@ import {Chip} from "primereact/chip";
 import './container.css';
 import {InputText} from "primereact/inputtext";
 import {Dropdown} from "primereact/dropdown";
+import {isCustomer, isManager, isStaff} from "../../verifyRole";
 
 const containerStatusMap = {
     'In Transit': 'Đang di chuyển',
@@ -35,15 +36,23 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
     const [userRole,setUserRole] = useState() ;
     const [searchType, setSearchType] = useState('containerCode');
     const [searchQuery, setSearchQuery] = useState('');
-
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
     const searchTypes = [
         { label: 'Mã định danh', value: 'containerCode' },
         { label: 'Khách hàng', value: 'customer.name' },
     ];
 
     useEffect(() => {
-        const userRole = localStorage.getItem('userRole');
-        setUserRole(userRole)
+        let role = '';
+        if (isManager(jwtToken, authToken)) {
+            role = 'MANAGER';
+        } else if (isCustomer(jwtToken, authToken)) {
+            role = 'CUSTOMER';
+        } else if (isStaff(jwtToken, authToken)) {
+            role = 'STAFF';
+        }
+        setUserRole(role);
     },[])
     const fetchScheduleDetails = async (scheduleIds) => {
         try {
@@ -160,7 +169,7 @@ export default function ContainerTable({ containers, fetchContainers, showToast 
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Trạng thái chi tiết container</span>
 
-            {userRole === 'MANAGER' && <CreateContainerDrawer showToast={showToast} fetchContainers={fetchContainers} />}
+            {isManager(jwtToken, authToken) && <CreateContainerDrawer showToast={showToast} fetchContainers={fetchContainers} />}
 
         </div>
     );

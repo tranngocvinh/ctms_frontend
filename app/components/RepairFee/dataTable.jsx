@@ -24,15 +24,15 @@ export default function Table({ repair, fetchRepair }) {
     const authToken = localStorage.getItem('authToken');
 
     useEffect(() => {
-        let userRole = '';
+        let role = '';
         if (isManager(jwtToken, authToken)) {
-            userRole = 'MANAGER';
+            role = 'MANAGER';
         } else if (isCustomer(jwtToken, authToken)) {
-            userRole = 'CUSTOMER';
+            role = 'CUSTOMER';
         } else if (isStaff(jwtToken, authToken)) {
-            userRole = 'STAFF';
+            role = 'STAFF';
         }
-        setUserRole(userRole);
+        setUserRole(role);
         fetchAllSuppliers();
     }, [jwtToken, authToken]);
 

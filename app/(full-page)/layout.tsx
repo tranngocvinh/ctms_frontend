@@ -7,7 +7,7 @@ interface SimpleLayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: 'PrimeReact Sakai',
+    title: 'Hệ thống cung cấp container',
     description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.'
 };
 

@@ -137,7 +137,6 @@ export default function DropOrdersTable() {
                 <Column field="si" header="Khách hàng" body={getCustomer}/>
                 <Column field="dropDate" header="Ngày Hạ Hàng" body={formatDate} />
                 <Column field="dropLocation" header="Địa Điểm Hạ Hàng" />
-                <Column field="status" header="Trạng Thái" />
                 <Column field="detFee" header="Phí DET" body={(rowData) => formatDetFee(rowData.detFee)} />
                 <Column body={actionBodyTemplate} header="Thanh Toán" />
             </DataTable>
