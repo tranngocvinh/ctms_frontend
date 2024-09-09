@@ -1,30 +1,41 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useMemo, useState, useEffect, useRef} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
 import {Toast} from 'primereact/toast';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
 import UserService from '/app/components/User/UserService';
 import UserForm from '/app/components/User/UserForm';
 import '/app/components/User/custom_user.css';
 import {Tag} from "primereact/tag";
 import {isAdmin} from "../../../verifyRole";
+
 export default function UserList() {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
     if(!isAdmin(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
+
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [userDialog, setUserDialog] = useState(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState(false);
-    const toast = React.useRef(null);
+    const [searchType, setSearchType] = useState('name'); // Default search by name
+    const [searchQuery, setSearchQuery] = useState('');
+    const toast = useRef(null);
+
+    const searchTypes = [
+        { label: 'Tên', value: 'name' },
+        { label: 'Email', value: 'email' },
+        { label: 'Vai trò', value: 'roles' }
+    ];
 
     useEffect(() => {
-
         loadUsers();
     }, []);
 
@@ -33,6 +44,15 @@ export default function UserList() {
             setUsers(res.data);
         });
     };
+
+    const filteredUsers = useMemo(() => {
+        if (!searchQuery) return users;
+
+        return users.filter(user => {
+            let fieldValue = user[searchType] || '';
+            return fieldValue.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [searchType, searchQuery, users]);
 
     const openNew = () => {
         setSelectedUser(null);
@@ -91,12 +111,14 @@ export default function UserList() {
             </React.Fragment>
         );
     };
+
     const roleSeverities = {
         "ADMIN": "danger",
         "MANAGER": "warning",
         "STAFF": "primary",
         "CUSTOMER": "info"
     };
+
     const roles = (rowData) => {
         const severity = roleSeverities[rowData.roles];
         return (
@@ -105,13 +127,31 @@ export default function UserList() {
             </div>
         );
     };
+
     return (
         <div className="datatable-crud-demo">
-            <Toast ref={toast}/>
+            <Toast ref={toast} />
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                <Dropdown
+                    value={searchType}
+                    options={searchTypes}
+                    onChange={(e) => setSearchType(e.value)}
+                    optionLabel="label"
+                    placeholder="Chọn loại tìm kiếm"
+                    style={{ width: '200px', marginRight: '10px' }}
+                />
+                <InputText
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm"
+                    style={{ width: '300px' }}
+                />
+            </div>
             <div className="card">
-                <Button label="Thêm người dùng" icon="pi pi-plus" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg
-                    text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onClick={openNew}/>
-                <DataTable value={users} paginator rows={10} showGridlines className="custom-datatable">
+
+                <Button label="Thêm người dùng" icon="pi pi-plus" className="text-white bg-gray-800 hover:bg-gray-900" onClick={openNew} />
+
+                <DataTable value={filteredUsers} paginator rows={10} showGridlines className="custom-datatable">
                     <Column field="name" header="Tên"/>
                     <Column field="email" header="Email"/>
                     <Column field="roles" header="Vai trò" body={roles}/>
