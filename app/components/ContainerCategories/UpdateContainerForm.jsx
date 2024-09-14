@@ -112,14 +112,50 @@ const CreateSupplierForm = ({ fetchContainers, container, showToast }) => {
                     }}
                 >
                     {({ values, setFieldValue }) => {
-
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
-                            if (values.length && values.width && values.height) {
-                                const volume = values.length * values.width * values.height;
-                                setFieldValue('volume', volume);
+                            if (values.containerType?.id) {
+                                if (values.containerType.id === 4) { //lanh 40ft
+                                    setFieldValue('length', 12.19);
+                                    setFieldValue('width', 2.44);
+                                    setFieldValue('height', 2.59);
+                                    setFieldValue('volume', 58.9);
+                                    setFieldValue('weight', 4.11);
+                                    setFieldValue('loadCapacity', 28.39);
+                                    setFieldValue('maxLoad', 32.5);
+
+                                }
+                                if (values.containerType.id === 3) { //lanh 20ft
+                                    setFieldValue('length', 6.06);
+                                    setFieldValue('width', 2.44);
+                                    setFieldValue('height', 2.59);
+                                    setFieldValue('volume', 28.4);
+                                    setFieldValue('weight', 3.2);
+                                    setFieldValue('loadCapacity', 27.28);
+                                    setFieldValue('maxLoad', 30.48);
+
+                                }
+                                if (values.containerType.id === 2) { //thuong 40ft
+                                    setFieldValue('length', 12.19);
+                                    setFieldValue('width', 2.44);
+                                    setFieldValue('height', 2.59);
+                                    setFieldValue('volume', 67.6);
+                                    setFieldValue('weight', 3.73);
+                                    setFieldValue('loadCapacity', 26.75);
+                                    setFieldValue('maxLoad', 30.48);
+
+                                }
+                                if (values.containerType.id === 1) { //thuong 20ft
+                                    setFieldValue('length', 6.06);
+                                    setFieldValue('width', 2.44);
+                                    setFieldValue('height', 2.59);
+                                    setFieldValue('volume', 33.2);
+                                    setFieldValue('weight', 2.2);
+                                    setFieldValue('loadCapacity', 28.28);
+                                    setFieldValue('maxLoad', 30.48);
+                                }
                             }
-                        }, [values.length, values.width, values.height, setFieldValue]);
+                        }, [values.containerType, setFieldValue]);
 
                         return (
                             <Form className="p-fluid p-formgrid p-grid">

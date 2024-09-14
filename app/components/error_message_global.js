@@ -4,6 +4,7 @@ const ErrorGlobal = {
     inputLengthError: 'Vui lòng nhập mô tả có độ dài lớn hơn ',
     inputRouteError: 'Vui lòng nhập tên tuyến',
     numberError: 'Vui lòng nhập số',
+    chooseSizeError: 'Vui lòng chọn kích thước'
 };
 
 export default ErrorGlobal;

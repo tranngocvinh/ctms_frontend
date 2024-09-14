@@ -9,6 +9,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import './giaohang.css';
 import {isManager} from "../../../verifyRole";
+import {InputNumber} from "primereact/inputnumber";
 
 const DeliveryOrderTable = () => {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -244,7 +245,7 @@ const DeliveryOrderTable = () => {
                     <Column field="scheduleId" header="Mã lịch trình" body={(rowData) => state.schedules.find((s) => s.id === rowData.scheduleId)?.codeSchedule || "unknown"}></Column>
                     <Column header="Ngày đặt hàng" body={(rowData) => new Date(rowData.orderDate).toLocaleString()}></Column>
                     <Column header="Ngày giao hàng" body={(rowData) => new Date(rowData.deliveryDate).toLocaleString()}></Column>
-                    <Column field="totalAmount" header="Tổng tiền" ></Column>
+                    <Column field="totalAmount" header="Tổng tiền" body={(rowData) => rowData.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}></Column>
                     <Column field="status" header="Trạng thái" ></Column>
                     <Column header="Containers" body={renderContainers} />
                     <Column body={(rowData) =>
@@ -284,7 +285,7 @@ const DeliveryOrderTable = () => {
                     onHide={() => updateState({deliveryOrderDialog: false, submitted: false})}>
                 <div className="field">
                     <label htmlFor="orderNumber">Mã lệnh giao hàng</label>
-                    <InputText id="orderNumber" value={state.deliveryOrder.orderNumber} onChange={(e) => onInputChange(e, "orderNumber")} />
+                    <InputText id="orderNumber" keyfilter={/^[a-zA-Z0-9-_]+$/} value={state.deliveryOrder.orderNumber} onChange={(e) => onInputChange(e, "orderNumber")} />
                 </div>
                 <div className="field">
                     <label htmlFor="customer">Khách hàng</label>
@@ -304,7 +305,9 @@ const DeliveryOrderTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="totalAmount">Tổng tiền</label>
-                    <InputText id="totalAmount" value={state.deliveryOrder.totalAmount} onChange={(e) => onInputChange(e, "totalAmount")} />
+                    <InputNumber id="totalAmount" mode="currency" currency="VND" locale="vi-VN"
+                               value={state.deliveryOrder.totalAmount}
+                               onChange={(e) => onInputChange(e, "totalAmount")} />
                 </div>
                 <div className="field">
                     <label htmlFor="status">Ghi chú 1</label>

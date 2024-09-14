@@ -107,7 +107,7 @@ const RepairContainerForm = ({ container, fetchContainers }) => {
                         // supplier: Yup.object().shape({
                         //     supplierId: Yup.string().required('Vui lòng chọn loại container')
                         // ),
-                        repairCost: Yup.number().required('Vui lòng nhập chi phí sửa chữa').min(0, 'Chi phí phải lớn hơn 0'),
+                        repairCost: Yup.number().required('Vui lòng nhập chi phí sửa chữa').min(1, 'Chi phí phải lớn hơn 0'),
                         repairDate: Yup.date().required('Vui lòng chọn ngày sửa chữa'),
                         description: Yup.string().required('Vui lòng nhập mô tả chi tiết về việc sửa chữa'),
                     })}

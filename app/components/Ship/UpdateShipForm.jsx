@@ -43,8 +43,8 @@ const MyDoubleInput = ({label, ...props}) => {
                 value={field.value}
                 onValueChange={handleChange}
                 inputId="locale-user"
-                minFractionDigits={2}
                 {...props}
+                locale="vi-VN"
             />
 
             {meta.touched && meta.error ? (
@@ -101,12 +101,16 @@ const CreateShipForm = ({fetchShips, ships, showToast}) => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={Yup.object({
-                        name: Yup.string().required('Không được để trống'),
-                        company: Yup.string().required('Không được để trống'),
+                        name: Yup.string().required('Không được để trống').test('valid-name', 'Tên không được bắt đầu ký tự đặc biệt', value => {
+                            return !value || (!value.startsWith(' ') && /^[\p{L}\p{N}]/u.test(value));
+                        }),
+                        company: Yup.string().required('Không được để trống').test('valid-name', 'Tên không được bắt đầu ký tự đặc biệt', value => {
+                            return !value || (!value.startsWith(' ') && /^[\p{L}\p{N}]/u.test(value));
+                        }),
                         capacity: Yup.number().required('Không được để trống').positive('Trọng tải phải là số dương'),
                         registrationNumber: Yup.string().required('Không được để trống'),
                         yearBuilt: Yup.number().required('Không được để trống').max(new Date().getFullYear(), 'Năm phải nhỏ hơn hoặc bằng năm hiện tại'),
-                        status: Yup.string().required('Trạng thái không được để trống'), // Added validation for status
+                        status: Yup.string().required('Trạng thái không được để trống'),
                     })}
                     onSubmit={(values, {setSubmitting}) => {
                         update(values.id, values).then(res => {
@@ -145,8 +149,10 @@ const CreateShipForm = ({fetchShips, ships, showToast}) => {
                             label="Trọng tải"
                             name="capacity"
                             type="text"
+                            suffix=" TEU"
                         />
                         <MyTextInput
+                            keyfilter={/^[a-zA-Z0-9-_]+$/}
                             label="Số đăng ký"
                             name="registrationNumber"
                             type="text"

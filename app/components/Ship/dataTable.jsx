@@ -15,7 +15,7 @@ import './custom_ship.css';
 import {InputIcon} from "primereact/inputicon";
 import {IconField} from "primereact/iconfield";
 
-export default function Table({ ships, fetchShips, showToast }) {
+export default function Table({ships, fetchShips, showToast}) {
     const [searchType, setSearchType] = useState('name');
     const [searchQuery, setSearchQuery] = useState('');
     const spanValueStyle = {
@@ -23,12 +23,12 @@ export default function Table({ ships, fetchShips, showToast }) {
         textAlign: 'center'
     };
     const searchTypes = [
-        { label: 'Tên', value: 'name' },
-        { label: 'Công ty', value: 'company' },
-        { label: 'Trọng tải', value: 'capacity' },
-        { label: 'Số đăng ký', value: 'registrationNumber' },
-        { label: 'Năm xây dựng', value: 'yearBuilt' },
-        { label: 'Trạng thái', value: 'status' }
+        {label: 'Tên', value: 'name'},
+        {label: 'Công ty', value: 'company'},
+        {label: 'Trọng tải', value: 'capacity'},
+        {label: 'Số đăng ký', value: 'registrationNumber'},
+        {label: 'Năm xây dựng', value: 'yearBuilt'},
+        {label: 'Trạng thái', value: 'status'}
     ];
 
     const filteredShips = useMemo(() => {
@@ -53,7 +53,7 @@ export default function Table({ ships, fetchShips, showToast }) {
     );
 
     const capacity = (rowData) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{display: 'flex', alignItems: 'center'}}>
             <span style={spanValueStyle}>{rowData.capacity}</span>
         </div>
     );
@@ -79,10 +79,10 @@ export default function Table({ ships, fetchShips, showToast }) {
         }
 
         return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
                 <Chip
                     label={status_name}
-                    style={{ fontSize: '12px' }}
+                    style={{fontSize: '12px'}}
                     icon={status_name === "Bảo trì" ? "pi pi-wrench" : "pi pi-truck"}
                     severity="warning"
                     className="tao-tau"
@@ -104,7 +104,7 @@ export default function Table({ ships, fetchShips, showToast }) {
             <UpdateShipDrawer
                 ships={rowData} fetchShips={fetchShips} showToast={showToast} label="Sửa"
             />
-            <Delete ships={rowData} fetchShips={fetchShips} showToast={showToast} />
+            <Delete ships={rowData} fetchShips={fetchShips} showToast={showToast}/>
         </div>
 
     );
@@ -112,7 +112,7 @@ export default function Table({ ships, fetchShips, showToast }) {
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Thêm tàu</span>
-            <CreateShipDrawer fetchShips={fetchShips} showToast={showToast} />
+            <CreateShipDrawer fetchShips={fetchShips} showToast={showToast}/>
         </div>
     );
 
@@ -132,21 +132,23 @@ export default function Table({ ships, fetchShips, showToast }) {
                     />
                     <IconField iconPosition="right">
                         <InputIcon className="pi pi-search"> </InputIcon>
-                    <InputText
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Tìm kiếm"
-                        style={{width: '300px'}}
-                    />
+                        <InputText
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Tìm kiếm"
+                            style={{width: '300px'}}
+                        />
                     </IconField>
                 </div>
             </div>
 
-            <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} paginator rows={20} showGridlines className="custom-datatable" >
-                <Column field="name" header={renderHeaderWithIcon( 'Tên')} body={name}></Column>
+            <DataTable value={filteredShips} header={header} footer={footer} tableStyle={{minWidth: '60rem'}} paginator
+                       rows={20} showGridlines className="custom-datatable">
+                <Column field="name" header={renderHeaderWithIcon('Tên')} body={name}></Column>
                 <Column field="company" header={renderHeaderWithIcon('Công ty')} body={company}></Column>
                 <Column field="capacity" header={renderHeaderWithIcon('Trọng tải (TEU)')} body={capacity}></Column>
-                <Column field="registrationNumber" header={renderHeaderWithIcon('Số đăng ký')} body={registrationNumber}></Column>
+                <Column field="registrationNumber" header={renderHeaderWithIcon('Số đăng ký')}
+                        body={registrationNumber}></Column>
                 <Column field="yearBuilt" header={renderHeaderWithIcon('Năm xây dựng')} body={yearBuilt}></Column>
                 <Column field="status" header={renderHeaderWithIcon('Trạng Thái')} body={status}></Column>
                 <Column header="Thao tác" body={ActionButtons}></Column>

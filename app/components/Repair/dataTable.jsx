@@ -87,7 +87,7 @@ export default function Table({repair, fetchRepair}) {
 
     const repairCost = (rowData) => {
         const repairCodeNumber = Number(rowData.repairCode);
-        return <p>{!isNaN(repairCodeNumber) ? repairCodeNumber.toLocaleString('en-US') : rowData.repairCode}</p>;
+        return <p>{!isNaN(repairCodeNumber) ? repairCodeNumber.toLocaleString('vi-VN') : rowData.repairCode}</p>;
     };
 
     const header = (

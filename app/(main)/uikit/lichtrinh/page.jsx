@@ -21,7 +21,7 @@ import {isManager} from "../../../verifyRole";
 const ScheduleTable = () => {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isManager(jwtToken, authToken)) {
+    if (!isManager(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
     const emptySchedule = {
@@ -74,7 +74,7 @@ const ScheduleTable = () => {
             schedule.estimatedArrivalTime = schedule.scheduleSegments[schedule.scheduleSegments.length - 1].arrivalTime;
 
             let _schedules = [...schedules];
-            let _schedule = { ...schedule };
+            let _schedule = {...schedule};
 
             if (schedule.id) {
                 axios.put(`https://auth.g42.biz/api/schedules/${schedule.id}`, _schedule).then(response => {
@@ -83,7 +83,12 @@ const ScheduleTable = () => {
                     setSchedules(_schedules);
                     setScheduleDialog(false);
                     setSchedule(emptySchedule);
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Schedule Updated', life: 3000 });
+                    toast.current.show({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'Schedule Updated',
+                        life: 3000
+                    });
                 });
             } else {
                 axios.post(`https://auth.g42.biz/api/schedules`, _schedule).then(response => {
@@ -91,14 +96,19 @@ const ScheduleTable = () => {
                     setSchedules(_schedules);
                     setScheduleDialog(false);
                     setSchedule(emptySchedule);
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Schedule Created', life: 3000 });
+                    toast.current.show({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'Schedule Created',
+                        life: 3000
+                    });
                 });
             }
         }
     };
 
     const editSchedule = (schedule) => {
-        setSchedule({ ...schedule });
+        setSchedule({...schedule});
         setScheduleDialog(true);
     };
 
@@ -113,7 +123,12 @@ const ScheduleTable = () => {
             setSchedules(_schedules);
             setDeleteScheduleDialog(false);
             setSchedule(emptySchedule);
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Xóa lịch trình thành công', life: 3000 });
+            toast.current.show({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Xóa lịch trình thành công',
+                life: 3000
+            });
         });
     };
 
@@ -130,13 +145,13 @@ const ScheduleTable = () => {
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _schedule = { ...schedule };
+        let _schedule = {...schedule};
         _schedule[`${name}`] = val;
         setSchedule(_schedule);
     };
 
     const onDropdownChange = (e, name) => {
-        let _schedule = { ...schedule };
+        let _schedule = {...schedule};
         _schedule[`${name}`] = e.value.id;
         if (name === 'routeId') {
             _schedule.scheduleSegments = e.value.routeSegments.map(segment => ({
@@ -152,13 +167,13 @@ const ScheduleTable = () => {
     const handleSegmentTimeChange = (index, field, value) => {
         const updatedSegments = [...schedule.scheduleSegments];
         updatedSegments[index][field] = value;
-        setSchedule({ ...schedule, scheduleSegments: updatedSegments });
+        setSchedule({...schedule, scheduleSegments: updatedSegments});
     };
 
     const handleSegmentShipChange = (index, value) => {
         const updatedSegments = [...schedule.scheduleSegments];
         updatedSegments[index].shipId = value.id;
-        setSchedule({ ...schedule, scheduleSegments: updatedSegments });
+        setSchedule({...schedule, scheduleSegments: updatedSegments});
     };
 
     const leftToolbarTemplate = () => {
@@ -166,7 +181,8 @@ const ScheduleTable = () => {
             <React.Fragment>
                 <Button label="New" icon="pi pi-plus" className="text-white bg-gray-800
             hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium
-            rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onClick={openNew} />
+            rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                        onClick={openNew}/>
             </React.Fragment>
         )
     };
@@ -198,8 +214,8 @@ const ScheduleTable = () => {
         <div className="flex flex-wrap gap-2 align-items-center justify-content-between">
             <h4 className="m-0">Quản lý lịch trình</h4>
             <span className="p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <i className="pi pi-search"/>
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..."/>
             </span>
         </div>
     );
@@ -216,21 +232,21 @@ const ScheduleTable = () => {
 
     const scheduleDialogFooter = (
         <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" onClick={saveSchedule} />
+            <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog}/>
+            <Button label="Save" icon="pi pi-check" onClick={saveSchedule}/>
         </React.Fragment>
     );
 
     const deleteScheduleDialogFooter = (
         <React.Fragment>
-            <Button label="No" icon="pi pi-times" outlined onClick={hideDeleteScheduleDialog} />
-            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteSchedule} />
+            <Button label="No" icon="pi pi-times" outlined onClick={hideDeleteScheduleDialog}/>
+            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteSchedule}/>
         </React.Fragment>
     );
 
     return (
         <div>
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
             <div className="card">
                 <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
@@ -251,15 +267,33 @@ const ScheduleTable = () => {
                 >
                     <Column field="codeSchedule" header="Mã chuyến"></Column>
                     <Column field="routeName" header="Tên chuyến"></Column>
-                    <Column field="departureTime" header="Thời gian khởi hành"></Column>
-                    <Column field="estimatedArrivalTime" header="Thời gian đến"></Column>
+                    <Column field="departureTime" header="Thời gian khởi hành"
+                            body={(schedule) => {
+                                const date = new Date(schedule.departureTime);
+                                return `${date.toLocaleTimeString('vi-VN', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })} ${date.toLocaleDateString('vi-VN')}`;
+                            }}>
+
+                    </Column>
+                    <Column field="estimatedArrivalTime" header="Thời gian đến"
+                            body={(schedule) => {
+                                const date = new Date(schedule.estimatedArrivalTime);
+                                return `${date.toLocaleTimeString('vi-VN', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })} ${date.toLocaleDateString('vi-VN')}`;
+                            }}>
+
+                    </Column>
                     <Column header="Thao tác" body={actionBodyTemplate} exportable={false}></Column>
                 </DataTable>
             </div>
 
             <Dialog
                 visible={scheduleDialog}
-                style={{ width: '450px' }}
+                style={{width: '450px'}}
                 header="Lịch chi tiết"
                 modal
                 className="p-fluid"
@@ -317,6 +351,7 @@ const ScheduleTable = () => {
                     <label htmlFor="codeSchedule">Mã chuyến tàu</label>
                     <InputText
                         id="codeSchedule"
+                        keyfilter={/^[a-zA-Z0-9-_]+$/}
                         value={schedule.codeSchedule}
                         onChange={(e) => onInputChange(e, 'codeSchedule')}
                     />
@@ -325,14 +360,14 @@ const ScheduleTable = () => {
 
             <Dialog
                 visible={deleteScheduleDialog}
-                style={{ width: '450px' }}
+                style={{width: '450px'}}
                 header="Confirm"
                 modal
                 footer={deleteScheduleDialogFooter}
                 onHide={hideDeleteScheduleDialog}
             >
                 <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                    <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
                     {schedule && (
                         <span>
                             Bạn có chắc chắn muốn xóa chuyến tàu <b>{schedule.codeSchedule}</b>?

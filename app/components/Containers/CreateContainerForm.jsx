@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import {add} from '/app/api/container';
 import {MultiSelect} from "primereact/multiselect";
+import ErrorGlobal from "../error_message_global";
 
 
 const MyTextInput = ({ label, ...props }) => {
@@ -117,7 +118,11 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
     const [containerSuppliers, setContainerSuppliers] = useState([]);
     const [shipSchedules, setShipSchedules] = useState([]);
     const toast = useRef(null); // Create a reference for the Toast component
-
+    const {
+        numberError,
+        blankError,
+        chooseSizeError
+    } = ErrorGlobal;
     useEffect(() => {
         fetchShips();
         fetchSchedules();
@@ -204,9 +209,9 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
                         containerSupplier: { id: '' }
                     }}
                     validationSchema={Yup.object({
-                        containerCode: Yup.string().required('Vui lòng nhập mã định danh'),
+                        containerCode: Yup.number().required(blankError).typeError(numberError),
                         containerSize: Yup.object().shape({
-                            id: Yup.string().required('Vui lòng chọn kích thước container')
+                            id: Yup.string().required(chooseSizeError)
                         }),
 
 
@@ -244,7 +249,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
                                 <MyTextInput
                                     label="Nhập mã định danh container"
                                     name="containerCode"
-                                    type="text"
+                                    type="number"
                                     placeholder="Mã định danh"
                                 />
 
