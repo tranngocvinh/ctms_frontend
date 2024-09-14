@@ -76,7 +76,7 @@ export default function Table({delivery, fetchDelivery}) {
     };
 
     const totalAmount = (rowData) => {
-        return <p>{rowData.totalAmount.toLocaleString('en-US')} VNĐ</p>
+        return <p>{rowData.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
     }
 
     const orderToDate = (rowData) => {

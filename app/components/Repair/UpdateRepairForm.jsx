@@ -17,7 +17,7 @@ const MyTextInput = ({label, ...props}) => {
     return (
         <div className="p-field p-col-12 p-md-6">
             <label htmlFor={props.id || props.name}>{label}</label>
-            <InputText id={props.id || props.name} {...field} {...props} />
+            <InputText id={props.id || props.name} {...field} {...props}  />
 
             {meta.touched && meta.error ? (
                 <Message severity="warn" text={meta.error}/>
@@ -43,7 +43,8 @@ const MyDoubleInput = ({label, ...props}) => {
                 value={field.value}
                 onValueChange={handleChange}
                 inputId="locale-user"
-                minFractionDigits={2}
+                mode="currency" currency="VND"
+                locale="vi-VN"
             />
 
             {meta.touched && meta.error ? (

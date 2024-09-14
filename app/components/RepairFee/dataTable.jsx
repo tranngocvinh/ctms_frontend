@@ -104,7 +104,7 @@ export default function Table({ repair, fetchRepair }) {
 
 
     const repairCost = (rowData) => {
-        return <p>{rowData.repairCode.toLocaleString('en-US')}</p>
+        return <p>{rowData.repairCode.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
     }
     const filteredRepairs = useMemo(() => {
         if (!searchQuery) return repair;

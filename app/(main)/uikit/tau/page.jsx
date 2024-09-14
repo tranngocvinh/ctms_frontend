@@ -10,17 +10,17 @@ import {isAdmin, isManager} from "../../../verifyRole";
 export default function ShipManage() {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isAdmin(jwtToken, authToken)) {
+    if (!isAdmin(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
-    const [ships,setShips] = useState([])
+    const [ships, setShips] = useState([])
     const [loading, setLoading] = useState(false);
     const toast = useRef(null);  // Create the toast reference here
 
     const showToast = (severity, summary, detail) => {
-        toast.current.show({ severity, summary, detail });
+        toast.current.show({severity, summary, detail});
     };
-    const fetchShips = () =>{
+    const fetchShips = () => {
         setLoading(true);
 
         getShip().then(res => {
@@ -38,15 +38,16 @@ export default function ShipManage() {
     if (loading) {
         return (
             <div className="card">
-                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)"
+                                 animationDuration=".5s"/>
             </div>
         )
     }
-    return(
+    return (
         <>
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
 
-            <Table  ships={ships} fetchShips={fetchShips} showToast={showToast}/>
+            <Table ships={ships} fetchShips={fetchShips} showToast={showToast}/>
         </>
     )
 }

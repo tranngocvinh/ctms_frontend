@@ -30,10 +30,11 @@ const {
 } = ErrorGlobal;
 const requiredString = (errorMessage) => Yup.string().required(errorMessage);
 const requiredNumber = (errorMessage) => Yup.number().typeError(numberError).required(errorMessage);
+const requiredName = (errorMessage) => Yup.string().required(errorMessage).matches(/^[a-zA-Z0-9-_]+$/, "Chỉ chấp nhận chữ cái, số và dấu gạch ngang")
+
 
 const InputText = ({ label, ...props }) => {
     const [field, meta] = useField(props);
-
     return (
         <div className="field col-12 md:col-6">
             <label htmlFor={props.id || props.name}>{label}</label>
@@ -215,7 +216,7 @@ const RouteManage = () => {
                         waypoints: [{ portName: '', lat: null, lon: null }]
                     }}
                     validationSchema={Yup.object({
-                        name: requiredString(inputRouteError),
+                        name: requiredName(inputRouteError),
                         estimatedTime: requiredNumber(blankError),
                         description: requiredString(blankError).min(10, inputLengthError + '10 kí tự'),
                         distance: requiredNumber(blankError),
@@ -302,9 +303,10 @@ const RouteManage = () => {
                                         />
                                          <InputText
                                              label="Tên tuyến"
-                                                name="name"
-                                                type="text"
-                                                placeholder="Hải Phòng-Quy Nhơn"
+                                             keyfilter={/^[a-zA-Z0-9-]+$/}
+                                             name="name"
+                                             type="text"
+                                             placeholder="Hải Phòng-Quy Nhơn"
                                             />
                                         <ChooseStatus
                                             label="Trạng thái"

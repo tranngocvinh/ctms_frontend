@@ -153,7 +153,7 @@ const ContainerRepairSupplierTable = () => {
         if (file) {
             _supplier.imagePreview = URL.createObjectURL(file);
         } else {
-            _supplier.imagePreview = null; // Reset if no file is selected
+            _supplier.imagePreview = null;
         }
         setSupplier(_supplier);
     };
@@ -238,7 +238,6 @@ const ContainerRepairSupplierTable = () => {
                     currentPageReportTemplate="Danh sách từ {first} tới {last} trên tổng số {totalRecords} nhà cung cấp"
                     globalFilter={globalFilter}
                     header={header}
-                    responsiveLayout="scroll"
                     className="custom-datatable"
                 >
                     <Column field="name" header="Tên công ty" style={{ minWidth: '12rem' }}></Column>
@@ -269,7 +268,7 @@ const ContainerRepairSupplierTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="email">Email</label>
-                    <InputText id="email" value={supplier.email} onChange={(e) => onInputChange(e, 'email')} required className={classNames({ 'p-invalid': submitted && !supplier.email })} />
+                    <InputText id="email" keyfilter="email" value={supplier.email} onChange={(e) => onInputChange(e, 'email')} required className={classNames({ 'p-invalid': submitted && !supplier.email })} />
                     {submitted && !supplier.email && <small className="p-error">{blankError}</small>}
                 </div>
                 <div className="field">
@@ -279,7 +278,7 @@ const ContainerRepairSupplierTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="phoneNumber">Điện thoại</label>
-                    <InputText id="phoneNumber" value={supplier.phoneNumber} onChange={(e) => onInputChange(e, 'phoneNumber')} required className={classNames({ 'p-invalid': submitted && !supplier.phoneNumber })} />
+                    <InputText id="phoneNumber" keyfilter="num" value={supplier.phoneNumber} onChange={(e) => onInputChange(e, 'phoneNumber')} required className={classNames({ 'p-invalid': submitted && !supplier.phoneNumber })} />
                     {submitted && !supplier.phoneNumber && <small className="p-error">{blankError}</small>}
                 </div>
                 <div className="field">

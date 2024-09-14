@@ -109,7 +109,7 @@ export default function DropOrdersTable() {
         </div>
     );
 
-    const formatDetFee = (detFee) => detFee.toLocaleString('en-US', { style: 'currency', currency: 'VND' });
+    const formatDetFee = (detFee) => detFee.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
     const formatDate = (rowData) => new Date(rowData.dropDate).toLocaleString();
 

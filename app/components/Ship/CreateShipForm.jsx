@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, {useState} from 'react';
 import {Form, Formik, useField, useFormikContext} from 'formik';
 import * as Yup from 'yup';
 import {InputText} from 'primereact/inputtext';
@@ -9,15 +9,12 @@ import {Dropdown} from "primereact/dropdown";
 import {add} from "../../api/ship";
 import {InputNumber} from "primereact/inputnumber";
 import './custom_ship.css';
-
 const MyTextInput = ({label, ...props}) => {
     const [field, meta] = useField(props);
-
     return (
         <div className="p-field p-col-12 p-md-6 tao-tau-field">
             <label htmlFor={props.id || props.name}>{label}</label>
             <InputText id={props.id || props.name} {...field} {...props} />
-
             {meta.touched && meta.error ? (
                 <small className="p-error">{meta.error}</small>
             ) : null}
@@ -40,8 +37,8 @@ const MyDoubleInput = ({ label, ...props }) => {
                 value={field.value}
                 onValueChange={handleChange}
                 inputId="locale-user"
-                minFractionDigits={2}
                 {...props}
+                locale="vi-VN"
             />
             {meta.touched && meta.error ? (
                 <small className="p-error">{meta.error}</small>
@@ -95,8 +92,12 @@ const CreateShipForm = ({ fetchShips,showToast }) => {
                         status: '',
                     }}
                     validationSchema={Yup.object({
-                        name: Yup.string().required('Không được để trống'),
-                        company: Yup.string().required('Không được để trống'),
+                        name: Yup.string().required('Không được để trống').test('valid-name', 'Tên không được bắt đầu ký tự đặc biệt', value => {
+                            return !value || (!value.startsWith(' ') && /^[\p{L}\p{N}]/u.test(value));
+                        }),
+                        company: Yup.string().required('Không được để trống').test('valid-name', 'Tên không được bắt đầu ký tự đặc biệt', value => {
+                            return !value || (!value.startsWith(' ') && /^[\p{L}\p{N}]/u.test(value));
+                        }),
                         capacity: Yup.number().required('Không được để trống').positive('Trọng tải phải là số dương'),
                         registrationNumber: Yup.string().required('Không được để trống'),
                         yearBuilt: Yup.number().required('Không được để trống').max(new Date().getFullYear(), 'Năm phải nhỏ hơn hoặc bằng năm hiện tại'),
@@ -140,8 +141,10 @@ const CreateShipForm = ({ fetchShips,showToast }) => {
                             label="Trọng tải"
                             name="capacity"
                             type="text"
+                            suffix=" TEU"
                         />
                         <MyTextInput
+                            keyfilter={/^[a-zA-Z0-9-_]+$/}
                             label="Số đăng ký"
                             name="registrationNumber"
                             type="text"
@@ -149,7 +152,8 @@ const CreateShipForm = ({ fetchShips,showToast }) => {
                         <MyTextInput
                             label="Năm thành lập"
                             name="yearBuilt"
-                            type = "text"
+                            type = "number"
+
                         />
 
                         <div className="p-col-12">
