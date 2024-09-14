@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
@@ -12,8 +12,9 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'app/(main)/uikit/khaiBaoSI/khaibao.css';
 import {Toast} from 'primereact/toast';
+import {InputText} from "primereact/inputtext";
 
-export default function Table({ SIs }) {
+export default function Table({SIs}) {
     const [selectedSI, setSelectedSI] = useState(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [isFormDialogVisible, setIsFormDialogVisible] = useState(false);
@@ -23,6 +24,14 @@ export default function Table({ SIs }) {
     const [cargoTypes, setCargoTypes] = useState([]);
     const [siData, setSiData] = useState({});
     const [dialogTitle, setDialogTitle] = useState(''); // New state for dialog title
+    const [searchType, setSearchType] = useState('ship.registrationNumber');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const searchTypes = [
+        {label: 'Mã tàu', value: 'ship.registrationNumber'},
+        {label: 'Tài khoản cấp rỗng', value: 'customer.username'},
+        {label: 'Tên cảng', value: 'portLocation.portName'},
+    ];
 
     useEffect(() => {
         fetchCargoTypes();
@@ -66,10 +75,10 @@ export default function Table({ SIs }) {
     const showDetails = async (si) => {
         const detailsWithSize = await Promise.all(si.details.map(async (detail) => {
             const containerSize = await fetchContainerSize(detail.containerCode);
-            return { ...detail, containerSize };
+            return {...detail, containerSize};
         }));
 
-        setSelectedSI({ ...si, details: detailsWithSize });
+        setSelectedSI({...si, details: detailsWithSize});
         setIsDialogVisible(true);
     };
 
@@ -111,21 +120,32 @@ export default function Table({ SIs }) {
         try {
             if (dialogTitle === 'Khai báo SI') {
                 await axios.post(`https://auth.g42.biz/api/si`, payload);
-                toast.current.show({severity:'success', summary: 'Thành công', detail:'Khai báo SI thành công', life: 3000});
+                toast.current.show({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Khai báo SI thành công',
+                    life: 3000
+                });
             } else if (dialogTitle === 'Chỉnh sửa SI') {
                 await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload);
-                toast.current.show({severity:'success', summary: 'Thành công', detail:'Cập nhật SI thành công', life: 3000});
+                toast.current.show({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: 'Cập nhật SI thành công',
+                    life: 3000
+                });
             }
             hideFormDialog();
             fetchSIData(); // Refresh SI data after submitting
         } catch (error) {
             console.error('Error submitting SI:', error);
-            toast.current.show({severity:'warn', summary: 'Thất bại', detail:'Khai báo SI thất bại', life: 3000});
+            toast.current.show({severity: 'warn', summary: 'Thất bại', detail: 'Khai báo SI thất bại', life: 3000});
         }
     };
 
     const emptyDetail = (rowData) => {
-        return <i className="pi pi-eye" onClick={() => showDetails(rowData)} style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}/>;
+        return <i className="pi pi-eye" onClick={() => showDetails(rowData)}
+                  style={{fontSize: '1.2rem', marginRight: '10px', marginLeft: '10px'}}/>;
     };
 
     const si = (rowData) => {
@@ -133,7 +153,7 @@ export default function Table({ SIs }) {
         return (
             <Button
                 text
-                onClick={() => showFormDialog(rowData) }
+                onClick={() => showFormDialog(rowData)}
             >
                 {existingSI ? '🔄️ Chỉnh sửa' : 'ℹ️ Khai báo'}
             </Button>
@@ -141,19 +161,57 @@ export default function Table({ SIs }) {
     };
 
     const dialogFooter = (
-        <Button label="Close" icon="pi pi-times" onClick={hideDialog} className="p-button-text" />
+        <Button label="Close" icon="pi pi-times" onClick={hideDialog} className="p-button-text"/>
     );
 
     const formDialogFooter = (
         <div>
-            <Button label="Cancel" icon="pi pi-times" onClick={hideFormDialog} className="p-button-text" />
-            <Button label="Submit" icon="pi pi-check" onClick={submitSI} autoFocus />
+            <Button label="Cancel" icon="pi pi-times" onClick={hideFormDialog} className="p-button-text"/>
+            <Button label="Submit" icon="pi pi-check" onClick={submitSI} autoFocus/>
         </div>
     );
+    const filteredSIs = useMemo(() => {
+        if (!searchQuery) return SIs;
 
+        return SIs.filter((si) => {
+            let fieldValue = '';
+
+            switch (searchType) {
+                case 'customer.username':
+                    fieldValue = si.customer?.username || '';
+                    break;
+                case 'portLocation.portName':
+                    fieldValue = si.portLocation?.portName || '';
+                    break;
+                case 'ship.registrationNumber':
+                    fieldValue = si.ship?.registrationNumber || '';
+                    break;
+                default:
+                    fieldValue = '';
+            }
+
+            return fieldValue.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [searchType, searchQuery, SIs]);
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Khai báo SI</span>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <Dropdown
+                    value={searchType}
+                    options={searchTypes}
+                    onChange={(e) => setSearchType(e.value)}
+                    optionLabel="label"
+                    placeholder="Chọn loại tìm kiếm"
+                    style={{width: '200px', marginRight: '10px'}}
+                />
+                <InputText
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm"
+                    style={{width: '300px'}}
+                />
+            </div>
         </div>
     );
 
@@ -165,12 +223,15 @@ export default function Table({ SIs }) {
                 {details.map((detail, index) => (
                     detail.containerSize ? (
                         <React.Fragment key={index}>
-                            <li><p>Mã container:     {detail.containerCode}</p></li>
-                            <li><p>Loại container:   {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p></li>
-                            <li><p>Kích thước:       {detail.containerSize.length} m x {detail.containerSize.width} m x {detail.containerSize.height} m</p></li>
-                            <li><p>Thể tích:         {detail.containerSize.volume} m³</p></li>
-                            <li><p>Cân nặng:         {detail.containerSize.weight} tấn</p></li>
-                            <li><p>Tải trọng:        {detail.containerSize.loadCapacity} tấn</p></li>
+                            <li><p>Mã container: {detail.containerCode}</p></li>
+                            <li><p>Loại
+                                container: {detail.containerSize.containerType.name} x {detail.containerSize.containerType.type}</p>
+                            </li>
+                            <li><p>Kích thước: {detail.containerSize.length} m x {detail.containerSize.width} m
+                                x {detail.containerSize.height} m</p></li>
+                            <li><p>Thể tích: {detail.containerSize.volume} m³</p></li>
+                            <li><p>Cân nặng: {detail.containerSize.weight} tấn</p></li>
+                            <li><p>Tải trọng: {detail.containerSize.loadCapacity} tấn</p></li>
                             <li><p>Tải trọng tối đa: {detail.containerSize.maxLoad} tấn</p></li>
                         </React.Fragment>
                     ) : (
@@ -184,8 +245,9 @@ export default function Table({ SIs }) {
 
     return (
         <div className="card">
-            <Toast ref={toast} />
-            <DataTable value={SIs} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} className="custom-datatable" showGridlines paginator rows={20}>
+            <Toast ref={toast}/>
+            <DataTable value={filteredSIs} header={header} footer={footer} tableStyle={{minWidth: '60rem'}}
+                       className="custom-datatable" showGridlines paginator rows={20}>
                 <Column field="customer.username" header="Tài khoản cấp rỗng"></Column>
                 <Column field="portLocation.portName" header="Tên cảng"></Column>
                 <Column field="ship.registrationNumber" header="Tên tàu"></Column>
@@ -193,7 +255,8 @@ export default function Table({ SIs }) {
                 <Column header="Khai báo SI" body={si}></Column>
             </DataTable>
 
-            <Dialog header="Chi tiết Container" visible={isDialogVisible} style={{ width: '50vw' }} footer={dialogFooter} onHide={hideDialog}>
+            <Dialog header="Chi tiết Container" visible={isDialogVisible} style={{width: '50vw'}} footer={dialogFooter}
+                    onHide={hideDialog}>
                 {selectedSI && (
                     <div>
                         <h5>Thông tin chi tiết:</h5>
@@ -236,7 +299,7 @@ export default function Table({ SIs }) {
                             id="cargoVolume"
                             value={cargoVolume}
                             onValueChange={(e) => setCargoVolume(e.value)}
-                            style={{width: '100%', maxWidth: '300px'}} // Ensures the input number is the same width
+                            style={{width: '100%', maxWidth: '300px'}}
                         />
                     </div>
                 </div>

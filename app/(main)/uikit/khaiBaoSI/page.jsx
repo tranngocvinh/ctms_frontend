@@ -9,13 +9,13 @@ import {isCustomer, isManager} from "../../../verifyRole";
 export default function KhaiBaoSI() {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken)) {
+    if (!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
-    const [SI,setSI] = useState([])
+    const [SI, setSI] = useState([])
     const [loading, setLoading] = useState(false);
 
-    const fetchSIs = () =>{
+    const fetchSIs = () => {
         setLoading(true);
 
         getEmptyContainertoAddSI().then(res => {
@@ -33,13 +33,14 @@ export default function KhaiBaoSI() {
     if (loading) {
         return (
             <div className="card">
-                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)"
+                                 animationDuration=".5s"/>
             </div>
         )
     }
-    return(
+    return (
         <>
-            <Table  SIs={SI} fetchSIs={fetchSIs}/>
+            <Table SIs={SI} fetchSIs={fetchSIs}/>
         </>
     )
 }
