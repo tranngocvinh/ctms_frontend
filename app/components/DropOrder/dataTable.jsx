@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
@@ -6,13 +6,13 @@ import {Dialog} from 'primereact/dialog';
 import {Calendar} from 'primereact/calendar';
 import {Dropdown} from 'primereact/dropdown';
 import axios from 'axios';
-
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import './droporder.css';
+import {InputText} from "primereact/inputtext";
 
-export default function DropOrderTable({ SI, fetchSI, showToast }) {
+export default function DropOrderTable({SI, fetchSI, showToast}) {
     const [selectedSI, setSelectedSI] = useState(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [dropDate, setDropDate] = useState(null);
@@ -26,7 +26,11 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
     const [buttonLabel, setButtonLabel] = useState('Phát hành');
     const [dropOrder, setDropOrder] = useState({});
     const [emptyContainer, setEmptyContainer] = useState({});
-
+    const [searchType, setSearchType] = useState('dropOrderId');
+    const [searchQuery, setSearchQuery] = useState('');
+    const searchTypes = [
+        { label: 'Mã lệnh', value: 'dropOrderId' }
+    ];
 
 
     useEffect(() => {
@@ -45,7 +49,7 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
     })
     const fetchSIData = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`,getAuthConfig());
+            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`, getAuthConfig());
             const dropOrderIdMap = {};
             response.data.forEach(si => {
                 dropOrderIdMap[si.si] = si;
@@ -56,9 +60,9 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
         }
     };
 
-     const getEmptyContainer = async (id) => {
+    const getEmptyContainer = async (id) => {
         try {
-            const response =  await axios.get(
+            const response = await axios.get(
                 `https://auth.g42.biz/api/containers/allocate/ship/${id}`
             )
             setEmptyContainer(response.data)
@@ -114,7 +118,7 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
         setDropOrderId(null);
 
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`,getAuthConfig());
+            const response = await axios.get(`https://auth.g42.biz/api/drop-orders`, getAuthConfig());
             const existingOrder = response.data.find(order => order.si === si.id);
 
             if (existingOrder) {
@@ -150,17 +154,18 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
         try {
             if (dialogTitle === 'Chỉnh sửa lệnh hạ hàng') {
                 await axios.put(`https://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload);
-                showToast("success","Thành công", "Chỉnh sửa lệnh hạ hàng thành công")
+                showToast("success", "Thành công", "Chỉnh sửa lệnh hạ hàng thành công")
             } else {
                 await axios.post(`https://auth.g42.biz/api/drop-orders`, payload);
-                showToast("success","Thành công", "Thêm lệnh hạ hàng thành công")
+                showToast("success", "Thành công", "Thêm lệnh hạ hàng thành công")
             }
             hideFormDialog();
             setTimeout(() => {
                 fetchSI();
-            }, 1000);        } catch (error) {
+            }, 1000);
+        } catch (error) {
             console.error('Error submitting drop order:', error);
-            showToast("error","Thất bại", "Thêm lệnh hạ hàng thất bại")
+            showToast("error", "Thất bại", "Thêm lệnh hạ hàng thất bại")
         }
     };
 
@@ -174,14 +179,48 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
 
     const dialogFooter = (
         <div>
-            <Button label="Cancel" icon="pi pi-times" onClick={hideFormDialog} className="p-button-text" />
-            <Button label={buttonLabel} icon="pi pi-check" onClick={submitDropOrder} autoFocus />
+            <Button label="Cancel" icon="pi pi-times" onClick={hideFormDialog} className="p-button-text"/>
+            <Button label={buttonLabel} icon="pi pi-check" onClick={submitDropOrder} autoFocus/>
         </div>
     );
+
+    const filteredSIs = useMemo(() => {
+        if (!searchQuery) return SI;
+
+        return SI.filter((si) => {
+            let fieldValue = '';
+
+            switch (searchType) {
+                case 'dropOrderId':
+                    fieldValue = dropOrder[si.id]?.id || '';
+                    break;
+                default:
+                    fieldValue = '';
+            }
+
+            return fieldValue.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    }, [searchType, searchQuery, SI, dropOrder]);
 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Phát hành lệnh hạ hàng</span>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Dropdown
+                    value={searchType}
+                    options={searchTypes}
+                    onChange={(e) => setSearchType(e.value)}
+                    optionLabel="label"
+                    placeholder="Chọn loại tìm kiếm"
+                    style={{ width: '200px', marginRight: '10px' }}
+                />
+                <InputText
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm"
+                    style={{ width: '300px' }}
+                />
+            </div>
         </div>
     );
 
@@ -190,13 +229,13 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
     };
 
     const cargoWeight = (rowData) => {
-        return (<div style={{ display: 'flex', alignItems: 'center' }}>
-           <p>{rowData.cargoWeight.toLocaleString('en-US')}</p>
+        return (<div style={{display: 'flex', alignItems: 'center'}}>
+            <p>{rowData.cargoWeight.toLocaleString('en-US')}</p>
         </div>)
     }
 
-    const cargoVolume = (rowData) =>{
-        return(
+    const cargoVolume = (rowData) => {
+        return (
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <p>{rowData.cargoVolume.toLocaleString('en-US')}</p>
             </div>
@@ -207,14 +246,17 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
 
     return (
         <div className="card">
-            <DataTable value={SI} header={header} footer={footer} tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable">
+            <DataTable value={filteredSIs} header={header} footer={footer} tableStyle={{minWidth: '60rem'}} showGridlines
+                       className="custom-datatable" paginator rows={20}>
+                <Column header="Mã lệnh" body={(rowData) => dropOrder[rowData.id] ? dropOrder[rowData.id].id : 'Đang cập nhật...'}></Column>
                 <Column header="Loaị hàng" body={cargoType}></Column>
                 <Column field="cargoWeight" header="Trọng lượng hàng" body={cargoWeight}></Column>
                 <Column field="cargoVolume" header="Thể tích hàng" body={cargoVolume}></Column>
                 <Column header="Phát hành lệnh hạ hàng" body={issueDropOrder}></Column>
             </DataTable>
 
-            <Dialog header={dialogTitle} visible={isDialogVisible} style={{ width: '50vw' }} footer={dialogFooter} onHide={hideFormDialog}>
+            <Dialog header={dialogTitle} visible={isDialogVisible} style={{width: '50vw'}} footer={dialogFooter}
+                    onHide={hideFormDialog}>
                 {selectedSI && (
                     <div>
                         <h5>Thông tin chi tiết Container:</h5>
@@ -229,11 +271,12 @@ export default function DropOrderTable({ SI, fetchSI, showToast }) {
                                 <label htmlFor="dropDate" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Ngày hạ
                                     hàng</label>
                                 <Calendar
-                                    id="dropDate" value={dropDate} onChange={(e) => setDropDate(e.value)} showTime showSeconds
+                                    id="dropDate" value={dropDate} onChange={(e) => setDropDate(e.value)} showTime
+                                    showSeconds
                                     style={{
                                         width: '100%',
                                         maxWidth: '300px'
-                                    }} />
+                                    }}/>
                             </div>
                             <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
                                 <label htmlFor="dropLocation" style={{marginBottom: '0.5rem', fontWeight: 'bold'}}>Địa

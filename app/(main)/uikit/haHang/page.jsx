@@ -10,18 +10,18 @@ import {isCustomer, isManager} from "../../../verifyRole";
 export default function DropOrder() {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken)) {
+    if (!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
-    const [SI,setSI] = useState([])
+    const [SI, setSI] = useState([])
     const [loading, setLoading] = useState(false);
     const toast = useRef(null);
 
-    const showToast = (severity,summary,detail) => {
-        toast.current.show({severity:severity, summary: summary, detail:detail, life: 3000});
+    const showToast = (severity, summary, detail) => {
+        toast.current.show({severity: severity, summary: summary, detail: detail, life: 3000});
     }
 
-    const fetchSI = () =>{
+    const fetchSI = () => {
         setLoading(true);
 
         getAllSIs().then(res => {
@@ -39,13 +39,14 @@ export default function DropOrder() {
     if (loading) {
         return (
             <div className="card">
-                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)"
+                                 animationDuration=".5s"/>
             </div>
         )
     }
-    return(
+    return (
         <>
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
             <DropOrderTable SI={SI} fetchSI={fetchSI} showToast={showToast}/>
         </>
     )

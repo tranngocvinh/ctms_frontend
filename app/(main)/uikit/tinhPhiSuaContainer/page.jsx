@@ -6,16 +6,17 @@ import {ProgressSpinner} from 'primereact/progressspinner';
 import {getAllRepair} from "../../../api/repair";
 import Table from "../../../components/RepairFee/dataTable";
 import {isCustomer, isManager, isStaff} from "../../../verifyRole";
+
 export default function RepairFee() {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-    if(!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken) && !isStaff(jwtToken, authToken)){
+    if (!isManager(jwtToken, authToken) && !isCustomer(jwtToken, authToken) && !isStaff(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
-    const [repair,setRepair] = useState([])
+    const [repair, setRepair] = useState([])
     const [loading, setLoading] = useState(false);
 
-    const fetchRepair = () =>{
+    const fetchRepair = () => {
         setLoading(true);
 
         getAllRepair().then(res => {
@@ -33,11 +34,12 @@ export default function RepairFee() {
     if (loading) {
         return (
             <div className="card">
-                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)"
+                                 animationDuration=".5s"/>
             </div>
         )
     }
-    return(
+    return (
         <>
             <Table repair={repair} fetchRepair={fetchRepair}/>
         </>

@@ -1,5 +1,5 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Button} from 'primereact/button';
@@ -14,6 +14,7 @@ import {Dialog} from "primereact/dialog";
 import {handlePayment} from "../../api/repair";
 import './repair.css';
 import {isCustomer, isManager, isStaff} from "../../verifyRole";
+import {InputText} from "primereact/inputtext";
 
 export default function Table({ repair, fetchRepair }) {
     const [suppliers, setSuppliers] = useState([]);
@@ -22,7 +23,7 @@ export default function Table({ repair, fetchRepair }) {
     const [userRole, setUserRole] = useState('');
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
-
+    const [searchQuery, setSearchQuery] = useState('');
     useEffect(() => {
         let role = '';
         if (isManager(jwtToken, authToken)) {
@@ -105,9 +106,21 @@ export default function Table({ repair, fetchRepair }) {
     const repairCost = (rowData) => {
         return <p>{rowData.repairCode.toLocaleString('en-US')}</p>
     }
+    const filteredRepairs = useMemo(() => {
+        if (!searchQuery) return repair;
+
+        return repair.filter(item => item.containerCode.toLowerCase().includes(searchQuery.toLowerCase()));
+    }, [searchQuery, repair]);
+
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
             <span className="text-xl text-900 font-bold">Thanh toán phí sửa chữa container</span>
+            <InputText
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kiếm Mã container"
+                style={{ width: '300px' }}
+            />
         </div>
     );
 
@@ -116,7 +129,7 @@ export default function Table({ repair, fetchRepair }) {
 
     return (
         <div className="card">
-            <DataTable value={repair} header={header}  tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable">
+            <DataTable value={filteredRepairs} header={header} tableStyle={{ minWidth: '60rem' }} showGridlines className="custom-datatable" paginator rows={20}>
                 <Column field="containerCode" header={renderHeaderWithIcon('', 'Mã container')} body={name}></Column>
                 <Column field="containerSupplierId" body={supplier} header={renderHeaderWithIcon('', 'Đơn vị sửa chữa')} ></Column>
                 <Column field="repairCode" header={renderHeaderWithIcon('', 'Giá sửa chữa')} body={repairCost} ></Column>
