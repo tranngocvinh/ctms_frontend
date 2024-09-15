@@ -144,6 +144,7 @@ const RepairContainerForm = ({ container, fetchContainers }) => {
                                 label="Chi phí sửa chữa (VND)"
                                 name="repairCost"
                                 type="number"
+                                keyfilter="num"
                                 placeholder="Nhập chi phí sửa chữa"
                             />
                             <MyCalendar
