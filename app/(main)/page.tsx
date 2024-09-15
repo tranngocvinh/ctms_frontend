@@ -361,9 +361,8 @@ const Dashboard = () => {
             {/*Phê duyệt lệnh cấp rỗng*/}
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Lệnh cấp container rỗng</h5>
                     <div className="flex flex-wrap align-items-center justify-content-between gap-2">
-                        <span className="text-xl text-900 font-bold">Tìm kiếm Khách hàng</span>
+                        <h5>Lệnh cấp container rỗng</h5>
                         <InputText
                             value={searchCustomerQuery}
                             onChange={(e) => setSearchCustomerQuery(e.target.value)}

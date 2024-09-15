@@ -3,7 +3,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {getShip} from "../../../api/ship";
-import Table from "../../../components/ship/dataTable";
+import Table from "../../../components/Ship/dataTable";
 import {Toast} from 'primereact/toast';
 import {isAdmin} from "../../../verifyRole";
 
