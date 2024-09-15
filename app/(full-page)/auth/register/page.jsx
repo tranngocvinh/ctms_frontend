@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Password } from 'primereact/password';
-import { Button } from 'primereact/button';
-import { classNames } from 'primereact/utils';
+import React, {useEffect, useState} from 'react';
+import {useRouter} from 'next/navigation';
+import {Password} from 'primereact/password';
+import {Button} from 'primereact/button';
+import {classNames} from 'primereact/utils';
 import AppHeader from '../login/AppHeader';
 import axios from 'axios';
 

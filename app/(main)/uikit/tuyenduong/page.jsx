@@ -20,6 +20,7 @@ import {Dropdown} from "primereact/dropdown";
 import ErrorGlobal from "../../../components/error_message_global";
 import "./tuyenduong.css";
 import {isAdmin} from "../../../verifyRole";
+
 const MapComponent = dynamic(() => import("../../../components/Route/MapComponent"), { ssr: false });
 const {
     blankError,

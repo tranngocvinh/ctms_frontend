@@ -5,7 +5,7 @@ import {ProgressSpinner} from 'primereact/progressspinner';
 import {getShip} from "../../../api/ship";
 import Table from "../../../components/ship/dataTable";
 import {Toast} from 'primereact/toast';
-import {isAdmin, isManager} from "../../../verifyRole";
+import {isAdmin} from "../../../verifyRole";
 
 export default function ShipManage() {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -22,7 +22,6 @@ export default function ShipManage() {
     };
     const fetchShips = () => {
         setLoading(true);
-
         getShip().then(res => {
             setShips(res.data)
         }).catch(err => {
@@ -46,7 +45,6 @@ export default function ShipManage() {
     return (
         <>
             <Toast ref={toast}/>
-
             <Table ships={ships} fetchShips={fetchShips} showToast={showToast}/>
         </>
     )

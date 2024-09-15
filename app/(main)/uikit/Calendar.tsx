@@ -1,5 +1,6 @@
 import React from 'react';
 import './calendar.css';
+
 const Calendar: React.FC = () => {
     const today = new Date();
     const currentDay = today.getDate();
