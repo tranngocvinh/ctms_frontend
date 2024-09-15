@@ -5,7 +5,6 @@ import React from 'react';
 
 const Dashboard = () => {
 
-
     return (
         <div className="h1"><img alt="picture" src="https://vimc.co/wp-content/uploads/2020/08/Slide-vimc-3.png"/><br/>
             About us<br/>

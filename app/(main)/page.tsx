@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint react-hooks/rules-of-hooks: 0 */
 'use client';
 import {Button} from 'primereact/button';
 import {
@@ -17,12 +18,15 @@ import {Line} from 'react-chartjs-2'; // Import Line from react-chartjs-2
 import {Column} from 'primereact/column';
 import {DataTable} from 'primereact/datatable';
 import {Menu} from 'primereact/menu';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {LayoutContext} from '@/layout/context/layoutcontext';
 import {getEmptyContainerById, getEmptyContainers, isUpdateApproved} from "@/app/api/container";
 import EmptyContainerDetailModal from './EmptyContainerDetailModal';
 import Calendar from "@/app/(main)/uikit/Calendar";
 import axios from "axios";
+import {isManager, isStaff} from "../verifyRole";
+import {useRouter} from 'next/navigation';
+import {InputText} from "primereact/inputtext";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -40,7 +44,7 @@ interface LineChartProps {
     };
 }
 
-const LineChart: React.FC<LineChartProps> = ({ apiUrls, labels, colors }) => {
+const LineChart: React.FC<LineChartProps> = ({apiUrls, labels, colors}) => {
     const [lineData, setLineData] = useState<ChartData<'line'>>({
         labels: labels,
         datasets: []
@@ -96,23 +100,41 @@ const LineChart: React.FC<LineChartProps> = ({ apiUrls, labels, colors }) => {
         fetchData();
     }, [apiUrls, labels, colors]);
 
-    return <Line data={lineData} />;
+    return <Line data={lineData}/>;
 };
 
+interface Customer {
+    username: string;
+}
 
+// Define an interface for the Product
+interface Product {
+    id: number;
+    customer: Customer;
+    requestTime: string;
+    isApproved: boolean;
+}
 
 const Dashboard = () => {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const menu1 = useRef<Menu>(null);
     const menu2 = useRef<Menu>(null);
     const [lineOptions, setLineOptions] = useState<ChartOptions>({});
-    const { layoutConfig } = useContext(LayoutContext);
+    const {layoutConfig} = useContext(LayoutContext);
     const [selectedContainer, setSelectedContainer] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [totalDetFee, setTotalDetFee] = useState(0);
     const [totalPaidRepairCost, setTotalPaidRepairCost] = useState(0);
     const [totalCusTomer, setTotalCusTomer] = useState(0);
     const [totalDelivery, setTotalDelivery] = useState(0);
+    const jwtToken = localStorage.getItem('jwtToken');
+    const authToken = localStorage.getItem('authToken');
+    const [searchCustomerQuery, setSearchCustomerQuery] = useState('');
+    const router = useRouter();
+    if (!isManager(jwtToken, authToken) && !isStaff(jwtToken, authToken)) {
+        router.push('/pages/landing');
+        return null;
+    }
 
     useEffect(() => {
         fetch(`https://auth.g42.biz/api/drop-orders/detfee/sum`)
@@ -133,14 +155,14 @@ const Dashboard = () => {
             .then(response => response.json())
             .then(data => setTotalCusTomer(data))
             .catch(error => console.error('Error fetching customer count:', error));
-    },[]);
+    }, []);
 
     useEffect(() => {
         fetch(`https://auth.g42.biz/api/delivery-orders/cost/paid`)
             .then(response => response.json())
             .then(data => setTotalDelivery(data))
             .catch(error => console.error('Error fetching delivery cost:', error));
-    },[]);
+    }, []);
 
     const applyLightTheme = () => {
         const lineOptions: ChartOptions = {
@@ -257,11 +279,19 @@ const Dashboard = () => {
     };
 
     const view = (value: number) => {
-        return <Button icon="pi pi-search" text onClick={() => handleViewDetails(value)} />;
+        return <Button icon="pi pi-search" text onClick={() => handleViewDetails(value)}/>;
     };
 
+    const filteredProducts = useMemo(() => {
+        if (!searchCustomerQuery) return products;
+
+        return products.filter((product) => {
+            const customer = product.customer as { username: string };
+            return customer.username.toLowerCase().includes(searchCustomerQuery.toLowerCase());
+        });
+    }, [searchCustomerQuery, products]);
     const isApproved = (value: number) => {
-        return <Button icon="pi pi-check" text onClick={() => updateIsApproved(value)} />;
+        return <Button icon="pi pi-check" text onClick={() => updateIsApproved(value)}/>;
     };
 
     return (
@@ -273,8 +303,9 @@ const Dashboard = () => {
                             <span className="block text-500 font-medium mb-3">Tổng số tiền phí DET</span>
                             <div className="text-900 font-medium text-xl">{totalDetFee.toLocaleString()} VNĐ</div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-shopping-cart text-blue-500 text-xl" />
+                        <div className="flex align-items-center justify-content-center bg-blue-100 border-round"
+                             style={{width: '2.5rem', height: '2.5rem'}}>
+                            <i className="pi pi-shopping-cart text-blue-500 text-xl"/>
                         </div>
                     </div>
 
@@ -285,10 +316,12 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Tổng số tiền phí sửa chữa container</span>
-                            <div className="text-900 font-medium text-xl">{totalPaidRepairCost.toLocaleString()} VNĐ</div>
+                            <div className="text-900 font-medium text-xl">{totalPaidRepairCost.toLocaleString()} VNĐ
+                            </div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-map-marker text-orange-500 text-xl" />
+                        <div className="flex align-items-center justify-content-center bg-orange-100 border-round"
+                             style={{width: '2.5rem', height: '2.5rem'}}>
+                            <i className="pi pi-map-marker text-orange-500 text-xl"/>
                         </div>
                     </div>
 
@@ -301,8 +334,9 @@ const Dashboard = () => {
                             <span className="block text-500 font-medium mb-3">Tổng chi phí giao hàng</span>
                             <div className="text-900 font-medium text-xl">{totalDelivery.toLocaleString()} VNĐ</div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-inbox text-cyan-500 text-xl" />
+                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                             style={{width: '2.5rem', height: '2.5rem'}}>
+                            <i className="pi pi-inbox text-cyan-500 text-xl"/>
                         </div>
                     </div>
 
@@ -315,8 +349,9 @@ const Dashboard = () => {
                             <span className="block text-500 font-medium mb-3">Số lượng người dùng</span>
                             <div className="text-900 font-medium text-xl">{totalCusTomer}</div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-comment text-purple-500 text-xl" />
+                        <div className="flex align-items-center justify-content-center bg-purple-100 border-round"
+                             style={{width: '2.5rem', height: '2.5rem'}}>
+                            <i className="pi pi-comment text-purple-500 text-xl"/>
                         </div>
                     </div>
 
@@ -327,17 +362,28 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <h5>Lệnh cấp container rỗng</h5>
-                    <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column field="customer.username" header="Khách hàng" sortable style={{ width: '35%' }} />
-                        <Column header="Thời gian" sortable style={{ width: '35%' }} body={(data) => formatTime(data.requestTime)} />
-                        <Column field="isApproved" header="Duyệt" sortable style={{ width: '15%' }} body={(data) => isApproved(data.id)} />
-                        <Column header="View" style={{ width: '15%' }} body={(data) => view(data.id)} />
+                    <div className="flex flex-wrap align-items-center justify-content-between gap-2">
+                        <span className="text-xl text-900 font-bold">Tìm kiếm Khách hàng</span>
+                        <InputText
+                            value={searchCustomerQuery}
+                            onChange={(e) => setSearchCustomerQuery(e.target.value)}
+                            placeholder="Tìm kiếm Khách hàng"
+                            style={{width: '300px'}}
+                        />
+                    </div>
+                    <DataTable value={filteredProducts} rows={5} paginator responsiveLayout="scroll">
+                        <Column field="customer.username" header="Khách hàng" sortable style={{width: '35%'}}/>
+                        <Column header="Thời gian" sortable style={{width: '35%'}}
+                                body={(data) => formatTime(data.requestTime)}/>
+                        <Column field="isApproved" header="Duyệt" sortable style={{width: '15%'}}
+                                body={(data) => isApproved(data.id)}/>
+                        <Column header="View" style={{width: '15%'}} body={(data) => view(data.id)}/>
                     </DataTable>
                 </div>
                 <div className="card">
                     {/*<h5>Lịch hôm nay</h5>*/}
                     <div className="flex justify-content-center align-items-center">
-                        <Calendar />
+                        <Calendar/>
                     </div>
                 </div>
             </div>
