@@ -61,20 +61,20 @@ const DeliveryOrderTable = () => {
 
     const fetchData = () => {
         axios
-            .get(`https://auth.g42.biz/api/delivery-orders`,getAuthConfig())
+            .get(`http://localhost:8080/api/delivery-orders`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, deliveryOrders: response.data })));
         axios
-            .get(`https://auth.g42.biz/api/v1/customers`)
+            .get(`http://localhost:8080/api/v1/customers`)
             .then((response) => setState((prev) => ({ ...prev, customers: response.data })));
         axios
-            .get(`https://auth.g42.biz/api/schedules`)
+            .get(`http://localhost:8080/api/schedules`)
             .then((response) => setState((prev) => ({ ...prev, schedules: response.data })));
         fetchContainers(); // Initial fetch for containers
     };
 
     const fetchContainers = () => {
         axios
-            .get(`https://auth.g42.biz/api/containers`, getAuthConfig())
+            .get(`http://localhost:8080/api/containers`, getAuthConfig())
             .then((response) => setState((prev) => ({
                 ...prev,
                 containers: [...prev.containers, ...response.data] // This should set the containers correctly
@@ -83,7 +83,7 @@ const DeliveryOrderTable = () => {
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
         axios
-            .get(`https://auth.g42.biz/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
+            .get(`http://localhost:8080/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
             .then((response) => {
                 const newShipScheduleContainerMap = response.data.reduce(
                     (map, shipSchedule) => ({ ...map, [shipSchedule.id]: [] }),
@@ -102,8 +102,8 @@ const DeliveryOrderTable = () => {
     const saveDeliveryOrder = () => {
         if (state.deliveryOrder.customerId && state.deliveryOrder.scheduleId) {
             const saveRequest = state.deliveryOrder.id
-                ? axios.put(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
-                : axios.post(`https://auth.g42.biz/api/delivery-orders`, state.deliveryOrder);
+                ? axios.put(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
+                : axios.post(`http://localhost:8080/api/delivery-orders`, state.deliveryOrder);
 
             saveRequest.then((response) => {
                 fetchData();
@@ -119,7 +119,7 @@ const DeliveryOrderTable = () => {
     };
 
     const deleteDeliveryOrder = () => {
-        axios.delete(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
+        axios.delete(`http://localhost:8080/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
             updateState({
                 deliveryOrders: state.deliveryOrders.filter((val) => val.id !== state.deliveryOrder.id),
                 deleteDeliveryOrderDialog: false,
@@ -137,11 +137,12 @@ const DeliveryOrderTable = () => {
     };
 
     const onInputChange = (e, name) => {
-        const val = (e.target && e.target.value) || "";
+        const val = e.value !== undefined ? e.value : e.target.value;
         updateState({
             deliveryOrder: { ...state.deliveryOrder, [name]: val },
         });
     };
+
 
     const onDropdownChange = (e, name) => {
         updateState({
@@ -305,9 +306,14 @@ const DeliveryOrderTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="totalAmount">Tổng tiền</label>
-                    <InputNumber id="totalAmount" mode="currency" currency="VND" locale="vi-VN"
-                               value={state.deliveryOrder.totalAmount}
-                               onChange={(e) => onInputChange(e, "totalAmount")} />
+                    <InputNumber
+                        id="totalAmount"
+                        value={state.deliveryOrder.totalAmount}
+                        onValueChange={(e) => onInputChange(e, "totalAmount")}
+                        mode="currency"
+                        currency="VND"
+                        locale="vi-VN"
+                    />
                 </div>
                 <div className="field">
                     <label htmlFor="status">Ghi chú 1</label>
