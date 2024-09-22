@@ -138,8 +138,55 @@ const DeliveryOrderTable = () => {
 
     const onInputChange = (e, name) => {
         const val = e.value !== undefined ? e.value : e.target.value;
+        let updatedOrder = { ...state.deliveryOrder, [name]: val };
+
+        if (name === "deliveryDate") {
+            const today = new Date();
+            const orderDate = new Date(updatedOrder.orderDate);
+            const deliveryDate = new Date(val);
+
+            if (deliveryDate < today) {
+                toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: "Ngày giao hàng không được nhỏ hơn ngày hiện tại",
+                    life: 3000,
+                });
+                updatedOrder.deliveryDate = null; // Clear the invalid input
+                updateState({ deliveryOrder: updatedOrder });
+                return;
+            }
+            if (deliveryDate <= orderDate) {
+                toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
+                    life: 3000,
+                });
+                updatedOrder.deliveryDate = null; // Clear the invalid input
+                updateState({ deliveryOrder: updatedOrder });
+                return;
+            }
+        }
+
+        if (name === "orderDate") {
+            const deliveryDate = new Date(updatedOrder.deliveryDate);
+            const orderDate = new Date(val);
+
+            if (deliveryDate > 0 && deliveryDate <= orderDate) {
+                toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
+                    life: 3000,
+                });
+                updatedOrder.orderDate = null;
+                updateState({ deliveryOrder: updatedOrder });
+                return;
+            }
+        }
         updateState({
-            deliveryOrder: { ...state.deliveryOrder, [name]: val },
+            deliveryOrder: updatedOrder,
         });
     };
 
@@ -175,20 +222,26 @@ const DeliveryOrderTable = () => {
                 <label htmlFor={`container_${shipSchedule.id}`}>Containers for ShipSchedule {shipSchedule.id}</label>
                 <List
                     height={150}
-                    itemCount={state.containers.length}
+                    itemCount={state.containers.filter(container => container.status === "In Port" && container.containerCode).length}
                     itemSize={35}
                     width={"100%"}
                 >
-                    {({ index, style }) => (
-                        <div style={style} key={state.containers[index].containerCode}>
-                            <Checkbox
-                                inputId={`container_${state.containers[index].containerCode}`}
-                                checked={state.deliveryOrder.shipScheduleContainerMap[shipSchedule.id]?.includes(state.containers[index].containerCode)}
-                                onChange={(e) => onContainerCheckboxChange(e, shipSchedule.id, state.containers[index].containerCode)}
-                            />
-                            <label htmlFor={`container_${state.containers[index].containerCode}`}> {state.containers[index].containerCode}</label>
-                        </div>
-                    )}
+                    {({ index, style }) => {
+                        const inPortContainers = state.containers
+                            .filter(container => container.status === "In Port" && container.containerCode);
+                        const container = inPortContainers[index];
+
+                        return (
+                            <div style={style} key={container.containerCode}>
+                                <Checkbox
+                                    inputId={`container_${container.containerCode}`}
+                                    checked={state.deliveryOrder.shipScheduleContainerMap[shipSchedule.id]?.includes(container.containerCode)}
+                                    onChange={(e) => onContainerCheckboxChange(e, shipSchedule.id, container.containerCode)}
+                                />
+                                <label htmlFor={`container_${container.containerCode}`}> {container.containerCode}</label>
+                            </div>
+                        );
+                    }}
                 </List>
             </div>
         ));
