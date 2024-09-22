@@ -1,0 +1,22 @@
+.custom-datatable .p-datatable-tbody > tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+.p-datatable-thead th,
+.p-datatable-tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.p-datatable-thead th .p-column-header-content,
+.p-datatable-tbody td div {
+    justify-content: center;
+    align-items: center;
+}
+
+.p-datatable-thead th,
+.p-datatable-tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+

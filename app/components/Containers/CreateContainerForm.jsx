@@ -23,7 +23,7 @@ const MyTextInput = ({ label, ...props }) => {
             <div className="col-12 md:col-8">
                 <div className="p-inputgroup">
                     <span className="p-inputgroup-addon">VIMC</span>
-                    <InputText id={props.id || props.name} {...field} {...props} keyfilter="num"/>
+                    <InputText id={props.id || props.name} {...field} {...props} keyfilter="pnum"/>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                     {meta.touched && meta.error ? (
@@ -249,7 +249,7 @@ const CreateContainerForm = ({ fetchContainers,showToast }) => {
                                 <MyTextInput
                                     label="Nhập mã định danh container"
                                     name="containerCode"
-                                    type="number"
+                                    type="text"
                                     placeholder="Mã định danh"
                                 />
 

@@ -250,7 +250,7 @@ const ContainerRepairSupplierTable = () => {
                 </DataTable>
             </div>
 
-            <Dialog visible={supplierDialog} style={{ width: '450px' }} header="Sửa thông tin" modal className="p-fluid" footer={supplierDialogFooter} onHide={hideDialog}>
+            <Dialog visible={supplierDialog} style={{ width: '450px' }} header="Thêm mới" modal className="p-fluid" footer={supplierDialogFooter} onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="name">Tên công ty</label>
                     <InputText id="name" value={supplier.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !supplier.name })} />

@@ -146,10 +146,10 @@ export default function Table({ships, fetchShips, showToast}) {
                        rows={20} showGridlines className="custom-datatable">
                 <Column field="name" header={renderHeaderWithIcon('Tên')} body={name}></Column>
                 <Column field="company" header={renderHeaderWithIcon('Công ty')} body={company}></Column>
-                <Column field="capacity" header={renderHeaderWithIcon('Trọng tải (TEU)')} body={capacity}></Column>
+                <Column field="capacity" header={renderHeaderWithIcon('Trọng tải')} body={capacity}></Column>
                 <Column field="registrationNumber" header={renderHeaderWithIcon('Số đăng ký')}
                         body={registrationNumber}></Column>
-                <Column field="yearBuilt" header={renderHeaderWithIcon('Năm xây dựng')} body={yearBuilt}></Column>
+                <Column field="yearBuilt" header={renderHeaderWithIcon('Năm')} body={yearBuilt}></Column>
                 <Column field="status" header={renderHeaderWithIcon('Trạng Thái')} body={status}></Column>
                 <Column header="Thao tác" body={ActionButtons}></Column>
             </DataTable>

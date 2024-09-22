@@ -26,7 +26,7 @@ export default function Delete({ repair, fetchRepair }) {
 
     return (
         <>
-            <Toast ref={toast} />
+            <Toast ref={toast}/>
             <ConfirmDialog
                 visible={visible}
                 onHide={() => setVisible(false)}
@@ -36,7 +36,8 @@ export default function Delete({ repair, fetchRepair }) {
                 accept={accept}
                 reject={reject}
             />
-            <Button onClick={() => setVisible(true)} severity="danger" label="Sửa xong" />
+            <i className="pi pi-check-circle" style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px', color: 'green'}}
+               onClick={() => setVisible(true)}/>
         </>
     );
 }

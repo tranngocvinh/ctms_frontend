@@ -31,7 +31,7 @@ const {
 } = ErrorGlobal;
 const requiredString = (errorMessage) => Yup.string().required(errorMessage);
 const requiredNumber = (errorMessage) => Yup.number().typeError(numberError).required(errorMessage);
-const requiredName = (errorMessage) => Yup.string().required(errorMessage).matches(/^[a-zA-Z0-9-_]+$/, "Chỉ chấp nhận chữ cái, số và dấu gạch ngang")
+const requiredName = (errorMessage) => Yup.string().required(errorMessage).matches(/^[a-zA-Z0-9-_ ]+$/, "Chỉ chấp nhận chữ cái, số và dấu gạch ngang")
 
 
 const InputText = ({ label, ...props }) => {

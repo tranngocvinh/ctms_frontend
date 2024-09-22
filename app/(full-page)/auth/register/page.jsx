@@ -5,26 +5,23 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Password} from 'primereact/password';
 import {Button} from 'primereact/button';
-import {classNames} from 'primereact/utils';
 import AppHeader from '../login/AppHeader';
 import axios from 'axios';
+import {classNames} from "primereact/utils";
 
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [token, setToken] = useState(null); // State to store the token
+    const [token, setToken] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        // Only access the window object on the client side
-        if (typeof window !== "undefined") {
-            const queryParams = new URLSearchParams(window.location.search);
-        }
-        const urlToken = queryParams.get('token'); // Get the token from the URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const urlToken = queryParams.get('token');
 
         if (urlToken) {
-            setToken(urlToken); // Set the token to state if available
+            setToken(urlToken);
         }
     }, []);
 
@@ -37,12 +34,12 @@ const ResetPassword = () => {
         }
 
         try {
-            await axios.post('http://localhost:8080/api/v1/customers/reset-password', {
-                token: token,        // Send token to the backend
+            await axios.post('https://auth.g42.biz/api/v1/customers/reset-password', {
+                token: token,
                 newPassword: newPassword
             });
             alert('Password has been reset successfully');
-            router.push('/auth/login'); // Redirect to login page after successful reset
+            router.push('/auth/login');
         } catch (error) {
             setError('Failed to reset password. Please try again.');
         }
@@ -88,16 +85,16 @@ const ResetPassword = () => {
                                     </label>
                                     <Password inputId="newPassword" value={newPassword}
                                               onChange={(e) => setNewPassword(e.target.value)}
-                                              placeholder="New Password" toggleMask className="w-full mb-5"
-                                              inputClassName="w-full p-3 md:w-30rem" />
+                                              placeholder="New Password" className="w-full mb-5"
+                                              inputClassName="w-full p-3 md:w-30rem" feedback={false}/>
 
                                     <label htmlFor="confirmPassword" className="block text-900 font-medium text-xl mb-2">
                                         Confirm Password
                                     </label>
                                     <Password inputId="confirmPassword" value={confirmPassword}
                                               onChange={(e) => setConfirmPassword(e.target.value)}
-                                              placeholder="Confirm Password" toggleMask className="w-full mb-5"
-                                              inputClassName="w-full p-3 md:w-30rem" />
+                                              placeholder="Confirm Password" className="w-full mb-5"
+                                              inputClassName="w-full p-3 md:w-30rem" feedback={false}/>
 
                                     {error && <p className="error">{error}</p>}
 
