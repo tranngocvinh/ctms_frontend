@@ -11,7 +11,8 @@ const UpdateRepairDrawer = ({ repair,fetchRepair }) => {
 
     return (
         <>
-            <Button  severity="success" label="Cập nhật" onClick={() => setVisible(true)} />
+            <i className="pi pi-pencil" style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
+               onClick={() => setVisible(true)}/>
             <Sidebar visible={visible} onHide={() => setVisible(false)} >
                 <h2>Cập nhật thông tin sửa chữa container</h2>
                 <UpdateRepairForm fetchRepair={fetchRepair} repair={repair}  />

@@ -12,6 +12,7 @@ import Delete from './DeleleRepair';
 import UpdateRepairDrawer from './UpdateRepairDrawer';
 import {getContainers} from '../../api/container_supplier';
 import {isStaff} from "../../verifyRole";
+import './repair.css';
 
 export default function Table({repair, fetchRepair}) {
     const [suppliers, setSuppliers] = useState([]);
@@ -114,7 +115,7 @@ export default function Table({repair, fetchRepair}) {
 
     return (
         <div className="card">
-            <DataTable value={filteredRepair} header={header} tableStyle={{minWidth: '60rem'}} showGridlines>
+            <DataTable value={filteredRepair} header={header} tableStyle={{minWidth: '60rem'}} showGridlines className="custom-datatable">
                 <Column field="containerCode" header="Mã container"></Column>
                 <Column field="containerSupplierId" body={supplier} header="Đơn vị sửa chữa"></Column>
                 <Column field="repairCode" header="Giá sửa chữa" body={repairCost}></Column>

@@ -289,6 +289,8 @@ export default function Table({SIs}) {
                             id="cargoWeight"
                             value={cargoWeight}
                             onValueChange={(e) => setCargoWeight(e.value)}
+                            min={0}
+                            max={30.48}
                             style={{width: '100%', maxWidth: '300px'}}
                         />
                     </div>
