@@ -3,8 +3,8 @@ import axios from 'axios';
 const API_URL = `https://auth.g42.biz/api/v1/customers`;
 
 class UserService {
-    getUsers() {
-        return axios.get(API_URL);
+    getUsers(getAuthConfig) {
+        return axios.get(API_URL, getAuthConfig);
     }
 
     getUserById(id) {

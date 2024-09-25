@@ -10,6 +10,7 @@ import "primeicons/primeicons.css";
 import './giaohang.css';
 import {isManager} from "../../../verifyRole";
 import {InputNumber} from "primereact/inputnumber";
+import {Chip} from "primereact/chip";
 
 const DeliveryOrderTable = () => {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -163,7 +164,7 @@ const DeliveryOrderTable = () => {
                     detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
                     life: 3000,
                 });
-                updatedOrder.deliveryDate = null; // Clear the invalid input
+                updatedOrder.deliveryDate = null;
                 updateState({ deliveryOrder: updatedOrder });
                 return;
             }
@@ -302,29 +303,54 @@ const DeliveryOrderTable = () => {
                     <Column field="totalAmount" header="Tổng tiền" body={(rowData) => rowData.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}></Column>
                     <Column field="status" header="Trạng thái" ></Column>
                     <Column header="Containers" body={renderContainers} />
-                    <Column body={(rowData) =>
-                        <>
-                            <i className="pi pi-pencil"
-                               style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
-                               onClick={() => {
-                                   updateState({
-                                       deliveryOrder: {...rowData},
-                                       deliveryOrderDialog: true,
-                                       shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
-                                           id: parseInt(id),
-                                           containers: rowData.shipScheduleContainerMap[id],
-                                       })),
-                                   });
-                               }}/>
-                            <i className="pi pi-trash"
-                               style={{fontSize: '1rem', marginRight: '10px', marginLeft: '10px'}}
-                               onClick={() => updateState({
-                                   deliveryOrder: rowData,
-                                   deleteDeliveryOrderDialog: true,
-                               })}/>
-                        </>
-                    } exportable={false}>
-                    </Column>
+                    <Column
+                        body={(rowData) => (
+                            <>
+                                {rowData.isPay === 0 ? (
+                                    <>
+                                        <i
+                                            className="pi pi-pencil"
+                                            style={{ fontSize: '1rem', marginRight: '10px', marginLeft: '10px' }}
+                                            onClick={() => {
+                                                updateState({
+                                                    deliveryOrder: { ...rowData },
+                                                    deliveryOrderDialog: true,
+                                                    shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
+                                                        id: parseInt(id),
+                                                        containers: rowData.shipScheduleContainerMap[id],
+                                                    })),
+                                                });
+                                            }}
+                                        />
+                                        <i
+                                            className="pi pi-trash"
+                                            style={{ fontSize: '1rem', marginRight: '10px', marginLeft: '10px' }}
+                                            onClick={() =>
+                                                updateState({
+                                                    deliveryOrder: rowData,
+                                                    deleteDeliveryOrderDialog: true,
+                                                })
+                                            }
+                                        />
+                                    </>
+                                ) : rowData.isPay === 1 ? (
+                                    <Chip
+                                        label="Đang giao"
+                                        icon="pi pi-truck"
+                                        style={{ fontSize: '12px' }}
+                                    />
+                                ) : rowData.isPay === 2 ? (
+                                    <Chip
+                                        label="Đã giao"
+                                        icon="pi pi-truck"
+                                        style={{ fontSize: '12px' }}
+                                    />
+                                ) : null}
+                            </>
+                        )}
+                        exportable={false}
+                    />
+
 
                 </DataTable>
             </div>
@@ -343,7 +369,14 @@ const DeliveryOrderTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="customer">Khách hàng</label>
-                    <Dropdown id="customer" value={state.customers.find((customer) => customer.id === state.deliveryOrder.customerId)} options={state.customers} onChange={(e) => onDropdownChange(e, "customerId")} optionLabel="name" placeholder="Chọn khách hàng" />
+                    <Dropdown
+                        id="customer"
+                        value={state.customers.find((customer) => customer.id === state.deliveryOrder.customerId)}
+                        options={state.customers.filter((customer) => customer.roles.includes("CUSTOMER"))}
+                        onChange={(e) => onDropdownChange(e, "customerId")}
+                        optionLabel="name"
+                        placeholder="Chọn khách hàng"
+                    />
                 </div>
                 <div className="field">
                     <label htmlFor="schedule">Lịch trình</label>

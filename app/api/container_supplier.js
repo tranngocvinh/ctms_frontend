@@ -1,9 +1,13 @@
 import axios from 'axios';
-
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+    }
+})
 export const getContainers = async () => {
     try {
         return await axios.get(
-            `https://auth.g42.biz/api/v1/supplier`,
+            `https://auth.g42.biz/api/v1/supplier`, getAuthConfig()
         )
     } catch (e) {
         throw e;
@@ -17,7 +21,8 @@ export const uploadImage = async (formData) => {
             formData,
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
             }
         )
@@ -39,9 +44,10 @@ export const updateSupplier = async (id, data, image) => {
             formData,
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
-            }
+            },getAuthConfig()
         );
     } catch (e) {
         throw e;
@@ -50,7 +56,7 @@ export const updateSupplier = async (id, data, image) => {
 export const deleteSupplier = async (id) => {
     try {
         return await axios.delete(
-            `https://auth.g42.biz/api/v1/supplier/${id}`,
+            `https://auth.g42.biz/api/v1/supplier/${id}`,getAuthConfig()
 
         )
 

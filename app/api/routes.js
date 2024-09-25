@@ -15,9 +15,14 @@ import axios, {AxiosResponse} from 'axios';
 /**
  * @returns {Promise<AxiosResponse<any>>}
  */
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+    }
+})
 export const getRoutes = async () => {
     try {
-        return await axios.get(`https://auth.g42.biz/api/routes`);
+        return await axios.get(`https://auth.g42.biz/api/routes`, getAuthConfig());
     } catch (e) {
         throw e;
     }
@@ -29,7 +34,7 @@ export const getRoutes = async () => {
  */
 export const add = async (route) => {
     try {
-        return await axios.post(`https://auth.g42.biz/api/routes`, route);
+        return await axios.post(`https://auth.g42.biz/api/routes`, route,getAuthConfig());
     } catch (e) {
         throw e;
     }

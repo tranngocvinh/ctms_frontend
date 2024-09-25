@@ -18,7 +18,7 @@ export const getContainers = async () => {
 export const add = async (container) => {
     try {
         console.log("Sending add request:", container); // Log the request data
-        return await axios.post(`https://auth.g42.biz/api/containers`, container);
+        return await axios.post(`https://auth.g42.biz/api/containers`, container,getAuthConfig());
     } catch (e) {
         console.log("Add request error:", e); // Log the error
         throw e;
@@ -28,7 +28,7 @@ export const update = async (id, container) => {
     try {
         return await axios.put(
             `https://auth.g42.biz/api/containers/${id}`,
-            container,
+            container,getAuthConfig()
 
         );
     } catch (e) {
@@ -39,7 +39,7 @@ export const update = async (id, container) => {
 export const dele = async (id) => {
     try {
         return await axios.delete(
-            `https://auth.g42.biz/api/containers/${id}`,
+            `https://auth.g42.biz/api/containers/${id}`,getAuthConfig()
 
         )
 
