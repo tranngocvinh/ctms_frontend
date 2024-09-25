@@ -135,30 +135,34 @@ const Dashboard = () => {
         router.push('/pages/landing');
         return null;
     }
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     useEffect(() => {
-        fetch(`https://auth.g42.biz/api/drop-orders/detfee/sum`)
+        fetch(`https://auth.g42.biz/api/drop-orders/detfee/sum`, getAuthConfig())
             .then(response => response.json())
             .then(data => setTotalDetFee(data))
             .catch(error => console.error('Error fetching det fee sum:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`https://auth.g42.biz/api/v1/repair/cost/paid`)
+        fetch(`https://auth.g42.biz/api/v1/repair/cost/paid`, getAuthConfig())
             .then(response => response.json())
             .then(data => setTotalPaidRepairCost(data))
             .catch(error => console.error('Error fetching paid repair cost:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`https://auth.g42.biz/api/v1/customers/count`)
+        fetch(`https://auth.g42.biz/api/v1/customers/count`, getAuthConfig())
             .then(response => response.json())
             .then(data => setTotalCusTomer(data))
             .catch(error => console.error('Error fetching customer count:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`https://auth.g42.biz/api/delivery-orders/cost/paid`)
+        fetch(`https://auth.g42.biz/api/delivery-orders/cost/paid`, getAuthConfig())
             .then(response => response.json())
             .then(data => setTotalDelivery(data))
             .catch(error => console.error('Error fetching delivery cost:', error));

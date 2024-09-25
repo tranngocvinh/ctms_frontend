@@ -10,7 +10,6 @@ export default function TemplateDemo() {
 
     const fetchRoutes = () =>{
         setLoading(true);
-
         getRoutes().then(res => {
             setRoutes(res.data)
         }).catch(err => {

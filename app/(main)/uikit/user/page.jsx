@@ -40,11 +40,17 @@ export default function UserList() {
     }, []);
 
     const loadUsers = () => {
-        UserService.getUsers().then((res) => {
+        UserService.getUsers(getAuthConfig()).then((res) => {
             setUsers(res.data);
+        }).catch(error => {
+            console.error("Error fetching users", error);
         });
     };
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     const filteredUsers = useMemo(() => {
         if (!searchQuery) return users;
 

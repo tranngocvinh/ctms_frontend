@@ -22,7 +22,7 @@ export default function ShipManage() {
     };
     const fetchShips = () => {
         setLoading(true);
-        getShip().then(res => {
+        getShip(getAuthConfig).then(res => {
             setShips(res.data)
         }).catch(err => {
             console.log(err);
@@ -30,6 +30,11 @@ export default function ShipManage() {
             setLoading(false)
         })
     }
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     useEffect(() => {
         fetchShips();
     }, [])
