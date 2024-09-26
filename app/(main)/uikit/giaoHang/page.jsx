@@ -11,6 +11,7 @@ import './giaohang.css';
 import {isManager} from "../../../verifyRole";
 import {InputNumber} from "primereact/inputnumber";
 import {Chip} from "primereact/chip";
+import { Tag } from 'primereact/tag';
 
 const DeliveryOrderTable = () => {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -32,6 +33,22 @@ const DeliveryOrderTable = () => {
     };
 
     const [state, setState] = useState({
+        selectedDeliveryOrder: null,
+        deliveryOrders: [],
+        customers: [],
+        schedules: [],
+        containers: [],
+        shipSchedules: [],
+        deliveryOrderDialog: false,
+        deleteDeliveryOrderDialog: false,
+        deliveryOrder: emptyDeliveryOrder,
+        selectedDeliveryOrders: [],
+        submitted: false,
+        globalFilter: null,
+        page: 0,
+    });
+
+    const [state1, setState1] = useState({
         selectedDeliveryOrder: null,
         deliveryOrders: [],
         customers: [],
@@ -78,7 +95,7 @@ const DeliveryOrderTable = () => {
             .get(`https://auth.g42.biz/api/containers`, getAuthConfig())
             .then((response) => setState((prev) => ({
                 ...prev,
-                containers: [...prev.containers, ...response.data] // This should set the containers correctly
+                containers: response.data // Replace the containers array, do not append
             })));
     };
 
@@ -99,6 +116,7 @@ const DeliveryOrderTable = () => {
     };
 
     const updateState = (updates) => setState((prev) => ({ ...prev, ...updates }));
+    const updateState1 = (updates) => setState1((prev) => ({ ...prev, ...updates }));
 
     const saveDeliveryOrder = () => {
         if (state.deliveryOrder.customerId && state.deliveryOrder.scheduleId) {
@@ -119,19 +137,14 @@ const DeliveryOrderTable = () => {
         }
     };
 
-    const deleteDeliveryOrder = () => {
-        axios.delete(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
-            updateState({
-                deliveryOrders: state.deliveryOrders.filter((val) => val.id !== state.deliveryOrder.id),
-                deleteDeliveryOrderDialog: false,
-                deliveryOrder: emptyDeliveryOrder,
-                shipSchedules: [],
-                containers: [],
-            });
+    const confirmToDelivery = () => {
+        axios.put(`https://auth.g42.biz/api/delivery-orders/confirmToDelivery/${state1.deliveryOrder.id}`, state1.deliveryOrder).then(() => {
+            updateState1({ deleteDeliveryOrderDialog: false, deliveryOrder: emptyDeliveryOrder, shipSchedules: [], containers: [] });
+            fetchData();
             toast.current.show({
                 severity: "success",
-                summary: "Successful",
-                detail: "Xóa lệnh giao hàng thành công",
+                summary: "Thành công",
+                detail: "Xác nhận trang thái giao thành thành công",
                 life: 3000,
             });
         });
@@ -223,7 +236,7 @@ const DeliveryOrderTable = () => {
                 <label htmlFor={`container_${shipSchedule.id}`}>Containers for ShipSchedule {shipSchedule.id}</label>
                 <List
                     height={150}
-                    itemCount={state.containers.filter(container => container.status === "In Port" && container.containerCode).length}
+                    itemCount={state.containers.filter(container => container.customer && container.customer.id === state.deliveryOrder.customerId && container.status === "In Port" && container.containerCode).length}
                     itemSize={35}
                     width={"100%"}
                 >
@@ -261,7 +274,17 @@ const DeliveryOrderTable = () => {
     const renderContainers = (rowData) => {
         const containers = Object.values(rowData.shipScheduleContainerMap).flat();
 
-        return containers.join(', ');
+        if (rowData.isPay === 2) {
+            return (
+                <Chip
+                    label="Đã giao"
+                    icon="pi pi-truck"
+                    style={{ fontSize: '12px' }}
+                />
+            );
+        } else {
+            return containers.join(', ');
+        }
     };
 
     return (
@@ -301,55 +324,104 @@ const DeliveryOrderTable = () => {
                     <Column header="Ngày đặt hàng" body={(rowData) => new Date(rowData.orderDate).toLocaleString()}></Column>
                     <Column header="Ngày giao hàng" body={(rowData) => new Date(rowData.deliveryDate).toLocaleString()}></Column>
                     <Column field="totalAmount" header="Tổng tiền" body={(rowData) => rowData.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}></Column>
-                    <Column field="status" header="Trạng thái" ></Column>
+                    <Column field="status" header="Ghi chú" ></Column>
                     <Column header="Containers" body={renderContainers} />
                     <Column
+                        header="Xác nhận đã giao"
                         body={(rowData) => (
                             <>
-                                {rowData.isPay === 0 ? (
+                                {rowData.isPay === 1 && (
                                     <>
-                                        <i
-                                            className="pi pi-pencil"
-                                            style={{ fontSize: '1rem', marginRight: '10px', marginLeft: '10px' }}
-                                            onClick={() => {
-                                                updateState({
+                                        <Tag severity="contrast" value="Xác nhận"
+                                        onClick={() => {
+                                                updateState1({
                                                     deliveryOrder: { ...rowData },
-                                                    deliveryOrderDialog: true,
                                                     shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
                                                         id: parseInt(id),
                                                         containers: rowData.shipScheduleContainerMap[id],
                                                     })),
+                                                    deleteDeliveryOrderDialog: true,
+
+
                                                 });
                                             }}
-                                        />
-                                        <i
-                                            className="pi pi-trash"
-                                            style={{ fontSize: '1rem', marginRight: '10px', marginLeft: '10px' }}
-                                            onClick={() =>
-                                                updateState({
-                                                    deliveryOrder: rowData,
-                                                    deleteDeliveryOrderDialog: true,
-                                                })
-                                            }
-                                        />
+                                             >
+
+                                        </Tag>
                                     </>
-                                ) : rowData.isPay === 1 ? (
-                                    <Chip
-                                        label="Đang giao"
-                                        icon="pi pi-truck"
-                                        style={{ fontSize: '12px' }}
-                                    />
-                                ) : rowData.isPay === 2 ? (
-                                    <Chip
-                                        label="Đã giao"
-                                        icon="pi pi-truck"
-                                        style={{ fontSize: '12px' }}
-                                    />
-                                ) : null}
+                                )  }
+
+                                { rowData.isPay === 0 && (
+                                    <>
+                                        <Tag severity="danger" value="Đang chờ thanh toán"
+                                             onClick={() => {
+                                                 updateState({
+                                                     deliveryOrder: { ...rowData },
+                                                     deliveryOrderDialog: true,
+                                                     shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({
+                                                         id: parseInt(id),
+                                                         containers: rowData.shipScheduleContainerMap[id],
+                                                     })),
+                                                 });
+                                             }}
+                                        >
+
+                                        </Tag>
+                                    </>
+                                )}
+
+                                { rowData.isPay === 2 && (
+                                    <>
+                                        <Tag severity="success" value="Hoàn thành"></Tag>
+                                    </>
+                                )}
+
                             </>
                         )}
                         exportable={false}
                     />
+                    {/*<Column*/}
+
+                    {/*    body={(rowData) => (*/}
+                    {/*        <>*/}
+                    {/*            {rowData.isPay === 0 ? (*/}
+                    {/*                <>*/}
+                    {/*                    <i*/}
+                    {/*                        className="pi pi-pencil"*/}
+                    {/*                        style={{ fontSize: '1rem', marginRight: '10px', marginLeft: '10px' }}*/}
+                    {/*                        onClick={() => {*/}
+                    {/*                            updateState({*/}
+                    {/*                                deliveryOrder: { ...rowData },*/}
+                    {/*                                deliveryOrderDialog: true,*/}
+                    {/*                                shipSchedules: Object.keys(rowData.shipScheduleContainerMap).map((id) => ({*/}
+                    {/*                                    id: parseInt(id),*/}
+                    {/*                                    containers: rowData.shipScheduleContainerMap[id],*/}
+                    {/*                                })),*/}
+                    {/*                            });*/}
+                    {/*                        }}*/}
+                    {/*                    />*/}
+
+                    {/*                </>*/}
+                    {/*            ) : rowData.isPay === 3 ? (*/}
+                    {/*                <Chip*/}
+                    {/*                    label="Đang giao"*/}
+                    {/*                    icon="pi pi-truck"*/}
+                    {/*                    style={{ fontSize: '12px' }}*/}
+                    {/*                />*/}
+                    {/*            ) : rowData.isPay === 3 ? (*/}
+                    {/*                <Chip*/}
+                    {/*                    label="Đã giao"*/}
+                    {/*                    icon="pi pi-truck"*/}
+                    {/*                    style={{ fontSize: '12px' }}*/}
+                    {/*                />*/}
+                    {/*            ) : null}*/}
+                    {/*        </>*/}
+                    {/*    )}*/}
+                    {/*    exportable={false}*/}
+                    {/*/>*/}
+
+
+
 
 
                 </DataTable>
@@ -412,10 +484,10 @@ const DeliveryOrderTable = () => {
                 {renderContainerAssignment()}
             </Dialog>
 
-            <Dialog visible={state.deleteDeliveryOrderDialog} style={{ width: "450px" }} header="Xác nhận" modal footer={<><Button label="No" icon="pi pi-times" outlined onClick={() => updateState({ deleteDeliveryOrderDialog: false })} /><Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteDeliveryOrder} /></>} onHide={() => updateState({ deleteDeliveryOrderDialog: false })}>
+            <Dialog visible={state1.deleteDeliveryOrderDialog} style={{ width: "450px" }} header="Xác nhận" modal footer={<><Button label="Hủy" icon="pi pi-times" outlined onClick={() => updateState1({ deleteDeliveryOrderDialog: false ,submitted: false})} /><Button label="Xác nhận" icon="pi pi-check" severity="danger" onClick={confirmToDelivery} /></>} onHide={() => updateState1({ deleteDeliveryOrderDialog: false, submitted: false })}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }} />
-                    {state.deliveryOrder && <span>Bạn có chắc chắn muốn xóa lệnh giao hàng <b>{state.deliveryOrder.orderNumber}</b>?</span>}
+                    {state1.deliveryOrder && <span>Xác nhận đơn hàng {state1.deliveryOrder.orderNumber} đã được giao?</span>}
                 </div>
             </Dialog>
         </div>
