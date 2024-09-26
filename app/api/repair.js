@@ -51,7 +51,7 @@ export const repairFinish = async (id) => {
 export const handlePayment = async (id) => {
     try {
         return await axios.put(
-            `https://auth.g42.biz/api/v1/repair/payment/${id}`,
+            `https://auth.g42.biz/api/v1/repair/payment/${id}`,getAuthConfig()
 
         )
 

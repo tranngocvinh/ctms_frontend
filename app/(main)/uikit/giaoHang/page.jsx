@@ -70,7 +70,7 @@ const DeliveryOrderTable = () => {
         axios
             .get(`https://auth.g42.biz/api/schedules`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, schedules: response.data })));
-        fetchContainers(); // Initial fetch for containers
+        fetchContainers();
     };
 
     const fetchContainers = () => {
@@ -103,8 +103,8 @@ const DeliveryOrderTable = () => {
     const saveDeliveryOrder = () => {
         if (state.deliveryOrder.customerId && state.deliveryOrder.scheduleId) {
             const saveRequest = state.deliveryOrder.id
-                ? axios.put(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder)
-                : axios.post(`https://auth.g42.biz/api/delivery-orders`, state.deliveryOrder);
+                ? axios.put(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`, state.deliveryOrder, getAuthConfig())
+                : axios.post(`https://auth.g42.biz/api/delivery-orders`, state.deliveryOrder,getAuthConfig());
 
             saveRequest.then((response) => {
                 fetchData();
@@ -120,7 +120,7 @@ const DeliveryOrderTable = () => {
     };
 
     const deleteDeliveryOrder = () => {
-        axios.delete(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`).then(() => {
+        axios.delete(`https://auth.g42.biz/api/delivery-orders/${state.deliveryOrder.id}`,getAuthConfig()).then(() => {
             updateState({
                 deliveryOrders: state.deliveryOrders.filter((val) => val.id !== state.deliveryOrder.id),
                 deleteDeliveryOrderDialog: false,
@@ -138,59 +138,11 @@ const DeliveryOrderTable = () => {
     };
 
     const onInputChange = (e, name) => {
-        const val = e.value !== undefined ? e.value : e.target.value;
-        let updatedOrder = { ...state.deliveryOrder, [name]: val };
-
-        if (name === "deliveryDate") {
-            const today = new Date();
-            const orderDate = new Date(updatedOrder.orderDate);
-            const deliveryDate = new Date(val);
-
-            if (deliveryDate < today) {
-                toast.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: "Ngày giao hàng không được nhỏ hơn ngày hiện tại",
-                    life: 3000,
-                });
-                updatedOrder.deliveryDate = null; // Clear the invalid input
-                updateState({ deliveryOrder: updatedOrder });
-                return;
-            }
-            if (deliveryDate <= orderDate) {
-                toast.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
-                    life: 3000,
-                });
-                updatedOrder.deliveryDate = null;
-                updateState({ deliveryOrder: updatedOrder });
-                return;
-            }
-        }
-
-        if (name === "orderDate") {
-            const deliveryDate = new Date(updatedOrder.deliveryDate);
-            const orderDate = new Date(val);
-
-            if (deliveryDate > 0 && deliveryDate <= orderDate) {
-                toast.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
-                    life: 3000,
-                });
-                updatedOrder.orderDate = null;
-                updateState({ deliveryOrder: updatedOrder });
-                return;
-            }
-        }
+        const val = (e.target && e.target.value) || "";
         updateState({
-            deliveryOrder: updatedOrder,
+            deliveryOrder: { ...state.deliveryOrder, [name]: val },
         });
     };
-
 
     const onDropdownChange = (e, name) => {
         updateState({
@@ -334,11 +286,13 @@ const DeliveryOrderTable = () => {
                                         />
                                     </>
                                 ) : rowData.isPay === 1 ? (
+                                        <div>
                                     <Chip
                                         label="Đang giao"
                                         icon="pi pi-truck"
                                         style={{ fontSize: '12px' }}
                                     />
+                                    <i className="pi pi-check-circle text-green-500 mr-2" style={{marginLeft: '10px'}}/></div>
                                 ) : rowData.isPay === 2 ? (
                                     <Chip
                                         label="Đã giao"
