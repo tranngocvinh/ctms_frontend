@@ -7,10 +7,14 @@ import axios from "axios";
 export default function Delete({ repair, fetchDropOrders }) {
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     const accept = () => {
 
-        axios.put(`https://auth.g42.biz/api/drop-orders/isPay/${repair.id}`)  // Ensure this is the correct ID field
+        axios.put(`https://auth.g42.biz/api/drop-orders/isPay/${repair.id}`,getAuthConfig())  // Ensure this is the correct ID field
             .then(res => {
                 fetchDropOrders();
                 toast.current.show({ severity: 'success', summary: 'Thành công', detail: 'Xác nhận phí DET đã thanh toán thành công', life: 3000 });
