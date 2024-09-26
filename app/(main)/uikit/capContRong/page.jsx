@@ -75,7 +75,7 @@ const AllocateEmptyContainers = () => {
 
     const fetchContainerSizes = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`);
+            const response = await axios.get(`https://auth.g42.biz/api/containers/sizes`,getAuthConfig());
             setContainerSizes(response.data);
         } catch (error) {
             console.error('Error fetching container sizes:', error);
@@ -98,7 +98,7 @@ const AllocateEmptyContainers = () => {
 
     const fetchShips = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ships`);
+            const response = await axios.get(`https://auth.g42.biz/api/ships`,getAuthConfig());
             setShips(response.data);
         } catch (error) {
             console.error('Error fetching ships:', error);
@@ -107,7 +107,7 @@ const AllocateEmptyContainers = () => {
 
     const fetchPorts = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports`);
+            const response = await axios.get(`https://auth.g42.biz/api/ports`,getAuthConfig());
             setPorts(response.data);
         } catch (error) {
             console.error('Error fetching ports:', error);

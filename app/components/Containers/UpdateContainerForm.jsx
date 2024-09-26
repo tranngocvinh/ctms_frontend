@@ -83,10 +83,14 @@ const RepairContainerForm = ({ container, fetchContainers }) => {
     useEffect(() => {
         fetchSuppliers();
     }, []);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     const fetchSuppliers = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/v1/supplier`);
+            const response = await axios.get(`https://auth.g42.biz/api/v1/supplier`,getAuthConfig());
             setSuppliers(response.data);
         } catch (error) {
             console.error('Error fetching suppliers:', error);a
@@ -120,7 +124,7 @@ const RepairContainerForm = ({ container, fetchContainers }) => {
                             description: values.description
                         };
 
-                        axios.post(`https://auth.g42.biz/api/v1/repair`, repairData)
+                        axios.post(`https://auth.g42.biz/api/v1/repair`, repairData,getAuthConfig())
                             .then(res => {
                                 fetchContainers();
                             })

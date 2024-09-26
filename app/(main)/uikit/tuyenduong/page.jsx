@@ -89,7 +89,11 @@ const ChooseStatus = ({ label, options, value, onChange, onBlur, error }) => {
 const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
     const [field, meta, helpers] = useField(name);
     const [suggestions, setSuggestions] = useState([]);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     const searchPort = async (event) => {
         if (!event.query) {
             setSuggestions([]);
@@ -97,7 +101,7 @@ const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
         }
 
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports/search`, {
+            const response = await axios.get(`https://auth.g42.biz/api/ports/search`, getAuthConfig(),{
                 params: {
                     name: event.query
                 }
@@ -166,7 +170,11 @@ const RouteManage = () => {
     useEffect(() => {
         console.log("Route Segments Updated:", routeSegments);
     }, [routeSegments]);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     const handlePortSelected = async (index, port) => {
         const newWaypoints = [...waypoints];
         newWaypoints[index] = port;
@@ -176,7 +184,7 @@ const RouteManage = () => {
             const allSegments = [];
             for (let i = 0; i < newWaypoints.length - 1; i++) {
                 try {
-                    const response = await axios.post(`https://auth.g42.biz/api/proxy/waypoints`, {
+                    const response = await axios.post(`https://auth.g42.biz/api/proxy/waypoints`,getAuthConfig(), {
                         fromPort: newWaypoints[i].portName,
                         toPort: newWaypoints[i + 1].portName
                     });

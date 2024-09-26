@@ -2,18 +2,24 @@ import axios from 'axios';
 
 const API_URL = `https://auth.g42.biz/api/v1/customers`;
 
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+    },
+});
+
 class UserService {
-    getUsers(getAuthConfig) {
-        return axios.get(API_URL, getAuthConfig);
+    getUsers() {
+        return axios.get(API_URL, getAuthConfig());
     }
 
     getUserById(id) {
-        return axios.get(`${API_URL}/${id}`);
+        return axios.get(`${API_URL}/${id}`,getAuthConfig());
     }
 
     async createUser(role, user) {
         try {
-            return await axios.post(`${API_URL}/${role}`, user);
+            return await axios.post(`${API_URL}/${role}`, user,getAuthConfig());
         } catch (error) {
             const errorMessage = 'An unexpected error occurred';
             console.error(errorMessage);
@@ -22,11 +28,11 @@ class UserService {
     }
 
     updateUser(id, user) {
-        return axios.put(`${API_URL}/${id}`, user);
+        return axios.put(`${API_URL}/${id}`, user, getAuthConfig());
     }
 
     deleteUser(id) {
-        return axios.delete(`${API_URL}/${id}`);
+        return axios.delete(`${API_URL}/${id}`, getAuthConfig());
     }
 }
 

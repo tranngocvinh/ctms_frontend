@@ -58,7 +58,7 @@ export default function Table({delivery, fetchDelivery}) {
     const ActionButtons = (rowData) => {
         return (
             <div className="flex flex-wrap justify-content-center gap-1">
-                {rowData.isPay === 1 ? (
+                {rowData.isPay === 1 || rowData.isPay === 2? (
                     <p>Đã Thanh toán</p>
                 ) : (
                     <>

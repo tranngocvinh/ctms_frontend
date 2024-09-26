@@ -22,13 +22,17 @@ const containerStatusMap = {
 
 export const getSchedules = async (id) => {
     try {
-        const response = await axios.get(`https://auth.g42.biz/api/schedules/${id}`);
+        const response = await axios.get(`https://auth.g42.biz/api/schedules/${id}`, getAuthConfig());
         return response.data;
     } catch (e) {
         throw e;
     }
 };
-
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+    },
+});
 export default function ContainerTable({ containers, fetchContainers, showToast }) {
     const [selectedContainer, setSelectedContainer] = useState(null);
     const [scheduleDetails, setScheduleDetails] = useState([]);

@@ -44,11 +44,15 @@ const ScheduleTable = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     useEffect(() => {
-        axios.get(`https://auth.g42.biz/api/schedules`).then(response => setSchedules(response.data));
-        axios.get(`https://auth.g42.biz/api/routes`).then(response => setRoutes(response.data));
-        axios.get(`https://auth.g42.biz/api/ships`).then(response => setShips(response.data));
+        axios.get(`https://auth.g42.biz/api/schedules`,getAuthConfig()).then(response => setSchedules(response.data));
+        axios.get(`https://auth.g42.biz/api/routes`,getAuthConfig()).then(response => setRoutes(response.data));
+        axios.get(`https://auth.g42.biz/api/ships`,getAuthConfig()).then(response => setShips(response.data));
     }, []);
 
     const openNew = () => {
@@ -77,7 +81,7 @@ const ScheduleTable = () => {
             let _schedule = {...schedule};
 
             if (schedule.id) {
-                axios.put(`https://auth.g42.biz/api/schedules/${schedule.id}`, _schedule).then(response => {
+                axios.put(`https://auth.g42.biz/api/schedules/${schedule.id}`, _schedule,getAuthConfig()).then(response => {
                     const index = findIndexById(schedule.id);
                     _schedules[index] = response.data;
                     setSchedules(_schedules);
@@ -91,7 +95,7 @@ const ScheduleTable = () => {
                     });
                 });
             } else {
-                axios.post(`https://auth.g42.biz/api/schedules`, _schedule).then(response => {
+                axios.post(`https://auth.g42.biz/api/schedules`, _schedule,getAuthConfig()).then(response => {
                     _schedules.push(response.data);
                     setSchedules(_schedules);
                     setScheduleDialog(false);

@@ -63,7 +63,7 @@ export default function DropOrderTable({SI, fetchSI, showToast}) {
     const getEmptyContainer = async (id) => {
         try {
             const response = await axios.get(
-                `https://auth.g42.biz/api/containers/allocate/ship/${id}`
+                `https://auth.g42.biz/api/containers/allocate/ship/${id}`,getAuthConfig()
             )
             setEmptyContainer(response.data)
         } catch (e) {
@@ -73,7 +73,7 @@ export default function DropOrderTable({SI, fetchSI, showToast}) {
 
     const fetchPorts = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports`);
+            const response = await axios.get(`https://auth.g42.biz/api/ports`, getAuthConfig());
             setPorts(response.data);
         } catch (error) {
             console.error('Error fetching ports:', error);
@@ -82,7 +82,7 @@ export default function DropOrderTable({SI, fetchSI, showToast}) {
 
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/cargo-types`);
+            const response = await axios.get(`https://auth.g42.biz/api/cargo-types`,getAuthConfig());
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -153,10 +153,10 @@ export default function DropOrderTable({SI, fetchSI, showToast}) {
 
         try {
             if (dialogTitle === 'Chỉnh sửa lệnh hạ hàng') {
-                await axios.put(`https://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload);
+                await axios.put(`https://auth.g42.biz/api/drop-orders/${selectedSI.id}`, payload,getAuthConfig());
                 showToast("success", "Thành công", "Chỉnh sửa lệnh hạ hàng thành công")
             } else {
-                await axios.post(`https://auth.g42.biz/api/drop-orders`, payload);
+                await axios.post(`https://auth.g42.biz/api/drop-orders`, payload,getAuthConfig());
                 showToast("success", "Thành công", "Thêm lệnh hạ hàng thành công")
             }
             hideFormDialog();

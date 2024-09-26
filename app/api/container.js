@@ -55,7 +55,7 @@ export const allocateContainersToShip = async (data) => {
 export const getEmptyContainers = async () => {
     try {
         return await axios.get(
-            `https://auth.g42.biz/api/containers/allocate/ship`,
+            `https://auth.g42.biz/api/containers/allocate/ship`,getAuthConfig()
         )
     } catch (e) {
         throw e;
@@ -65,7 +65,7 @@ export const getEmptyContainers = async () => {
 export const getEmptyContainerById = async (id) => {
     try {
         return await axios.get(
-            `https://auth.g42.biz/api/containers/allocate/ship/${id}`,
+            `https://auth.g42.biz/api/containers/allocate/ship/${id}`,getAuthConfig()
         )
     } catch (e) {
         throw e;
@@ -73,7 +73,7 @@ export const getEmptyContainerById = async (id) => {
 }
 
 export const allocateContainersToPort = async (numberOfContainers, portName) => {
-    return axios.post(`https://auth.g42.biz/api/containers/allocate/port`, {
+    return axios.post(`https://auth.g42.biz/api/containers/allocate/port`,getAuthConfig(), {
         numberOfContainers,
         portName
     });
