@@ -12,6 +12,7 @@ export default function Delete({ delivery, fetchDelivery }) {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
     });
+
     const accept = () => {
 
         axios.put(`https://auth.g42.biz/api/delivery-orders/isPay/${delivery.id}`,getAuthConfig())
