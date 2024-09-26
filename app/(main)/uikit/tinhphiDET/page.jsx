@@ -75,7 +75,7 @@ export default function DropOrdersTable() {
 
     const fetchEmptyContainer = async (id) => {
         try {
-            return await axios.get(`https://auth.g42.biz/api/containers/allocate/ship/${id}`);
+            return await axios.get(`https://auth.g42.biz/api/containers/allocate/ship/${id}`, getAuthConfig());
         } catch (error) {
             console.error('Error fetching empty container:', error);
         }

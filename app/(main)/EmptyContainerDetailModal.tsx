@@ -40,13 +40,17 @@ interface EmptyContainerDetailModalProps {
 
 const EmptyContainerDetailModal: React.FC<EmptyContainerDetailModalProps> = ({ visible, onHide, emptyContainer }) => {
     const [detailsWithSizes, setDetailsWithSizes] = useState<Detail[]>([]);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     useEffect(() => {
         if (emptyContainer && emptyContainer.details.length > 0) {
             const fetchContainerSizes = async () => {
                 const updatedDetails = await Promise.all(
                     emptyContainer.details.map(async (detail) => {
-                        const response = await fetch(`https://auth.g42.biz/api/containers/${detail.containerCode}`);
+                        const response = await fetch(`https://auth.g42.biz/api/containers/${detail.containerCode}`,getAuthConfig());
                         const data = await response.json();
                         return { ...detail, containerSize: data.containerSize };
                     })

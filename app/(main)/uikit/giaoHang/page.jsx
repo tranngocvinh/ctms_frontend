@@ -65,10 +65,10 @@ const DeliveryOrderTable = () => {
             .get(`https://auth.g42.biz/api/delivery-orders`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, deliveryOrders: response.data })));
         axios
-            .get(`https://auth.g42.biz/api/v1/customers`)
+            .get(`https://auth.g42.biz/api/v1/customers`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, customers: response.data })));
         axios
-            .get(`https://auth.g42.biz/api/schedules`)
+            .get(`https://auth.g42.biz/api/schedules`,getAuthConfig())
             .then((response) => setState((prev) => ({ ...prev, schedules: response.data })));
         fetchContainers(); // Initial fetch for containers
     };
@@ -84,7 +84,7 @@ const DeliveryOrderTable = () => {
 
     const fetchShipSchedulesByScheduleId = (scheduleId) => {
         axios
-            .get(`https://auth.g42.biz/api/shipSchedules/delivery?scheduleId=${scheduleId}`)
+            .get(`https://auth.g42.biz/api/shipSchedules/delivery?scheduleId=${scheduleId}`,getAuthConfig())
             .then((response) => {
                 const newShipScheduleContainerMap = response.data.reduce(
                     (map, shipSchedule) => ({ ...map, [shipSchedule.id]: [] }),

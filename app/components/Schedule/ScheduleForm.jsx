@@ -26,14 +26,18 @@ const ScheduleForm = ({ onSave }) => {
         ships: [],
         scheduleSegments: []
     });
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     useEffect(() => {
         // Fetch routes and ships from the API
-        axios.get(`https://auth.g42.biz/api/routes`).then(response => {
+        axios.get(`https://auth.g42.biz/api/routes`,getAuthConfig()).then(response => {
             setRoutes(response.data);
         });
 
-        axios.get(`https://auth.g42.biz/api/ships`).then(response => {
+        axios.get(`https://auth.g42.biz/api/ships`,getAuthConfig()).then(response => {
             setShips(response.data);
         });
     }, []);

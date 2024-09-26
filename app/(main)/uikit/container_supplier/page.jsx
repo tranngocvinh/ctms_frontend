@@ -116,10 +116,14 @@ const ContainerRepairSupplierTable = () => {
         setSupplier(supplier);
         setDeleteSupplierDialog(true);
     };
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
 
     const deleteSupplier = () => {
-        axios.delete(`https://auth.g42.biz/api/v1/supplier/${supplier.supplierId}`).then(() => {
+        axios.delete(`https://auth.g42.biz/api/v1/supplier/${supplier.supplierId}`,getAuthConfig()).then(() => {
             let _suppliers = suppliers.filter((val) => val.supplierId !== supplier.supplierId);
             setSuppliers(_suppliers);
             setDeleteSupplierDialog(false);

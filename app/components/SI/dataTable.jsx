@@ -39,10 +39,14 @@ export default function Table({SIs}) {
     }, []);
 
     const toast = useRef(null);
-
+    const getAuthConfig = () => ({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
     const fetchCargoTypes = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/si/cargo`);
+            const response = await axios.get(`https://auth.g42.biz/api/si/cargo`,getAuthConfig());
             setCargoTypes(response.data);
         } catch (error) {
             console.error('Error fetching cargo types:', error);
@@ -51,7 +55,7 @@ export default function Table({SIs}) {
 
     const fetchSIData = async () => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/si`);
+            const response = await axios.get(`https://auth.g42.biz/api/si`,getAuthConfig());
             const siDataMap = {};
             response.data.forEach(si => {
                 siDataMap[si.emptyContainerId] = si;
@@ -64,7 +68,7 @@ export default function Table({SIs}) {
 
     const fetchContainerSize = async (containerCode) => {
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/containers/${containerCode}`);
+            const response = await axios.get(`https://auth.g42.biz/api/containers/${containerCode}`,getAuthConfig());
             return response.data.containerSize;
         } catch (error) {
             console.error(`Error fetching container size for ${containerCode}:`, error);
@@ -119,7 +123,7 @@ export default function Table({SIs}) {
 
         try {
             if (dialogTitle === 'Khai báo SI') {
-                await axios.post(`https://auth.g42.biz/api/si`, payload);
+                await axios.post(`https://auth.g42.biz/api/si`, payload,getAuthConfig());
                 toast.current.show({
                     severity: 'success',
                     summary: 'Thành công',
@@ -127,7 +131,7 @@ export default function Table({SIs}) {
                     life: 3000
                 });
             } else if (dialogTitle === 'Chỉnh sửa SI') {
-                await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload);
+                await axios.put(`https://auth.g42.biz/api/si/${selectedSI.id}`, payload,getAuthConfig());
                 toast.current.show({
                     severity: 'success',
                     summary: 'Thành công',

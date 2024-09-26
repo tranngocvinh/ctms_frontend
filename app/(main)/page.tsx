@@ -43,7 +43,11 @@ interface LineChartProps {
         repairCostColor: string;
     };
 }
-
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+    },
+});
 const LineChart: React.FC<LineChartProps> = ({apiUrls, labels, colors}) => {
     const [lineData, setLineData] = useState<ChartData<'line'>>({
         labels: labels,
@@ -54,9 +58,9 @@ const LineChart: React.FC<LineChartProps> = ({apiUrls, labels, colors}) => {
         const fetchData = async () => {
             try {
                 const [deliveryResponse, detFeeResponse, repairCostResponse] = await Promise.all([
-                    axios.get(apiUrls.deliveryUrl),
-                    axios.get(apiUrls.detFeeUrl),
-                    axios.get(apiUrls.repairCostUrl),
+                    axios.get(apiUrls.deliveryUrl,getAuthConfig()),
+                    axios.get(apiUrls.detFeeUrl,getAuthConfig()),
+                    axios.get(apiUrls.repairCostUrl,getAuthConfig()),
                 ]);
 
                 const deliveryData = labels.map((_, index) => deliveryResponse.data[index + 1] || 0);
