@@ -101,7 +101,7 @@ const CustomPortAutoComplete = ({ label, name, onPortSelected, onRemove }) => {
         }
 
         try {
-            const response = await axios.get(`https://auth.g42.biz/api/ports/search`, getAuthConfig(),{
+            const response = await axios.get(`https://auth.g42.biz/api/ports/search`, {
                 params: {
                     name: event.query
                 }
