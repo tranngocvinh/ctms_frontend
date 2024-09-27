@@ -16,6 +16,13 @@ import { Tag } from 'primereact/tag';
 const DeliveryOrderTable = () => {
     const jwtToken = localStorage.getItem('jwtToken');
     const authToken = localStorage.getItem('authToken');
+    let today = new Date();
+    const [date, setDate] = useState(null);
+
+    let minOrderDate = today;
+
+    let minDeliveryDate = new Date(minOrderDate);
+    minDeliveryDate.setDate(minOrderDate.getDate() + 7);
     if(!isManager(jwtToken, authToken)) {
         return <p>Trang này không tồn tại</p>;
     }
@@ -150,60 +157,34 @@ const DeliveryOrderTable = () => {
         });
     };
 
+    // const onInputChange = (e, name) => {
+    //     const val = (e.target && e.target.value) || "";
+    //     updateState({
+    //         deliveryOrder: { ...state.deliveryOrder, [name]: val },
+    //     });
+    // };
+
     const onInputChange = (e, name) => {
-        const val = e.value !== undefined ? e.value : e.target.value;
+        const val = (e.target && e.target.value) || "";
         let updatedOrder = { ...state.deliveryOrder, [name]: val };
 
-        if (name === "deliveryDate") {
-            const today = new Date();
-            const orderDate = new Date(updatedOrder.orderDate);
-            const deliveryDate = new Date(val);
-
-            if (deliveryDate < today) {
-                toast.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: "Ngày giao hàng không được nhỏ hơn ngày hiện tại",
-                    life: 3000,
-                });
-                updatedOrder.deliveryDate = null; // Clear the invalid input
-                updateState({ deliveryOrder: updatedOrder });
-                return;
-            }
-            if (deliveryDate <= orderDate) {
-                toast.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
-                    life: 3000,
-                });
-                updatedOrder.deliveryDate = null;
-                updateState({ deliveryOrder: updatedOrder });
-                return;
-            }
+        if (name === "deliveryDate" && updatedOrder.orderDate && new Date(val) <= new Date(updatedOrder.orderDate)) {
+            updateState({
+                errorMessage: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
+                deliveryOrder: { ...updatedOrder, deliveryDate: null },
+            });
+        } else if (name === "orderDate" && updatedOrder.deliveryDate && new Date(updatedOrder.deliveryDate) <= new Date(val)) {
+            updateState({
+                errorMessage: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
+                deliveryOrder: { ...updatedOrder, deliveryDate: null },
+            });
+        } else {
+            updateState({
+                errorMessage: null,
+                deliveryOrder: updatedOrder,
+            });
         }
-
-        if (name === "orderDate") {
-            const deliveryDate = new Date(updatedOrder.deliveryDate);
-            const orderDate = new Date(val);
-
-            if (deliveryDate > 0 && deliveryDate <= orderDate) {
-                toast.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: "Ngày giao hàng phải lớn hơn ngày đặt hàng",
-                    life: 3000,
-                });
-                updatedOrder.orderDate = null;
-                updateState({ deliveryOrder: updatedOrder });
-                return;
-            }
-        }
-        updateState({
-            deliveryOrder: updatedOrder,
-        });
     };
-
 
     const onDropdownChange = (e, name) => {
         updateState({
@@ -421,9 +402,6 @@ const DeliveryOrderTable = () => {
                     {/*/>*/}
 
 
-
-
-
                 </DataTable>
             </div>
 
@@ -456,14 +434,16 @@ const DeliveryOrderTable = () => {
                 </div>
                 <div className="field">
                     <label htmlFor="orderDate">Ngày đặt hàng</label>
-                    <Calendar id="orderDate" value={state.deliveryOrder.orderDate ? new Date(state.deliveryOrder.orderDate) : null} onChange={(e) => onInputChange(e, "orderDate")} showTime showSeconds />
+                    <Calendar id="orderDate" value={state.deliveryOrder.orderDate ? new Date(state.deliveryOrder.orderDate) : null} onChange={(e) => onInputChange(e, "orderDate")} minDate={minOrderDate} dateFormat="dd/mm/yy" showButtonBar/>
                 </div>
                 <div className="field">
                     <label htmlFor="deliveryDate">Ngày giao hàng</label>
-                    <Calendar id="deliveryDate" value={state.deliveryOrder.deliveryDate ? new Date(state.deliveryOrder.deliveryDate) : null} onChange={(e) => onInputChange(e, "deliveryDate")} showTime showSeconds />
+                    <Calendar id="deliveryDate" value={state.deliveryOrder.deliveryDate ? new Date(state.deliveryOrder.deliveryDate) : null} onChange={(e) => onInputChange(e, "deliveryDate")} minDate={minDeliveryDate} dateFormat="dd/mm/yy" showButtonBar />
+                    {state.errorMessage && <small className="p-error">{state.errorMessage}</small>}
                 </div>
+
                 <div className="field">
-                    <label htmlFor="totalAmount">Tổng tiền</label>
+                <label htmlFor="totalAmount">Tổng tiền</label>
                     <InputNumber
                         id="totalAmount"
                         value={state.deliveryOrder.totalAmount}
