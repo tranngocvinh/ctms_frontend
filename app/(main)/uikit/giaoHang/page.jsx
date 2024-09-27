@@ -136,7 +136,7 @@ const DeliveryOrderTable = () => {
                 updateState({ deliveryOrderDialog: false, deliveryOrder: emptyDeliveryOrder, shipSchedules: [], containers: [] });
                 toast.current.show({
                     severity: "success",
-                    summary: "Successful",
+                    summary: "Thành công",
                     detail: state.deliveryOrder.id ? "Lệnh giao hàng đã được cập nhật" : "Lệnh giao hàng đã được tạo",
                     life: 3000,
                 });
@@ -212,35 +212,54 @@ const DeliveryOrderTable = () => {
     };
 
     const renderContainerAssignment = () => {
-        return state.shipSchedules.map((shipSchedule) => (
-            <div className="field" key={shipSchedule.id}>
-                <label htmlFor={`container_${shipSchedule.id}`}>Containers for ShipSchedule {shipSchedule.id}</label>
-                <List
-                    height={150}
-                    itemCount={state.containers.filter(container => container.customer && container.customer.id === state.deliveryOrder.customerId && container.status === "In Port" && container.containerCode).length}
-                    itemSize={35}
-                    width={"100%"}
-                >
-                    {({ index, style }) => {
-                        const inPortContainers = state.containers
-                            .filter(container => container.status === "In Port" && container.containerCode);
-                        const container = inPortContainers[index];
+        return state.shipSchedules.map((shipSchedule) => {
+            // Get the first port from the waypoints of the selected schedule
+            const firstWaypoint = state.schedules.find(schedule => schedule.id === state.deliveryOrder.scheduleId)?.waypoints[0];
 
-                        return (
-                            <div style={style} key={container.containerCode}>
-                                <Checkbox
-                                    inputId={`container_${container.containerCode}`}
-                                    checked={state.deliveryOrder.shipScheduleContainerMap[shipSchedule.id]?.includes(container.containerCode)}
-                                    onChange={(e) => onContainerCheckboxChange(e, shipSchedule.id, container.containerCode)}
-                                />
-                                <label htmlFor={`container_${container.containerCode}`}> {container.containerCode}</label>
-                            </div>
-                        );
-                    }}
-                </List>
-            </div>
-        ));
+            // Precompute the filtered containers
+            const inPortContainers = state.containers.filter(container => {
+                // Ensure the container matches the customer, status, and port location
+                return container.customer &&
+                    container.customer.id === state.deliveryOrder.customerId &&
+                    container.status === "In Port" &&
+                    container.containerCode &&
+                    container.portLocation.portName === firstWaypoint?.portName;
+            });
+
+            return (
+                <div className="field" key={shipSchedule.id}>
+                    <label htmlFor={`container_${shipSchedule.id}`}>
+                        Containers for ShipSchedule {shipSchedule.id}
+                    </label>
+                    <List
+                        height={150}
+                        itemCount={inPortContainers.length} // Length of filtered containers
+                        itemSize={35}
+                        width={"100%"}
+                    >
+                        {({ index, style }) => {
+                            const container = inPortContainers[index];
+
+                            return (
+                                <div style={style} key={container.containerCode}>
+                                    <Checkbox
+                                        inputId={`container_${container.containerCode}`}
+                                        checked={state.deliveryOrder.shipScheduleContainerMap[shipSchedule.id]?.includes(container.containerCode)}
+                                        onChange={(e) => onContainerCheckboxChange(e, shipSchedule.id, container.containerCode)}
+                                    />
+                                    <label htmlFor={`container_${container.containerCode}`}>
+                                        {container.containerCode}
+                                    </label>
+                                </div>
+                            );
+                        }}
+                    </List>
+                </div>
+            );
+        });
     };
+
+
 
     const openDeliveryOrderDialog = () => {
         updateState({

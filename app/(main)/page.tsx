@@ -20,13 +20,15 @@ import {DataTable} from 'primereact/datatable';
 import {Menu} from 'primereact/menu';
 import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {LayoutContext} from '@/layout/context/layoutcontext';
-import {getEmptyContainerById, getEmptyContainers, isUpdateApproved} from "@/app/api/container";
+import {getEmptyContainerById, getEmptyContainers, isUpdateApproved, isUpdateReject} from "@/app/api/container";
 import EmptyContainerDetailModal from './EmptyContainerDetailModal';
 import Calendar from "@/app/(main)/uikit/Calendar";
 import axios from "axios";
 import {isManager, isStaff} from "../verifyRole";
 import {useRouter} from 'next/navigation';
 import {InputText} from "primereact/inputtext";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -135,6 +137,8 @@ const Dashboard = () => {
     const authToken = localStorage.getItem('authToken');
     const [searchCustomerQuery, setSearchCustomerQuery] = useState('');
     const router = useRouter();
+    const toast = useRef<Toast>(null); // Toast ref
+
     if (!isManager(jwtToken, authToken) && !isStaff(jwtToken, authToken)) {
         router.push('/pages/landing');
         return null;
@@ -259,13 +263,7 @@ const Dashboard = () => {
             });
     };
 
-    const updateIsApproved = (value: number) => {
-        isUpdateApproved(value).then(() => {
-            fetchEmptyContainers();
-        }).catch(err => {
-            console.error("Error updating approval status:", err);
-        });
-    };
+
 
     useEffect(() => {
         if (layoutConfig.colorScheme === 'light') {
@@ -298,12 +296,67 @@ const Dashboard = () => {
             return customer.username.toLowerCase().includes(searchCustomerQuery.toLowerCase());
         });
     }, [searchCustomerQuery, products]);
-    const isApproved = (value: number) => {
-        return <Button icon="pi pi-check" text onClick={() => updateIsApproved(value)}/>;
+    const updateIsApproved = (value: number) => {
+        isUpdateApproved(value)
+            .then(() => {
+                fetchEmptyContainers();
+                toast.current?.show({ severity: 'success', summary: 'Thành công', detail: 'Lệnh cấp rỗng đã được phê duyệt', life: 3000 });
+            })
+            .catch((err) => {
+                console.error("Error updating approval status:", err);
+                toast.current?.show({ severity: 'error', summary: 'Thất bại', detail: 'Phê duyệt lệnh cấp rỗng thất bại', life: 3000 });
+            });
     };
 
+    const updateIsReject = (value: number) => {
+        isUpdateReject(value)
+            .then(() => {
+                fetchEmptyContainers();
+                toast.current?.show({ severity: 'success', summary: 'Thành công', detail: 'Lệnh cấp rỗng đã được từ chối', life: 3000 });
+            })
+            .catch((err) => {
+                console.error("Error rejecting approval status:", err);
+                toast.current?.show({ severity: 'error', summary: 'Thất bại', detail: 'Từ chối lệnh cấp rỗng thất bại', life: 3000 });
+            });
+    };
+
+    const confirmApproval = (value: number) => {
+        confirmDialog({
+            message: 'Bạn có chắc muốn phê duyệt lệnh cấp rỗng ?',
+            header: 'Phê duyệt cấp rỗng',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => updateIsApproved(value),  // Thực hiện nếu người dùng nhấn xác nhận
+            reject: () => console.log('Approval canceled')
+        });
+    };
+
+    const confirmRejection = (value: number) => {
+        confirmDialog({
+            message: 'Bạn có chắc muốn từ chối lệnh cấp rỗng này?',
+            header: 'Từ chối lệnh cấp rỗng',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => updateIsReject(value),  // Thực hiện nếu người dùng nhấn xác nhận
+            reject: () => console.log('Rejection canceled')
+        });
+    };
+
+    const isApproved = (value: number) => {
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                <i className="pi pi-times" style={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => confirmRejection(value)} />
+                <i className="pi pi-check" style={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => confirmApproval(value)} />
+            </div>
+        );
+    };
+
+
     return (
-        <div className="grid">
+        <div>
+            <Toast ref={toast} />
+
+            <ConfirmDialog />
+
+    <div className="grid">
             <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
@@ -402,7 +455,7 @@ const Dashboard = () => {
                         detFeeUrl: `https://auth.g42.biz/api/drop-orders/detfee-count`,
                         repairCostUrl: `https://auth.g42.biz/api/v1/repair/repaircost-count`
                     }}
-                    labels={['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']}
+                    labels={['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']}
                     colors={{
                         deliveryColor: '#2f4860',
                         detFeeColor: '#00bb7e',
@@ -416,6 +469,7 @@ const Dashboard = () => {
                 onHide={() => setIsModalVisible(false)}
                 emptyContainer={selectedContainer}
             />
+        </div>
         </div>
     );
 };

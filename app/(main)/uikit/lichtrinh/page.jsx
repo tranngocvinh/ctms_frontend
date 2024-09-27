@@ -89,8 +89,8 @@ const ScheduleTable = () => {
                     setSchedule(emptySchedule);
                     toast.current.show({
                         severity: 'success',
-                        summary: 'Successful',
-                        detail: 'Schedule Updated',
+                        summary: 'Thành công',
+                        detail: 'Lịch trình đã được cập nhật',
                         life: 3000
                     });
                 });
@@ -102,8 +102,8 @@ const ScheduleTable = () => {
                     setSchedule(emptySchedule);
                     toast.current.show({
                         severity: 'success',
-                        summary: 'Successful',
-                        detail: 'Schedule Created',
+                        summary: 'Thành công',
+                        detail: 'Lịch trình đã được tạo',
                         life: 3000
                     });
                 });
@@ -129,7 +129,7 @@ const ScheduleTable = () => {
             setSchedule(emptySchedule);
             toast.current.show({
                 severity: 'success',
-                summary: 'Successful',
+                summary: 'Thành công',
                 detail: 'Xóa lịch trình thành công',
                 life: 3000
             });

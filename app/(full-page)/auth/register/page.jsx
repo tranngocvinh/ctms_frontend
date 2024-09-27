@@ -38,7 +38,7 @@ const ResetPassword = () => {
                 token: token,
                 newPassword: newPassword
             });
-            alert('Password has been reset successfully');
+            alert('Mật khẩu đã được cập nhật thành công');
             router.push('/auth/login');
         } catch (error) {
             setError('Failed to reset password. Please try again.');
@@ -75,17 +75,17 @@ const ResetPassword = () => {
                              style={{ borderRadius: '160px' }}>
                             <div>
                                 <div className="ml-10 text-center flex-grow line-height-2" style={{ height: '100px' }}>
-                                    <div className="text-1200 text-3xl font-medium mb-3">Reset Password</div>
+                                    <div className="text-1200 text-3xl font-medium mb-3">Cập nhật mật khẩu</div>
                                     <span className="text-600 font-medium">Enter your new password below.</span>
                                 </div>
 
                                 <form onSubmit={handleSubmit}>
                                     <label htmlFor="newPassword" className="block text-900 font-medium text-xl mb-2">
-                                        New Password
+                                        Mật khẩu mới
                                     </label>
                                     <Password inputId="newPassword" value={newPassword}
                                               onChange={(e) => setNewPassword(e.target.value)}
-                                              placeholder="New Password" className="w-full mb-5"
+                                              placeholder="Mật khẩu mới" className="w-full mb-5"
                                               inputClassName="w-full p-3 md:w-30rem" feedback={false}/>
 
                                     <label htmlFor="confirmPassword" className="block text-900 font-medium text-xl mb-2">
@@ -93,12 +93,12 @@ const ResetPassword = () => {
                                     </label>
                                     <Password inputId="confirmPassword" value={confirmPassword}
                                               onChange={(e) => setConfirmPassword(e.target.value)}
-                                              placeholder="Confirm Password" className="w-full mb-5"
+                                              placeholder="Xác nhận mật khẩu" className="w-full mb-5"
                                               inputClassName="w-full p-3 md:w-30rem" feedback={false}/>
 
                                     {error && <p className="error">{error}</p>}
 
-                                    <Button type="submit" label="Reset Password" className="w-full p-3 text-xl" />
+                                    <Button type="submit" label="Reset mật khẩu" className="w-full p-3 text-xl" />
 
                                     <div style={{ textAlign: 'center', marginTop: '10px' }}>
                                         <Button label="Back to Login" className="p-button-text" onClick={() => router.push('/login')} />

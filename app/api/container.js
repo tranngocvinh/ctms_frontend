@@ -88,3 +88,14 @@ export const isUpdateApproved = async (id) => {
         throw e;
     }
 }
+
+
+export const isUpdateReject = async (id) => {
+    try {
+        return await axios.put(
+            `https://auth.g42.biz/api/containers/allocate/ship/reject/${id}`,getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
