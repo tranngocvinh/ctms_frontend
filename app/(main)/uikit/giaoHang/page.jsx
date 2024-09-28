@@ -204,8 +204,8 @@ const DeliveryOrderTable = () => {
         } else {
             toast.current.show({
                 severity: "warn",
-                summary: "Duplicate Container",
-                detail: "Container is already selected for another ShipSchedule",
+                summary: "Trùng container",
+                detail: "Container bạn vừa chọn đã có trong một chuyến tàu khác",
                 life: 3000,
             });
         }
@@ -229,7 +229,7 @@ const DeliveryOrderTable = () => {
             return (
                 <div className="field" key={shipSchedule.id}>
                     <label htmlFor={`container_${shipSchedule.id}`}>
-                        Containers for ShipSchedule {shipSchedule.id}
+                        Xếp containers lên chặng {shipSchedule.id}
                     </label>
                     <List
                         height={150}

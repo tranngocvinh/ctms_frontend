@@ -237,6 +237,7 @@ export default function Table({SIs}) {
                             <li><p>Cân nặng: {detail.containerSize.weight} tấn</p></li>
                             <li><p>Tải trọng: {detail.containerSize.loadCapacity} tấn</p></li>
                             <li><p>Tải trọng tối đa: {detail.containerSize.maxLoad} tấn</p></li>
+                            <hr/>
                         </React.Fragment>
                     ) : (
                         <li key={index}>Loading container size for {detail.containerCode}...</li>
