@@ -184,7 +184,7 @@ const RouteManage = () => {
             const allSegments = [];
             for (let i = 0; i < newWaypoints.length - 1; i++) {
                 try {
-                    const response = await axios.post(`https://auth.g42.biz/api/proxy/waypoints`,getAuthConfig(), {
+                    const response = await axios.post(`https://auth.g42.biz/api/proxy/waypoints`,{
                         fromPort: newWaypoints[i].portName,
                         toPort: newWaypoints[i + 1].portName
                     });
